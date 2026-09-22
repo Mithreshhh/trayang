@@ -1,0 +1,818 @@
+[
+ {
+  "sy": 0,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 0,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 900,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 900,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 1800,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 1800,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 2700,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 2700,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 3600,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 3600,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 4500,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 4500,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 5400,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 5400,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op1/top0/h900",
+   "jaxl-features-intro:features-intro-section:none/visible/op0/top0/h0",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 6300,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 6300,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:none/visible/op1/top0/h0",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 7200,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 7200,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 8100,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 8100,
+  "secs": [
+   "jaxl-landing:landing-section:grid/visible/op1/top0/h900",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 9000,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 9000,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 9900,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 9900,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 10800,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 10800,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 11700,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 11700,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 12600,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 12600,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 13500,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 13500,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 14400,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 14400,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 15300,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 15300,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 16200,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 16200,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 17100,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 17100,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op1/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:none/visible/op0/top0/h0",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 18000,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op1/top0/h900",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 18000,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op1/top0/h900",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 18900,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op1/top0/h900",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 18900,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op1/top0/h900",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 19800,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op1/top0/h900",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 19800,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op1/top0/h900",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 20700,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op1/top0/h900",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 20700,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op1/top0/h900",
+   "jaxl-questions:questions-section:none/visible/op0/top0/h0"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 21600,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op0/top0/h900",
+   "jaxl-questions:questions-section:grid/visible/op1/top0/h900"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 21600,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op0/top0/h900",
+   "jaxl-questions:questions-section:grid/visible/op1/top0/h900"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top900/h303"
+ },
+ {
+  "sy": 22500,
+  "secs": [
+   "jaxl-landing:landing-section:none/visible/op1/top0/h0",
+   "connect-section:connect-section:grid/visible/op0/top-900/h900",
+   "jaxl-features-intro:features-intro-section:grid/visible/op0/top0/h900",
+   "jaxl-features-carousel:features-carousel-section:grid/visible/op1/top0/h900",
+   "jaxl-virtual-number:virtual-number-section:grid/visible/op0/top0/h900",
+   "jaxl-questions:questions-section:grid/visible/op1/top-302/h900"
+  ],
+  "sections": "sections none",
+  "landingClasses": "landing-section",
+  "heroImg": "none 1",
+  "navbar": "jaxl-navbar",
+  "footer": "flex/visible/op1/top597/h303"
+ }
+]

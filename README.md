@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Trayang marketing site (Next.js)
 
-## Getting Started
+Scroll-driven marketing site for Trayang. The page never scrolls normally: one container scrolls through 26 screens while a pinned stage plays six animated sections (hero, "Crafted beyond Expectations", the gold emblem that zooms into the carousel backdrop, the 10-card signature services carousel, the collection showcase, questions) and finally slides the footer up.
 
-First, run the development server:
+Every image slot ships with a labelled placeholder SVG in the brand palette so the page runs immediately. Swap in the real assets when you have them.
+
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build && npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Brand palette
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Token | Hex | Used for |
+| --- | --- | --- |
+| `--brown` | `#3B2112` | navbar, hero, footer, dark backgrounds |
+| `--gold` | `#D89B52` | logo, buttons, headings, icons, borders |
+| `--gold-light` | `#F0C27A` | hovers, gradients, highlights |
+| `--cream` | `#E8DDC5` | light sections, cards |
+| `--dark` | `#0B1012` | text on light backgrounds |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All tokens are defined at the top of `app/globals.css`.
 
-## Learn More
+## Where things live
 
-To learn more about Next.js, take a look at the following resources:
+| Path | What it is |
+| --- | --- |
+| `data/site.ts` | All copy, links, contact details, cards, captions and image paths |
+| `lib/scrollStory.ts` | The scroll engine: converts scroll position into the 38 animation stages |
+| `app/globals.css` | All styling (palette tokens at the top) |
+| `components/TrayangScroller.tsx` | The scroll container: sticky stage + 26 spacer screens, mounts the engine, owns the enquiry card |
+| `components/sections/*.tsx` | Landing, Connect, FeaturesIntro, FeaturesCarousel, Showcase, Questions |
+| `components/Navbar.tsx` | Blurred top bar; last link is the gold pill; hamburger menu locks the scroller on mobile |
+| `components/MessageBanner.tsx` | Promo strip that fades out after 9 seconds |
+| `components/ContactOverlay.tsx` | Enquiry card (email, WhatsApp, call) opened from the hero button or any `#contact` link |
+| `components/Footer.tsx`, `components/Preloader.tsx` | Footer and the four-bar loading screen |
+| `docs/jaxl-scroll-spec.md`, `docs/reference/` | Spec and captures of the layout reference the scroll story was built from |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Editing the copy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Everything is in `data/site.ts`: `brand`, `contact`, `navLinks`, `bannerMessage`, `hero`, `connect`, `featuresIntro`, `carousel`, `showcase`, `questions`, `contactCard`, `footerColumns`, `socialLinks`. The current text is starter marketing copy; replace it with Trayang's real services and voice.
 
-## Deploy on Vercel
+## Replacing the placeholder images
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Put your files in `public/images/` and update the paths in `data/site.ts`. Any format works.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Slot | Placeholder file | Used for | Suggested size |
+| --- | --- | --- | --- |
+| `images.logo` | `logo.svg` | Navbar logo, gold on brown | 147x35 |
+| `images.footerLogo` | `footer-logo.svg` | Footer logo | 170x32 |
+| `images.ctaIcon` | `cta-icon.svg` | Small dark arrow in the gold hero button | 20x20 |
+| `images.heroShowcase` | `hero-showcase.svg` | Product / brand visual at the bottom of the hero | 840x588, transparent |
+| `images.bgGradient` | `bg-gradient.svg` | Blurred gold glow behind the hero | 1600x900 |
+| `images.showcaseLeft` / `showcaseRight` | `showcase-left.svg`, `showcase-right.svg` | Visuals that slide in from each side in "Crafted beyond Expectations" | 656x548 / 741x618, transparent |
+| `connect.points[].icon` | `point-quality.svg`, `point-service.svg`, `point-trust.svg`, `point-delivery.svg` | Gold glyphs in the cream circles | 36x36 |
+| `images.introBg` / `introBg2` | `intro-bg.svg`, `intro-bg-2.svg` | Photos behind the "Elevate your everyday" / "Curating signature services" headings | 1600x900 |
+| `images.ellipse` | `ellipse.svg` | Glossy cream sphere | 162x162 |
+| `images.emblem` | `emblem.svg` | Gold emblem. It is scaled ~137x to fill the screen, so keep it solid gold around its centre | 74x74 |
+| `carousel.cards[].image` | `card-consultation.svg` (wide) and nine more `card-*.svg` | Service card illustrations | 216x216 (first one 600x216) |
+| `showcase.tiles[].image` | `tile-1.svg` … `tile-4.svg` | Collection tiles | 432x297 |
+| `images.question` | `question.svg` | Speech-bubble illustration | 425x455 |
+| `images.scrollTop` | `scroll-top.svg` | Back-to-top button | 60x60 |
+| `images.mail`, `phone`, `whatsapp`, `instagram`, `facebook`, `linkedin`, `youtube` | matching `*.svg` | Footer and enquiry-card icons, cream | 20x20 |
+| `images.contactIllustration`, `close` | `contact-illustration.svg`, `close.svg` | Enquiry card | 242x242, 22x22 |
+
+## How the scroll works (short version)
+
+`#trayang-scroller` is the only scrollable element. Inside it, `#trayang-sections` is `position: sticky` and 100dvh tall, followed by 26 empty 100dvh spacers. The engine reads `scrollTop / clientHeight` (0 to 25) and, for each stage in `lib/scrollStory.ts`, converts the position inside that stage's `[start, end]` range into a 0 to 100 percentage which sets inline transforms and opacities. Stage end and start states are applied once when crossed, element lookups are cached, and pixel-based stages are recomputed on resize.
+
+## Notes
+
+* Nav and footer links to `/about/`, `/services/`, `/contact/`, `/terms/`, `/privacy/`, `/faq/` are placeholders; those pages are not built yet.
+* Contact details, WhatsApp number and social URLs in `data/site.ts` are placeholders to replace.
