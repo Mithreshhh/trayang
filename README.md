@@ -1,8 +1,8 @@
 # Trayang marketing site (Next.js)
 
-Scroll-driven marketing site for Trayang. The page never scrolls normally: one container scrolls through 26 screens while a pinned stage plays six animated sections (hero, "Crafted beyond Expectations", the gold emblem that zooms into the carousel backdrop, the 10-card signature services carousel, the collection showcase, questions) and finally slides the footer up.
+Scroll-driven marketing agency site for Trayang. One container moves through a tightened 17-screen story while a pinned stage presents the positioning, approach, integrated capabilities, services, proof narrative, questions and footer.
 
-Every image slot ships with a labelled placeholder SVG in the brand palette so the page runs immediately. Swap in the real assets when you have them.
+The primary storytelling slots use project-ready marketing imagery in the Trayang palette. Supporting icons remain lightweight SVG assets.
 
 ## Run
 
@@ -31,7 +31,7 @@ All tokens are defined at the top of `app/globals.css`.
 | `data/site.ts` | All copy, links, contact details, cards, captions and image paths |
 | `lib/scrollStory.ts` | The scroll engine: converts scroll position into the 38 animation stages |
 | `app/globals.css` | All styling (palette tokens at the top) |
-| `components/TrayangScroller.tsx` | The scroll container: sticky stage + 26 spacer screens, mounts the engine, owns the enquiry card |
+| `components/TrayangScroller.tsx` | The scroll container: sticky stage + 17 spacer screens, mounts the engine, owns the enquiry card |
 | `components/sections/*.tsx` | Landing, Connect, FeaturesIntro, FeaturesCarousel, Showcase, Questions |
 | `components/Navbar.tsx` | Blurred top bar; last link is the gold pill; hamburger menu locks the scroller on mobile |
 | `components/MessageBanner.tsx` | Promo strip that fades out after 9 seconds |
@@ -41,7 +41,7 @@ All tokens are defined at the top of `app/globals.css`.
 
 ## Editing the copy
 
-Everything is in `data/site.ts`: `brand`, `contact`, `navLinks`, `bannerMessage`, `hero`, `connect`, `featuresIntro`, `carousel`, `showcase`, `questions`, `contactCard`, `footerColumns`, `socialLinks`. The current text is starter marketing copy; replace it with Trayang's real services and voice.
+Everything is in `data/site.ts`: `brand`, `contact`, `navLinks`, `bannerMessage`, `hero`, `connect`, `featuresIntro`, `carousel`, `showcase`, `questions`, `contactCard`, `footerColumns`, `socialLinks`. The current text positions Trayang as an integrated marketing studio and can evolve with the offer.
 
 ## Replacing the placeholder images
 
@@ -72,5 +72,5 @@ Put your files in `public/images/` and update the paths in `data/site.ts`. Any f
 
 ## Notes
 
-* Nav and footer links to `/about/`, `/services/`, `/contact/`, `/terms/`, `/privacy/`, `/faq/` are placeholders; those pages are not built yet.
-* Contact details, WhatsApp number and social URLs in `data/site.ts` are placeholders to replace.
+* `/about/`, `/services/`, `/contact/`, `/terms/`, `/privacy/` and `/faq/` are implemented as static routes.
+* Add only verified social profiles to `socialLinks` in `data/site.ts`; none are displayed by default.

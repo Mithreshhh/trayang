@@ -21,16 +21,14 @@ export default function ContactOverlay({ onClose }: Props) {
 
   const channels = [
     { label: "Email", href: `mailto:${contact.email}`, icon: images.mail },
-    { label: "WhatsApp", href: contact.whatsapp, icon: images.whatsapp, external: true },
-    { label: "Call", href: contact.phoneHref, icon: images.phone },
   ];
 
   return (
     <section className="trayang-overlay-base" onClick={onClose} role="dialog" aria-modal="true" aria-label="Contact Trayang">
       <div className="download" onClick={(e) => e.stopPropagation()}>
-        <div className="close-btn" onClick={onClose} role="button" aria-label="Close">
+        <button type="button" className="close-btn" onClick={onClose} aria-label="Close">
           <img src={images.close} alt="" />
-        </div>
+        </button>
 
         <div className="instructions">
           <h1>{contactCard.heading}</h1>
@@ -48,9 +46,7 @@ export default function ContactOverlay({ onClose }: Props) {
               <a
                 key={c.label}
                 href={c.href}
-                target={c.external ? "_blank" : undefined}
-                rel={c.external ? "noopener noreferrer" : undefined}
-                aria-label={`${c.label}: ${c.label === "Call" ? contact.phone : c.label === "Email" ? contact.email : "chat on WhatsApp"}`}
+                aria-label={`${c.label}: ${contact.email}`}
               >
                 <img src={c.icon} alt="" />
                 {c.label}

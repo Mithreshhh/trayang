@@ -8,14 +8,14 @@ export default function FeaturesCarousel() {
         <h1 className="heading">{carousel.heading}</h1>
 
         <div className="carousel-container">
-          {carousel.cards.map((card) => (
+          {carousel.cards.map((card, index) => (
             <div className="card" key={card.title}>
               <p className="title">{card.title}</p>
               <p className="subtitle">
                 {card.lead} <span>{card.rest}</span>
               </p>
-              <div className="img">
-                <img alt="" src={card.image} loading="lazy" />
+              <div className="img service-mark" aria-hidden="true">
+                <span>{String(index + 1).padStart(2, "0")}</span>
               </div>
             </div>
           ))}

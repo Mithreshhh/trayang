@@ -9,7 +9,7 @@ export default function Preloader() {
   useEffect(() => {
     const finish = () => setDone(true);
     // Keep it visible for a beat so the animation is seen, but never block for long.
-    const minDelay = setTimeout(finish, 900);
+    const minDelay = setTimeout(finish, 350);
     const failSafe = setTimeout(finish, 3000);
     if (document.readyState !== "complete") {
       window.addEventListener("load", finish, { once: true });

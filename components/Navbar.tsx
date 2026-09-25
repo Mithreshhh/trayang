@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { brand, images, navLinks } from "@/data/site";
 
 /**
@@ -19,9 +20,9 @@ export default function Navbar() {
     <div id="trayang-navbar" className={`trayang-navbar${open ? " open" : ""}`}>
       <div className="wrapper">
         <div className="logo-menu-container">
-          <a className="logo" href="/" aria-label={`${brand.name} home`}>
+          <Link className="logo" href="/" aria-label={`${brand.name} home`}>
             <img alt={`${brand.name} logo`} src={images.logo} />
-          </a>
+          </Link>
           <div
             className="hamburger-wrapper"
             role="button"
@@ -37,14 +38,14 @@ export default function Navbar() {
 
         <nav className="links-container hide" aria-label="Main">
           {navLinks.map((link, i) => (
-            <a
+            <Link
               key={link.label}
               className={`link${i === navLinks.length - 1 ? " shimmer" : ""}`}
               href={link.href}
               onClick={() => setOpen(false)}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
       </div>

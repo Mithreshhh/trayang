@@ -14,8 +14,8 @@ import FeaturesCarousel from "./sections/FeaturesCarousel";
 import Showcase from "./sections/Showcase";
 import Questions from "./sections/Questions";
 
-/** Number of viewport-tall spacers that give the scroller its length (26 screens, t = 0..25). */
-const SCREENS = 26;
+/** A tighter 17-screen journey keeps the storytelling without making visitors work through 26 full screens. */
+const SCREENS = 17;
 
 /**
  * The only scrolling element on the page. A sticky 100dvh stage sits at the top

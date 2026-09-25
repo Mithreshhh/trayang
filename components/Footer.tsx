@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { brand, contact, copyright, footerColumns, images, socialLinks } from "@/data/site";
 
 /** Sits below the sticky stage and is slid up into view by the final scroll stage. */
@@ -6,18 +7,14 @@ export default function Footer() {
     <footer className="trayang-footer">
       <div className="footer-links-container footer-width">
         <div className="logo-box">
-          <a href="/" className="footer-logo" aria-label={`${brand.name} home`}>
+          <Link href="/" className="footer-logo" aria-label={`${brand.name} home`}>
             <img src={images.footerLogo} alt={`${brand.name} logo`} loading="lazy" />
-          </a>
+          </Link>
           {/* Class kept from the layout reference; holds the direct contact links. */}
           <div className="os-downloads">
             <a href={`mailto:${contact.email}`} className="d-inline-block">
               <img src={images.mail} alt="" loading="lazy" />
               <span>{contact.email}</span>
-            </a>
-            <a href={contact.phoneHref} className="d-inline-block">
-              <img src={images.phone} alt="" loading="lazy" />
-              <span>{contact.phone}</span>
             </a>
           </div>
         </div>
@@ -28,7 +25,7 @@ export default function Footer() {
             <ul>
               {col.items.map((item) => (
                 <li key={item.label}>
-                  <a href={item.href}>{item.label}</a>
+                  <Link href={item.href}>{item.label}</Link>
                 </li>
               ))}
             </ul>

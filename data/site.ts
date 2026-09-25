@@ -8,17 +8,14 @@ const img = (name: string) => `/images/${name}`;
 
 export const brand = {
   name: "Trayang",
-  tagline: "Crafted with care. Delivered with pride.",
+  tagline: "Strategy that moves brands forward.",
   description:
-    "Trayang brings premium quality, personal service and honest craftsmanship to everything we do. Explore our signature services and collections.",
+    "Trayang is a full-service marketing studio helping ambitious brands clarify their story, reach the right audience and turn attention into growth.",
 };
 
 export const contact = {
   email: "hello@trayang.com",
-  phone: "+91 98765 43210",
-  phoneHref: "tel:+919876543210",
-  whatsapp: "https://wa.me/919876543210",
-  address: "Hyderabad, India",
+  address: "India",
 };
 
 export const images = {
@@ -27,14 +24,14 @@ export const images = {
   footerLogo: img("footer-logo.svg"),
   // hero
   ctaIcon: img("cta-icon.svg"), // small dark arrow inside the gold pill
-  heroShowcase: img("hero-showcase.svg"), // product / brand visual at the bottom of the hero
+  heroShowcase: img("hero-lifestyle.webp"),
   bgGradient: img("bg-gradient.svg"), // blurred gold glow behind the hero
   // "Crafted beyond Expectations" section
-  showcaseLeft: img("showcase-left.svg"), // visual that enters from the left
-  showcaseRight: img("showcase-right.svg"), // visual that enters from the right
+  showcaseLeft: img("artisan-studio.webp"),
+  showcaseRight: img("gift-service.webp"),
   // signature services intro
-  introBg: img("intro-bg.svg"), // photo behind "Elevate your everyday"
-  introBg2: img("intro-bg-2.svg"), // photo behind "Curating signature services"
+  introBg: img("artisan-studio.webp"),
+  introBg2: img("gift-service.webp"),
   ellipse: img("ellipse.svg"), // glossy cream sphere
   emblem: img("emblem.svg"), // gold emblem (scaled ~137x to fill the screen)
   // questions
@@ -60,94 +57,83 @@ export const navLinks = [
   { label: "Get a Quote", href: "#contact" }, // last link is the highlighted pill; #contact opens the enquiry card
 ];
 
-export const bannerMessage = "Festive offer: 15% off your first order with Trayang";
+export const bannerMessage = "Now accepting campaign and brand-growth projects for Q4";
 
 /** Stage 1: hero */
 export const hero = {
-  heading: { before: "Experience the ", highlight: "Art of Excellence", after: " with Trayang, like never before." },
-  cta: "Get in Touch",
+  heading: { before: "Marketing that turns ", highlight: "attention into momentum", after: "." },
+  cta: "Plan your growth",
   /** Shown one line at a time; the last item repeats the first so the ticker loops. */
   points: [
-    "✨ Crafted with care, every single time",
-    "🏆 Premium quality you can feel",
-    "🤝 Trusted by families and businesses",
-    "🌿 Honest materials, authentic work",
-    "⏱️ On time, every time",
-    "💎 Attention to every detail",
-    "📞 Personal support from real people",
-    "🎁 Thoughtful gifting for every occasion",
-    "🏢 Tailored solutions for businesses",
-    "🔁 Loyalty rewards for regulars",
-    "🚚 Doorstep delivery across the country",
-    "🛡️ Lifetime after-sales care",
-    "🧭 Expert guidance at every step",
-    "🌍 Serving customers everywhere",
-    "❤️ Made to be loved for years",
-    "✨ Crafted with care, every single time",
+    "Brand strategy built around real business goals",
+    "Campaigns designed to reach and convert",
+    "Creative content with a clear job to do",
+    "Reporting that turns data into the next move",
+    "Brand strategy built around real business goals",
   ],
 };
 
 /** Stage 2: two visuals slide in, then four promise points pop in one by one. */
 export const connect = {
-  heading: { before: "Crafted beyond ", highlight: "Expectations", after: "" },
+  heading: { before: "Creative with a ", highlight: "commercial purpose", after: "" },
   points: [
-    { id: "quality", icon: img("point-quality.svg"), desc: "Premium materials and finishing on everything that carries the Trayang name" },
-    { id: "service", icon: img("point-service.svg"), desc: "Personal, one-to-one service from the first conversation to long after delivery" },
-    { id: "trust", icon: img("point-trust.svg"), desc: "Transparent pricing and honest advice, so you always know what you are getting" },
-    { id: "delivery", icon: img("point-delivery.svg"), desc: "Careful packaging and on-time doorstep delivery, wherever you are" },
+    { id: "quality", icon: img("point-quality.svg"), desc: "A clear strategy connects every channel, campaign and creative decision" },
+    { id: "service", icon: img("point-service.svg"), desc: "One collaborative team from positioning and content to launch and optimisation" },
+    { id: "trust", icon: img("point-trust.svg"), desc: "Transparent scope, practical timelines and reporting you can actually use" },
+    { id: "delivery", icon: img("point-delivery.svg"), desc: "Fast, thoughtful execution without losing sight of the long-term brand" },
   ],
 };
 
 /** Stage 3: the emblem zooms in to become the gold backdrop of the carousel. */
 export const featuresIntro = {
-  headingDown: { before: "Elevate your everyday with 10 + ", highlight: "Signature services", after: "" },
-  headingUp: { before: "Curating ", highlight: "Signature services", after: " just for you" },
-  bottom: { before: "Powered by ", highlight: "10+ services", after: "" },
+  headingDown: { before: "From first insight to final report, ", highlight: "every move connects", after: "." },
+  headingUp: { before: "The right mix of ", highlight: "strategy, creative and growth", after: "." },
+  bottom: { before: "Growth, shaped by ", highlight: "Trayang", after: "" },
 };
 
 /** Stage 4: one screen of scroll per card. `lead` is dark, `rest` is muted. */
 export const carousel = {
-  heading: "Signature Services from Trayang",
+  heading: "Capabilities built around growth",
   cards: [
-    { title: "Bespoke Consultation", lead: "Start with a conversation.", rest: "We understand your needs before we suggest anything.", image: img("card-consultation.svg") },
-    { title: "Premium Collections", lead: "Curated, not crowded.", rest: "A focused range where every piece earns its place.", image: img("card-collections.svg") },
-    { title: "Custom Design", lead: "Made around you.", rest: "Sizes, finishes and details tailored to your space and story.", image: img("card-design.svg") },
-    { title: "Doorstep Delivery", lead: "Packed with care, delivered on time.", rest: "Tracked from our door to yours.", image: img("card-delivery.svg") },
-    { title: "After-sales Care", lead: "We stay in touch.", rest: "Maintenance, repairs and support long after the purchase.", image: img("card-care.svg") },
-    { title: "Loyalty Rewards", lead: "Regulars are family.", rest: "Earn rewards and early access with every order.", image: img("card-rewards.svg") },
-    { title: "Gifting & Occasions", lead: "Gifts that mean something.", rest: "Personalised wrapping and notes for every celebration.", image: img("card-gifting.svg") },
-    { title: "Corporate Solutions", lead: "Built for businesses.", rest: "Bulk orders, branding and invoicing handled end to end.", image: img("card-corporate.svg") },
-    { title: "Expert Guidance", lead: "Advice you can trust.", rest: "Our specialists help you choose what fits, not what sells.", image: img("card-guidance.svg") },
-    { title: "Lifetime Support", lead: "One call away.", rest: "Real people on email, phone and WhatsApp whenever you need us.", image: img("card-support.svg") },
+    { title: "Brand Strategy", lead: "Know what you stand for.", rest: "Positioning, audience and messaging that make every channel clearer.", image: img("card-consultation.svg") },
+    { title: "Visual Identity", lead: "Look as strong as your ambition.", rest: "Identity systems designed for recognition, consistency and growth.", image: img("card-collections.svg") },
+    { title: "Content & Creative", lead: "Make every idea earn attention.", rest: "Campaign concepts, social content and brand storytelling with purpose.", image: img("card-design.svg") },
+    { title: "Web Experiences", lead: "Turn visits into action.", rest: "Clear, fast websites designed around your audience and conversion goals.", image: img("card-delivery.svg") },
+    { title: "Social Media", lead: "Build relevance consistently.", rest: "Channel strategy, content systems and community-led execution.", image: img("card-care.svg") },
+    { title: "Performance Marketing", lead: "Spend with intent.", rest: "Search and social campaigns focused on qualified demand and return.", image: img("card-rewards.svg") },
+    { title: "Campaigns", lead: "Bring the big idea to life.", rest: "Integrated launches shaped for the right message, moment and audience.", image: img("card-gifting.svg") },
+    { title: "B2B Growth", lead: "Create a stronger pipeline.", rest: "Focused content and demand programmes for considered buying journeys.", image: img("card-corporate.svg") },
+    { title: "SEO & Discovery", lead: "Be useful where people search.", rest: "Search strategy and content built for durable, compounding visibility.", image: img("card-guidance.svg") },
+    { title: "Analytics & Optimisation", lead: "Learn, improve, repeat.", rest: "Useful reporting, testing and decisions that move performance forward.", image: img("card-support.svg") },
   ],
 };
 
 /** Stage 5: four tiles fan out to the corners, then fly off as the detail copy fades in. */
 export const showcase = {
-  heading: "Trayang's Signature Collection",
-  desc: "Curated for you. Crafted to last.",
-  detail1: "Every Trayang piece is designed with intent and made with honest materials, so it looks as good in ten years as it does today. ",
-  detail2: "Whether it is for your home, your business or someone special, we help you choose what fits your story.",
+  heading: "One brand. Every touchpoint connected.",
+  desc: "Strategy gives the work direction. Creative gives it power.",
+  detail1: "We connect brand thinking, campaign creative, digital experience and performance so each part strengthens the next. ",
+  detail2: "The result is marketing that feels consistent to your audience and accountable to your business.",
   tiles: [
-    { code: "one", image: img("tile-1.svg") },
-    { code: "two", image: img("tile-2.svg") },
-    { code: "three", image: img("tile-3.svg") },
-    { code: "four", image: img("tile-4.svg") },
+    { code: "one", image: img("hero-lifestyle.webp") },
+    { code: "two", image: img("artisan-studio.webp") },
+    { code: "three", image: img("gift-service.webp") },
+    { code: "four", image: img("hero-lifestyle.webp") },
   ],
 };
 
 /** Stage 6 */
 export const questions = {
   heading: "Have any questions?",
-  body: "Check out our FAQ section for answers to common questions about orders, delivery, customisation and care. We have made it easy to find what you need.",
+  body: "Find clear answers about scope, timelines, retainers, reporting and how we start—or speak with us directly.",
   button: "Explore FAQs",
   href: "/faq/",
 };
 
 export const contactCard = {
-  heading: "Let's talk about what you need",
-  body: "Tell us a little about your requirement and we will get back within one working day.",
-  note: "Reach us directly",
+  heading: "Tell us where you want to grow",
+  body: "Share your goal, current challenge, timing and approximate budget. We will reply with a useful next step within one working day.",
+  note: "Start by email",
 };
 
 export const footerColumns = [
@@ -162,9 +148,9 @@ export const footerColumns = [
   {
     heading: "Services",
     items: [
-      { label: "Consultation", href: "/services/#consultation" },
-      { label: "Collections", href: "/services/#collections" },
-      { label: "Corporate", href: "/services/#corporate" },
+      { label: "Brand strategy", href: "/services/#strategy" },
+      { label: "Creative & content", href: "/services/#creative" },
+      { label: "Growth marketing", href: "/services/#growth" },
     ],
   },
   {
@@ -177,11 +163,7 @@ export const footerColumns = [
   },
 ];
 
-export const socialLinks = [
-  { label: "Instagram", href: "https://instagram.com/trayang", icon: images.instagram },
-  { label: "Facebook", href: "https://facebook.com/trayang", icon: images.facebook },
-  { label: "LinkedIn", href: "https://linkedin.com/company/trayang", icon: images.linkedin },
-  { label: "YouTube", href: "https://youtube.com/@trayang", icon: images.youtube },
-];
+// Add only verified Trayang profiles here; empty is better than linking to placeholder accounts.
+export const socialLinks: Array<{ label: string; href: string; icon: string }> = [];
 
 export const copyright = `Copyright © ${new Date().getFullYear()} Trayang. All rights reserved.`;

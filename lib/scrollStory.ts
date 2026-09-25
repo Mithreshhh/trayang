@@ -2,9 +2,9 @@
  * Scroll-driven story engine for the Trayang homepage.
  *
  * The page never scrolls the document. A single container (#trayang-scroller)
- * scrolls through 26 viewport-tall spacers while a sticky 100dvh stage
+ * scrolls through 17 viewport-tall spacers while a sticky 100dvh stage
  * (#trayang-sections) stays pinned. Scroll position is converted to a fraction
- * t = scrollTop / viewportHeight (0 → 25) and every stage below maps a
+ * t = scrollTop / viewportHeight (0 → 16) and every stage below maps a
  * [start, end] range of t to a 0–100 percentage that drives inline styles.
  *
  * Each stage is called with a phase:
@@ -41,7 +41,8 @@ export class ScrollStory {
   private readonly cache = new Map<string, HTMLElement | HTMLElement[]>();
 
   constructor(private readonly root: HTMLElement, private readonly opts: ScrollStoryOptions = {}) {
-    const s = (start: number, end: number, fn: StageFn): Stage => ({ start, end, fn });
+    const storyScale = 16 / 25;
+    const s = (start: number, end: number, fn: StageFn): Stage => ({ start: start * storyScale, end: end * storyScale, fn });
 
     // Order matters: later stages overwrite earlier ones for the same element.
     this.stages = [
