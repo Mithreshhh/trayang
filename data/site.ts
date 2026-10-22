@@ -22,7 +22,6 @@ export const contact = {
 export const images = {
   studio: img("artisan-studio.webp"), // team working across a moodboard table
   growth: img("gift-service.webp"), // gold growth bars on a desk
-  emblem: img("emblem.svg"), // gold diamond, scaled to fill the screen behind the carousel
 };
 
 export const navLinks = [
@@ -42,7 +41,25 @@ export const pillars = [
   { label: "Influencer management and events", glyph: "influence" },
 ] as const;
 
-/** Stage 1: hero */
+/** The home page chapters, in story order. The rail and the chapter labels read from here. */
+export const storyChapters = [
+  { id: "hero", label: "Start" },
+  { id: "purpose", label: "Purpose" },
+  { id: "approach", label: "Approach" },
+  { id: "capabilities", label: "Services" },
+  { id: "touchpoints", label: "Connected" },
+  { id: "questions", label: "Questions" },
+] as const;
+
+export type ChapterId = (typeof storyChapters)[number]["id"];
+
+/** "03 · Approach" */
+export function chapterLabel(id: ChapterId) {
+  const i = storyChapters.findIndex((c) => c.id === id);
+  return `${String(i + 1).padStart(2, "0")} · ${storyChapters[i].label}`;
+}
+
+/** Chapter 1: hero */
 export const hero = {
   lines: [
     { text: "We build brands.", ink: "brown" },
@@ -53,8 +70,8 @@ export const hero = {
   passes: ["Strategy", "Creativity", "Execution"],
 };
 
-/** Stage 2: the five purpose lines, one at a time along the registration dots. */
-export const connect = {
+/** Chapter 2: the purpose lines roll past a registration line, one per screen. */
+export const purpose = {
   heading: { before: "Creative with a ", highlight: "commercial purpose", after: "." },
   points: [
     { id: "direction", icon: "compass", desc: "Strategy that turns ambition into direction." },
@@ -65,15 +82,16 @@ export const connect = {
   ],
 };
 
-/** Stage 3: the emblem zooms in to become the gold backdrop of the carousel. */
-export const featuresIntro = {
-  headingDown: { before: "From the first idea to the final execution, ", highlight: "every move has a purpose", after: "." },
-  headingUp: { before: "We connect strategy, creativity and execution so ", highlight: "every part moves in the same direction", after: "." },
-  bottom: { before: "Growth, ", highlight: "built with purpose", after: "." },
+/** Chapter 3: three ink discs, one per pass, move into register. */
+export const approach = {
+  heading: { before: "From the first idea to the final execution, ", highlight: "every move has a purpose", after: "." },
+  passes: ["Strategy", "Creativity", "Execution"],
+  result: { before: "Growth, ", highlight: "built with purpose", after: "." },
+  caption: "We connect strategy, creativity and execution so every part moves in the same direction.",
 };
 
-/** Stage 4: one screen of scroll per capability. */
-export const carousel = {
+/** Chapter 4: an index of capabilities, one screen of scroll per entry. */
+export const capabilities = {
   heading: "Think clearly. Build purposefully. Move forward.",
   cards: [
     {
@@ -139,15 +157,23 @@ export const carousel = {
   ],
 };
 
-/** Stage 5: four touchpoint prints fan out, then fly off as the statement reads. */
-export const showcase = {
+/** Chapter 5: a line joins the touchpoints, then the statement prints word by word. */
+export const touchpoints = {
   heading: "One brand. Every touchpoint connected.",
   desc: "Strategy, creativity and execution—working together to move your business forward.",
-  detail1: "We connect brand thinking, campaign creative, digital experience and performance so each part strengthens the next. ",
-  detail2: "The result is marketing that feels consistent to your audience and accountable to your business.",
+  nodes: [
+    { label: "Brand thinking", glyph: "identity" },
+    { label: "Campaign creative", glyph: "content" },
+    { label: "Digital experience", glyph: "website" },
+    { label: "Performance", glyph: "growth" },
+  ],
+  statement: [
+    "We connect brand thinking, campaign creative, digital experience and performance so each part strengthens the next.",
+    "The result is marketing that feels consistent to your audience and accountable to your business.",
+  ],
 };
 
-/** Stage 6 */
+/** Chapter 6: after the story; scrolls as an ordinary page */
 export const questions = {
   heading: "Have questions? Let's make things clear.",
   body: "From our services and process to timelines, pricing and getting started, find the answers you need before taking the next step.",

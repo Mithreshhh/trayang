@@ -155,7 +155,7 @@ A fixed, client-pinned earth palette: dark kraft brown, warm gold and pale gold 
 - **Kraft Brown** (brown): The dark stock (navbar, footer, brown sections, statement band) and the key ink on cream: body text, solid buttons, selected chips, the progress bar. The browser theme colour.
 
 ### Secondary
-- **Press Gold** (gold): The flood stock (CTA bands, the capability carousel stage), the gold button, the middle ink pass, and the accent and focus colour on brown. Selection highlight everywhere.
+- **Press Gold** (gold): The flood stock (CTA bands, the services chapter of the story), the gold button, the middle ink pass, and the accent and focus colour on brown. Selection highlight everywhere.
 - **Pale Gold Pass** (gold-light): The third, lightest ink. Used for ghost passes, the offset pass behind every ink button, the plate ghost on photographs, and hover colour for links on brown. Never a text colour on cream.
 
 ### Tertiary
@@ -208,7 +208,7 @@ Composition is asymmetric two-column: hero copy and plate at about 1.5 : 1, CTA 
 
 The navbar is 4rem tall (4.5rem from 1024px), with desktop links from 1024px and a full-height brown sheet menu with stencil links below it.
 
-The home page is a scroll-jacked story of full-viewport stages whose choreography is fixed by lib/scrollStory.ts; stage layouts fit within 100dvh and drop secondary copy on short mobile viewports rather than overflow.
+The home page is a scroll-jacked story: chapters are full-viewport sheets of stock stacked in a pinned stage, and each new sheet slides up over the last (which sinks back under a dark shade while its passes drift out of register), one screen of scroll per step, timed by lib/scrollStory.ts. The chapter components are a purpose reel (lines rolling past a registration mark beside an odometer counter), three ink discs moving into register, a services index whose highlight is a second copy of the list clipped to the active row beside one cream sheet whose entry reprints, and a touchpoint line that draws through four nodes before the statement takes the ink word by word. Sheet layouts fit within 100dvh and drop secondary copy on short mobile viewports rather than overflow. The questions and footer follow as ordinary scrolling sheets; a chapter rail sits at the right edge from 1400px.
 
 ### Named Rules
 **The Sheet Edge Rule.** Every band, however wide its colour, aligns its content to the 80rem sheet and gutter.
@@ -219,18 +219,17 @@ Depth is printed, not lifted. Layers are expressed by overlapping translucent in
 
 ### Shadow Vocabulary
 - **Sheet lift** (`box-shadow: 0 36px 70px -48px rgba(59, 33, 18, 0.8)`): The enquiry sheet lying on the page.
-- **Card lift** (`box-shadow: 0 2px 0 rgba(59, 33, 18, 0.18), 0 28px 50px -30px rgba(59, 33, 18, 0.7)`): Capability cards on the gold flood.
-- **Tile lift** (`box-shadow: 0 24px 48px -22px rgba(11, 16, 18, 0.75)`): Stacked showcase tiles in the story.
-- **Float** (`box-shadow: 0 10px 24px -10px rgba(11, 16, 18, 0.6)`): The fixed scroll-to-top button.
+- **Sheet edge** (`box-shadow: 0 -28px 60px -20px rgba(11, 16, 18, 0.6)`): The top edge of a story sheet sliding over the one below.
+- **Float** (`box-shadow: 0 0 0 1px rgba(216, 155, 82, 0.32), 0 14px 32px -16px rgba(11, 16, 18, 0.7)`): The fixed chapter rail.
 
 ### Named Rules
-**The Overprint Not Shadow Rule.** An offset copy of a shape in pale gold (behind ink buttons, beside story points, past the edge of photo plates) is an ink pass, not a shadow. It uses the stock's blend mode, sits a few pixels off register, and is the only offset device allowed. Hard dark offset shadows are not part of this world.
+**The Overprint Not Shadow Rule.** An offset copy of a shape in pale gold (behind ink buttons and the services sheet, past the edge of photo plates) is an ink pass, not a shadow. It uses the stock's blend mode, sits a few pixels off register, and is the only offset device allowed. Hard dark offset shadows are not part of this world.
 
 **The Paper Is Always There Rule.** Every stock carries its procedural fibre texture (fine speckle over a soft mottle, tuned to stay within about ±3 of the stock colour). Display type carries an ink-grit mask. Flat untextured fills are reserved for small swatches and pass dots.
 
 ## Shapes
 
-Hard-cornered and print-cut. Radii are near zero: 3px on buttons, chips, cards and the enquiry sheet; 2px on photo plates; 0 on inputs (underline only). The only round forms are the pass dots, story points and the scroll-to-top button (50%). Recurring geometry is printer's furniture: a 45-degree diamond with a centre dot as the ornament and button mark, registration crosses (circle plus crosshair) at sheet corners, and a hairline rule with short end ticks broken by a diamond. Lines are 1px hairlines; emphasis strokes are 1.5px.
+Hard-cornered and print-cut. Radii are near zero: 3px on buttons, chips, cards and the enquiry sheet; 2px on photo plates; 0 on inputs (underline only). The only round forms are the pass dots, the approach discs and the touchpoint rings (50%). Recurring geometry is printer's furniture: a 45-degree diamond with a centre dot as the ornament and button mark, registration crosses (circle plus crosshair) at sheet corners, and a hairline rule with short end ticks broken by a diamond. Lines are 1px hairlines; emphasis strokes are 1.5px.
 
 ## Components
 
@@ -299,7 +298,7 @@ Every page closes on a gold flood band with registration corners: a pass heading
 - **Don't** add hues outside the five client colours and their two contrast shades.
 - **Don't** use gradient text, a centred hero over a dark void, or an equal grid of identical cards.
 - **Don't** use hard dark offset shadows; offsets are pale-gold ink passes in the stock's blend mode.
-- **Don't** round corners beyond 3px except for dots and the circular scroll-to-top button.
+- **Don't** round corners beyond 3px except for dots, discs and touchpoint rings.
 - **Don't** introduce a second motion signature (bounces, parallax tilts, scroll-linked effects beyond the story engine).
 
 ### Known gap

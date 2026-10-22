@@ -1,6 +1,6 @@
 # Trayang marketing site (Next.js)
 
-Marketing site for Trayang, a strategy, branding, marketing and business-consulting studio. The home page is a scroll-driven story: one container moves through 17 screens while a pinned stage presents the hero, the purpose points, the capabilities, the joined-up approach, common questions and the closing footer. About, Services, Contact, FAQs, Terms and Privacy are ordinary pages in the same visual world.
+Marketing site for Trayang, a strategy, branding, marketing and business-consulting studio. The home page is a scroll-driven story: a pinned stage holds five chapters as sheets of stock (hero, purpose, approach, services, touchpoints) and each new sheet slides up over the last as you scroll, one screen per step; the questions and the footer then follow as ordinary content. About, Services, Contact, FAQs, Terms and Privacy are ordinary pages in the same visual world.
 
 The visual world is screenprint ("registered overprint"): cream paper and brown kraft stocks, brown and gold inks printed as translucent passes that mix where they overlap, stencil poster type, registration marks and ink buttons.
 
@@ -32,8 +32,8 @@ All tokens are at the top of `app/globals.css`. `.stock-cream`, `.stock-brown` a
 | `data/site.ts` | All copy, links, form options, image paths and the proof slots |
 | `lib/scrollStory.ts` | The scroll engine: converts scroll position into the stage animations |
 | `app/globals.css` | All styling |
-| `components/TrayangScroller.tsx` | The scroll container: sticky stage + 17 spacer screens, mounts the engine |
-| `components/sections/*.tsx` | The six home stages: Landing, Connect, FeaturesIntro, FeaturesCarousel, Showcase, Questions |
+| `components/TrayangScroller.tsx` | The scroll container: sticky stage, spacer track, chapter rail; mounts the engine |
+| `components/story/*.tsx` | The home chapters: Hero, Purpose (reel), Approach (passes into register), Capabilities (index + panel), Touchpoints (connected line + statement), Questions |
 | `components/Print.tsx` | World primitives: `Pass` (heading printed in three passes), `InkLink`, `PrintPlate`, `Rule`, `RegCorners`, `Wordmark` |
 | `components/Glyph.tsx` | Overlap artwork for every service and the purpose-point icons |
 | `components/Navbar.tsx`, `Footer.tsx`, `Preloader.tsx` | Header band (shared by story and pages), footer, loading screen |
@@ -48,8 +48,8 @@ All tokens are at the top of `app/globals.css`. `.stock-cream`, `.stock-brown` a
 
 ## Images
 
-`public/images/artisan-studio.webp` and `gift-service.webp` are printed as brown and gold duotones by CSS, so any photo works; replace the files or change `images` in `data/site.ts`. `emblem.svg` is the gold diamond the engine scales about 137 times to flood the screen behind the capability cards, so keep it solid gold.
+`public/images/artisan-studio.webp` and `gift-service.webp` are printed as brown and gold duotones by CSS, so any photo works; replace the files or change `images` in `data/site.ts`.
 
 ## How the scroll works (short version)
 
-`#trayang-scroller` is the only scrollable element on the home page. Inside it, `#trayang-sections` is `position: sticky` and 100dvh tall, followed by 17 empty 100dvh spacers. The engine reads `scrollTop / clientHeight` and, for each stage in `lib/scrollStory.ts`, converts the position inside that stage's `[start, end]` range into a 0 to 100 percentage that sets inline transforms and opacities. The purpose points share one window, so adding or removing a point in `data/site.ts` re-times them automatically. Stage end and start states are applied once when crossed, element lookups are cached, and pixel-based stages are recomputed on resize.
+`#trayang-scroller` is the only scrollable element on the home page. Inside it, `.story-track` holds the `position: sticky` 100dvh stage followed by one empty 100dvh spacer per step; every spacer is a snap point. The engine reads `scrollTop / clientHeight` and, for each stage in `lib/scrollStory.ts`, converts the position inside that stage's `[start, end]` range into a 0 to 100 percentage that sets inline transforms and opacities. The timeline is built from the content: each purpose line and each capability gets one screen, so adding or removing one in `data/site.ts` re-times the story and the spacer count (`storyEnd`) follows. Anything with `data-jump` (the chapter rail on wide screens, the capability index) scrolls to its place in the story. Stage end and start states are applied once when crossed, element lookups are cached, and pixel-based stages are recomputed on resize.

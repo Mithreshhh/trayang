@@ -1,67 +1,73 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ScrollStory } from "@/lib/scrollStory";
+import { capabilities, purpose, storyChapters } from "@/data/site";
+import { ScrollStory, storyEnd } from "@/lib/scrollStory";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import Landing from "./sections/Landing";
-import Connect from "./sections/Connect";
-import FeaturesIntro from "./sections/FeaturesIntro";
-import FeaturesCarousel from "./sections/FeaturesCarousel";
-import Showcase from "./sections/Showcase";
-import Questions from "./sections/Questions";
+import Reveal from "./Reveal";
+import Hero from "./story/Hero";
+import Purpose from "./story/Purpose";
+import Approach from "./story/Approach";
+import Capabilities from "./story/Capabilities";
+import Touchpoints from "./story/Touchpoints";
+import Questions from "./story/Questions";
 
-/** A tighter 17-screen journey keeps the storytelling without making visitors work through 26 full screens. */
-const SCREENS = 17;
+/** One spacer per screen the stage stays pinned for, plus the screen that releases it. */
+const SPACERS = storyEnd(purpose.points.length, capabilities.cards.length) + 1;
 
 /**
- * The only scrolling element on the page. A sticky 100dvh stage sits at the top
- * and the ScrollStory engine turns scroll position into the section animations.
+ * The only scrolling element on the page. The sticky stage holds the chapter
+ * sheets while the track of spacers scrolls past; the ScrollStory engine turns
+ * scroll position into the sheet animations. After the track, the questions
+ * and the footer scroll as ordinary content.
  */
 export default function TrayangScroller() {
   const scroller = useRef<HTMLDivElement>(null);
-  const scrollTop = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const el = scroller.current;
     if (!el) return;
-    const story = new ScrollStory(el, {
-      onScrollFractionChange: (t) => scrollTop.current?.classList.toggle("is-visible", t > 0.8),
-    });
+    const story = new ScrollStory(el);
     story.attach();
     return () => story.detach();
   }, []);
 
   return (
     <div id="trayang-scroller" ref={scroller}>
-      <button
-        ref={scrollTop}
-        type="button"
-        className="scroll-top"
-        aria-label="Back to top"
-        onClick={() => scroller.current?.scrollTo({ top: 0 })}
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 19V5M5 12l7-7 7 7" />
-        </svg>
-      </button>
+      <Navbar mode="story" />
 
-      <div id="trayang-sections" className="trayang-sections">
-        <Navbar mode="story" />
-        <div className="sections">
-          <Landing />
-          <Connect />
-          <FeaturesIntro />
-          <FeaturesCarousel />
-          <Showcase />
-          <Questions />
+      <nav className="chapter-rail" aria-label="Chapters">
+        <ol>
+          {storyChapters.map((chapter, i) => (
+            <li key={chapter.id}>
+              <button type="button" data-jump={chapter.id} data-rail="" aria-current={i === 0 ? "step" : undefined}>
+                <span className="rail-num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="rail-label">{chapter.label}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <div className="story-track">
+        <div className="story-stage">
+          <div className="sheets">
+            <Hero />
+            <Purpose />
+            <Approach />
+            <Capabilities />
+            <Touchpoints />
+          </div>
         </div>
-        <Footer />
+        {Array.from({ length: SPACERS }, (_, i) => (
+          <div className="bg-cover" key={i} />
+        ))}
       </div>
 
-      {Array.from({ length: SCREENS }, (_, i) => (
-        <div className="bg-cover" key={i} />
-      ))}
+      <Questions />
+      <Footer />
+      <Reveal />
     </div>
   );
 }

@@ -210,19 +210,14 @@
         "purpose": "Enquiry sheet lying on the page."
       },
       {
-        "name": "card-lift",
-        "value": "0 2px 0 rgba(59, 33, 18, 0.18), 0 28px 50px -30px rgba(59, 33, 18, 0.7)",
-        "purpose": "Capability cards on the gold flood."
-      },
-      {
-        "name": "tile-lift",
-        "value": "0 24px 48px -22px rgba(11, 16, 18, 0.75)",
-        "purpose": "Stacked showcase tiles in the story."
+        "name": "sheet-edge",
+        "value": "0 -28px 60px -20px rgba(11, 16, 18, 0.6)",
+        "purpose": "Top edge of a story sheet sliding over the one below."
       },
       {
         "name": "float",
-        "value": "0 10px 24px -10px rgba(11, 16, 18, 0.6)",
-        "purpose": "Fixed scroll-to-top button."
+        "value": "0 0 0 1px rgba(216, 155, 82, 0.32), 0 14px 32px -16px rgba(11, 16, 18, 0.7)",
+        "purpose": "Fixed chapter rail."
       },
       {
         "name": "offset-pass",

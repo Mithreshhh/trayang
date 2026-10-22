@@ -2,10 +2,16 @@
  * Scroll-driven story engine for the Trayang homepage.
  *
  * The page never scrolls the document. A single container (#trayang-scroller)
- * scrolls through 17 viewport-tall spacers while a sticky 100dvh stage
- * (#trayang-sections) stays pinned. Scroll position is converted to a fraction
- * t = scrollTop / viewportHeight (0 → 16) and every stage below maps a
- * [start, end] range of t to a 0–100 percentage that drives inline styles.
+ * scrolls through a track of viewport-tall spacers while a sticky 100dvh stage
+ * (.story-stage) stays pinned. Scroll position is converted to a fraction
+ * t = scrollTop / viewportHeight and every stage below maps a [start, end]
+ * range of t to a 0–100 percentage that drives inline styles. Whole values of
+ * t are the snap points, so each one is designed to be a finished state.
+ *
+ * The chapters are sheets of stock stacked in the stage. Each new sheet slides
+ * up over the last one, which sinks back and its ink passes drift out of
+ * register. Once the last sheet has played out the track ends, the stage
+ * scrolls away and the questions and footer follow as ordinary content.
  *
  * Each stage is called with a phase:
  *   "active" – t is inside [start, end): called every frame with the live percentage
@@ -17,6 +23,13 @@
 
 export function getScrollPercentage(start: number, end: number, t: number): number {
   return 100 * (1 - (end - t) / (end - start));
+}
+
+/** Screens the story stays pinned for; the track renders one spacer per screen plus one. */
+export function storyEnd(purposeCount: number, capabilityCount: number): number {
+  // hero → purpose sheet (1) + its lines (n − 1) + approach sheet and register (2)
+  // + capabilities sheet (1) + its entries (n − 1) + touchpoints sheet, line and statement (3)
+  return purposeCount + capabilityCount + 5;
 }
 
 export type Phase = "before" | "active" | "after";
@@ -33,62 +46,63 @@ export interface ScrollStoryOptions {
   onScrollFractionChange?: (t: number) => void;
 }
 
+const clamp = (v: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+const easeInOut = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const lerp = (a: number, b: number, f: number) => a + (b - a) * f;
+
+/** Where the three approach discs sit: angle (radians) from the centre of the plate. */
+const DISC_ANGLES = [(210 * Math.PI) / 180, (330 * Math.PI) / 180, Math.PI / 2];
+/** Disc distance from centre, in disc diameters: apart (matches the CSS start state) → in register. */
+const DISC_APART = 0.72;
+const DISC_REGISTERED = 0.2;
+
 export class ScrollStory {
-  private readonly stages: Stage[];
+  private readonly stages: Stage[] = [];
+  private readonly chapterAt = new Map<string, number>();
+  private readonly capabilityStart: number;
+  readonly end: number;
   private last: number | undefined;
   private goingDown = true;
   private raf = 0;
+  private activeChapter = "";
+  private attached = false;
+  private readonly reduced: boolean;
   private readonly cache = new Map<string, HTMLElement | HTMLElement[]>();
+  private readonly measured = new Map<string, number[]>();
 
   constructor(private readonly root: HTMLElement, private readonly opts: ScrollStoryOptions = {}) {
-    const storyScale = 16 / 25;
-    const s = (start: number, end: number, fn: StageFn): Stage => ({ start: start * storyScale, end: end * storyScale, fn });
+    this.reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const purposeCount = root.querySelectorAll("#story-purpose .reel-item").length;
+    const capabilityCount = root.querySelectorAll("#story-capabilities .cap-panel").length;
 
-    // The purpose points share the 2 → 6 window: each one registers, holds, then lifts away for the next.
-    const points = root.querySelectorAll("#connect-section .dot-container:not(.empty)").length;
-    const slot = 4 / Math.max(points, 1);
-    const pointStages: Stage[] = [];
-    for (let i = 0; i < points; i++) {
-      const from = 2 + slot * i;
-      pointStages.push(s(from, from + slot * 0.45, (p) => this.connectPointIn(i, p)));
-      if (i < points - 1) pointStages.push(s(from + slot * 0.75, from + slot, (p) => this.connectPointOut(i, p)));
-    }
+    let t = 0;
+    const at = (span: number, fn: StageFn) => {
+      this.stages.push({ start: t, end: t + span, fn });
+      t += span;
+    };
 
-    // Order matters: later stages overwrite earlier ones for the same element.
-    this.stages = [
-      s(0, 1, (p) => this.landingBlur(p)),
-      s(0, 1, (p) => this.connectSlideIn(p)),
-      s(1, 2, (p) => this.connectSpreadDots(p)),
-      ...pointStages,
-      s(6, 7, (p) => this.connectSlideOut(p)),
-      s(6, 7, (p) => this.introFadeIn(p)),
-      s(7, 8, (p) => this.emblemZoomIn(p)),
-      s(7, 8, (p) => this.carouselSlideIn(p)),
-      s(8, 9, (_p, phase) => this.landingVisibility(phase)),
-      s(8, 9, (_p, phase) => this.introSwapCopy(phase)),
-      s(8, 9, (p) => this.carouselFocusCard(p, 1)),
-      s(9, 10, (p) => this.carouselFocusCard(p, 2)),
-      s(10, 11, (p) => this.carouselFocusCard(p, 3)),
-      s(11, 12, (p) => this.carouselFocusCard(p, 4)),
-      s(12, 13, (p) => this.carouselFocusCard(p, 5)),
-      s(13, 14, (p) => this.carouselFocusCard(p, 6)),
-      s(14, 15, (p) => this.carouselFocusCard(p, 7)),
-      s(15, 16, (p) => this.carouselFocusCard(p, 8)),
-      s(16, 17, (p) => this.carouselFocusCard(p, 9)),
-      s(17, 18, (p) => this.carouselSlideOut(p)),
-      s(17, 18, (p) => this.emblemZoomOut(p)),
-      s(18, 19, (p) => this.introRingFill(p)),
-      s(19, 20, (p) => this.introFadeOut(p)),
-      s(19, 19.6, (p) => this.showcaseFadeIn(p)),
-      s(19.6, 20, (p) => this.showcaseTilesShift(p)),
-      s(20, 21, (p) => this.showcaseTilesSpread(p)),
-      s(21, 22, (p) => this.showcaseTilesFlyOut(p)),
-      s(22, 23, (p) => this.showcaseHighlight(p)),
-      s(23, 24, (p) => this.showcaseFadeOut(p)),
-      s(23, 24, (p) => this.questionsFadeIn(p)),
-      s(24, 25, (p) => this.questionsLift(p)),
-      s(24, 25, (p) => this.footerSlideUp(p)),
-    ];
+    this.chapterAt.set("hero", 0);
+    at(1, (p, ph) => this.sheetIn(1, p, ph));
+    this.chapterAt.set("purpose", t);
+    at(purposeCount - 1, (p) => this.purposeReel(p));
+
+    at(1, (p, ph) => this.sheetIn(2, p, ph));
+    this.chapterAt.set("approach", t);
+    at(1, (p) => this.approachRegister(p));
+
+    at(1, (p, ph) => this.sheetIn(3, p, ph));
+    this.chapterAt.set("capabilities", t);
+    this.capabilityStart = t;
+    at(capabilityCount - 1, (p) => this.capabilityIndex(p));
+
+    at(1, (p, ph) => this.sheetIn(4, p, ph));
+    this.chapterAt.set("touchpoints", t);
+    at(1, (p) => this.touchpointLine(p));
+    at(1, (p) => this.touchpointStatement(p));
+
+    this.end = t;
+    // The track releases the stage one screen later, where the questions sheet starts.
+    this.chapterAt.set("questions", t + 1);
   }
 
   /* ------------------------------------------------------------------ */
@@ -97,16 +111,29 @@ export class ScrollStory {
 
   attach(): void {
     this.root.addEventListener("scroll", this.onScroll, { passive: true });
+    this.root.addEventListener("click", this.onClick);
     window.addEventListener("resize", this.onResize);
+    this.attached = true;
+    // Line heights settle once the webfonts land; measure again then.
+    document.fonts?.ready.then(() => this.attached && this.onResize());
     this.run();
   }
 
   detach(): void {
+    this.attached = false;
     this.root.removeEventListener("scroll", this.onScroll);
+    this.root.removeEventListener("click", this.onClick);
     window.removeEventListener("resize", this.onResize);
     if (this.raf) cancelAnimationFrame(this.raf);
     this.raf = 0;
     this.cache.clear();
+    this.measured.clear();
+  }
+
+  /** Scroll position (in screens) where a chapter, or one capability entry, is fully in place. */
+  timeFor(chapter: string, step = 0): number | undefined {
+    if (chapter === "capabilities") return this.capabilityStart + step;
+    return this.chapterAt.get(chapter);
   }
 
   private onScroll = (): void => {
@@ -114,11 +141,22 @@ export class ScrollStory {
     this.raf = requestAnimationFrame(this.run);
   };
 
-  /** Pixel-based stages (carousel offsets, footer height) must be recomputed after a resize. */
+  /** Measured offsets go stale after a resize, and pixel-based stages must be re-applied. */
   private onResize = (): void => {
+    this.measured.clear();
     for (const stage of this.stages) stage.phase = undefined;
     this.last = undefined;
     this.onScroll();
+  };
+
+  /** Anything with data-jump (the chapter rail, the capability index) scrolls to its place in the story. */
+  private onClick = (e: MouseEvent): void => {
+    const el = (e.target as HTMLElement).closest<HTMLElement>("[data-jump]");
+    if (!el) return;
+    const t = this.timeFor(el.dataset.jump ?? "", Number(el.dataset.step ?? 0));
+    if (t === undefined) return;
+    e.preventDefault();
+    this.root.scrollTo({ top: t * this.root.clientHeight });
   };
 
   private run = (): void => {
@@ -127,6 +165,15 @@ export class ScrollStory {
     this.goingDown = this.last === undefined || t > this.last;
     this.opts.onScrollFractionChange?.(t);
     const st = this.stages;
+    // First run (or after a resize): stages still ahead get their start state, latest first.
+    if (this.last === undefined) {
+      for (let i = st.length - 1; i >= 0; i--) {
+        if (t < st[i].start) {
+          st[i].fn(0, "before");
+          st[i].phase = "before";
+        }
+      }
+    }
     if (this.goingDown) {
       for (const s of st) {
         if (t >= s.end) {
@@ -153,6 +200,7 @@ export class ScrollStory {
         }
       }
     }
+    this.markChapter(t);
     this.last = t;
   };
 
@@ -173,295 +221,172 @@ export class ScrollStory {
     return els;
   }
 
-  /* ------------------------------------------------------------------ */
-  /* 1. Hero                                                             */
-  /* ------------------------------------------------------------------ */
-
-  private landingBlur(p: number): void {
-    const landing = this.q("#trayang-landing");
-    const heading = this.q("#trayang-landing .heading");
-    const tile = this.q("#trayang-landing .download-tile");
-    const r = 0.01 * p;
-    landing.style.filter = `blur(${1.5 * p}px)`;
-    heading.style.opacity = `${1 - r}`;
-    heading.style.transform = `translate3d(0, ${p}%, 0) scale(${1 + 0.2 * r})`;
-    // The ghost passes slip out of register as the sheet leaves.
-    heading.style.setProperty("--drift", `${r}`);
-    tile.style.pointerEvents = p > 5 ? "none" : "initial";
+  /** Layout reads, cached until the next resize so stages never force layout mid-frame. */
+  private measure(key: string, read: () => number[]): number[] {
+    let hit = this.measured.get(key);
+    if (!hit) {
+      hit = read();
+      this.measured.set(key, hit);
+    }
+    return hit;
   }
 
-  /** Hide the (blurred, expensive) hero once the carousel fully covers it. */
-  private landingVisibility(phase: Phase): void {
-    const show = phase === "before" || (phase === "active" && this.goingDown);
-    this.q("#trayang-landing").style.display = show ? "grid" : "none";
+  /** The rail marks the chapter whose start is nearest behind the current position. */
+  private markChapter(t: number): void {
+    let current = "hero";
+    for (const [id, start] of this.chapterAt) if (t >= start - 0.5) current = id;
+    if (current === this.activeChapter) return;
+    this.activeChapter = current;
+    for (const btn of this.qa("[data-rail]")) {
+      if (btn.dataset.jump === current) btn.setAttribute("aria-current", "step");
+      else btn.removeAttribute("aria-current");
+    }
   }
 
   /* ------------------------------------------------------------------ */
-  /* 2. Creative with a commercial purpose                                */
+  /* Sheets                                                              */
   /* ------------------------------------------------------------------ */
 
-  private connectSlideIn(p: number): void {
-    const section = this.q("#connect-section");
-    const main = this.q("#connect-section .main-container");
-    const left = this.q("#connect-section .left-img");
-    const right = this.q("#connect-section .right-img");
-    const heading = this.q("#connect-section .heading");
-    const a = 0.01 * p;
-    const offset = 100 - 70 * a;
-    left.style.transform = `translate3d(${-offset}%, 0, 0)`;
-    right.style.transform = `translate3d(${offset}%, 0, 0)`;
-    section.style.opacity = `${a}`;
-    heading.style.transform = `translate3d(0, ${2 * p - 100}%, 0) scale(${0.8 + 0.2 * a})`;
-    main.style.display = p > 5 ? "grid" : "none";
-    section.style.zIndex = p > 5 ? "3" : "-1";
+  /** Sheet i slides up over sheet i − 1, which sinks back under a shade while its passes drift. */
+  private sheetIn(i: number, p: number, phase: Phase): void {
+    const sheets = this.qa(".story-sheet");
+    const cur = sheets[i];
+    const prev = sheets[i - 1];
+    const shade = this.qa(".story-sheet > .sheet-shade")[i - 1];
+    const passes = this.qa(`.story-sheet:nth-child(${i}) .pass`);
+    const e = 0.01 * p;
+
+    cur.style.visibility = p > 0 ? "visible" : "hidden";
+    // A covered sheet stops painting; it comes back the moment the one above starts to lift.
+    prev.style.visibility = phase === "after" ? "hidden" : "visible";
+    shade.style.opacity = `${0.55 * e}`;
+    for (const pass of passes) pass.style.setProperty("--drift", `${e}`);
+
+    if (this.reduced) {
+      cur.style.opacity = `${e}`;
+      return;
+    }
+    cur.style.transform = `translate3d(0, ${100 - p}%, 0)`;
+    prev.style.transform = `translate3d(0, ${-4 * e}%, 0) scale(${1 - 0.05 * e})`;
   }
 
-  private connectSpreadDots(p: number): void {
-    const left = this.q("#connect-section .left-img");
-    const right = this.q("#connect-section .right-img");
-    const heading = this.q("#connect-section .heading");
-    const dots = this.q("#connect-section .point-dots-container");
-    const dc = this.qa("#connect-section .dot-container");
-    const rot = 12.67 * p * 0.01;
-    left.style.transform = `translate3d(-30%, 0, 0) rotate(${360 - rot}deg)`;
-    right.style.transform = `translate3d(30%, 0, 0) rotate(${rot}deg)`;
-    heading.style.transform = `translate3d(0, ${100 - p}%, 0) scale(${1 - 0.125 * p * 0.01})`;
-    dots.style.opacity = `${0.01 * p}`;
-    // Every dot fans out from the centre by one of its own widths per step.
-    const centre = (dc.length - 1) / 2;
-    dc.forEach((d, i) => {
-      d.style.transform = `translate3d(${-50 + (i - centre) * p}%, -50%, 0)`;
+  /* ------------------------------------------------------------------ */
+  /* 2. Purpose reel                                                     */
+  /* ------------------------------------------------------------------ */
+
+  private purposeReel(p: number): void {
+    const items = this.qa("#story-purpose .reel-item");
+    const track = this.q("#story-purpose .reel-track");
+    const strip = this.q("#story-purpose .reel-count-strip");
+    const n = items.length;
+    const pos = 0.01 * p * (n - 1);
+    const i0 = Math.min(Math.floor(pos), n - 1);
+    const i1 = Math.min(i0 + 1, n - 1);
+    const centres = this.measure("reel", () => items.map((el) => el.offsetTop + el.offsetHeight / 2));
+    // The active line sits on the registration line; neighbours fade with distance.
+    track.style.transform = `translate3d(0, ${-lerp(centres[i0], centres[i1], easeInOut(pos - i0))}px, 0)`;
+    items.forEach((el, i) => {
+      const d = Math.abs(pos - i);
+      el.style.opacity = `${Math.max(0.14, 1 - 0.86 * d)}`;
+      el.classList.toggle("is-active", d < 0.5);
     });
-  }
-
-  /** Point i (0–3) pops in; the i spacer dots before it turn gold. */
-  private connectPointIn(i: number, p: number): void {
-    const point = this.qa("#connect-section .dot-container:not(.empty) .point")[i];
-    const desc = this.qa("#connect-section .point-desc-container p")[i];
-    this.qa("#connect-section .dot-container.empty .dot").forEach((dot, j) => dot.classList.toggle("color-switch", j < i));
-    const a = 0.01 * p;
-    point.style.opacity = `${a}`;
-    point.style.transform = `scale(${a})`;
-    desc.style.opacity = `${a}`;
-    desc.style.transform = `translate3d(-50%, ${20 - 0.2 * p}px, 0)`;
-  }
-
-  private connectPointOut(i: number, p: number): void {
-    const desc = this.qa("#connect-section .point-desc-container p")[i];
-    desc.style.opacity = `${1 - 0.01 * p}`;
-    desc.style.transform = `translate3d(-50%, ${-0.2 * p}px, 0)`;
-  }
-
-  private connectSlideOut(p: number): void {
-    const section = this.q("#connect-section");
-    section.style.opacity = `${1 - 0.01 * p}`;
-    section.style.transform = `translate3d(0, ${-p}%, 0)`;
+    strip.style.transform = `translate3d(0, ${(-100 * pos) / n}%, 0)`;
   }
 
   /* ------------------------------------------------------------------ */
-  /* 3. Every move has a purpose (gold emblem)                            */
+  /* 3. Approach: three passes move into register                        */
   /* ------------------------------------------------------------------ */
 
-  private introFadeIn(p: number): void {
-    const intro = this.q("#trayang-features-intro");
-    intro.style.opacity = `${0.01 * p}`;
-    intro.style.setProperty("scale", `${0.8 + 0.002 * p}`);
-    intro.style.display = p > 5 ? "grid" : "none";
-  }
-
-  private emblemScaleFactor(emblem: HTMLElement): number {
-    return Math.max(document.body.clientHeight, document.body.clientWidth) / emblem.clientHeight;
-  }
-
-  /** The emblem zooms until it fills the screen and becomes the carousel backdrop. */
-  private emblemZoomIn(p: number): void {
-    const emblem = this.q("#trayang-features-intro img.thunder");
-    emblem.style.transform = `translate(-50%, -50%) scale(${1 + this.emblemScaleFactor(emblem) * p * 0.07})`;
-  }
-
-  private emblemZoomOut(p: number): void {
-    const emblem = this.q("#trayang-features-intro img.thunder");
-    emblem.style.transform = `translate(-50%, -50%) scale(${1 + this.emblemScaleFactor(emblem) * (100 - p) * 0.07})`;
-  }
-
-  /** Swap copy/background so the return trip reads differently (strings live in data-* attributes). */
-  private introSwapCopy(phase: Phase): void {
-    const intro = this.q("#trayang-features-intro");
-    const heading = this.q("#trayang-features-intro .heading:first-child");
-    const down = phase === "before" || (phase === "active" && this.goingDown);
-    intro.style.backgroundImage = `url(${down ? intro.dataset.bg1 : intro.dataset.bg2 ?? intro.dataset.bg1})`;
-    heading.innerHTML = (down ? intro.dataset.copyDown : intro.dataset.copyUp) ?? heading.innerHTML;
-  }
-
-  private introRingFill(p: number): void {
-    const ring = this.q("#trayang-features-intro .thunder-container");
-    const bottom = this.q("#trayang-features-intro .heading.bottom");
-    const deg = 3.6 * p;
-    ring.style.background = `conic-gradient(var(--gold) ${deg / 3}deg, var(--gold-light) ${deg / 2}deg, var(--gold) ${deg}deg, transparent ${deg}deg)`;
-    bottom.style.visibility = p === 100 ? "visible" : "hidden";
-    bottom.classList.toggle("text-zooming", p === 100);
-  }
-
-  private introFadeOut(p: number): void {
-    this.q("#trayang-features-intro").style.opacity = `${1 - 0.01 * p}`;
+  private approachRegister(p: number): void {
+    const sheet = this.q("#story-approach");
+    const discs = this.qa("#story-approach .disc");
+    const e = easeInOut(0.01 * p);
+    const d = 100 * lerp(DISC_APART, DISC_REGISTERED, e);
+    discs.forEach((disc, i) => {
+      const a = DISC_ANGLES[i];
+      disc.style.transform = `translate3d(${Math.cos(a) * d}%, ${Math.sin(a) * d}%, 0)`;
+    });
+    // --merge drives the labels, the centre mark and the result copy in CSS.
+    sheet.style.setProperty("--merge", `${clamp((e - 0.55) / 0.45)}`);
+    sheet.style.setProperty("--labels", `${1 - clamp(e / 0.6)}`);
   }
 
   /* ------------------------------------------------------------------ */
-  /* 4. Capabilities carousel                                             */
+  /* 4. Capabilities index                                               */
   /* ------------------------------------------------------------------ */
 
-  private carouselSlideIn(p: number): void {
-    const section = this.q("#trayang-features-carousel");
-    const heading = this.q("#trayang-features-carousel .heading");
-    const container = this.q("#trayang-features-carousel .carousel-container");
-    const progress = this.q("#trayang-features-carousel .progress-bar");
-    const bar = this.q("#trayang-features-carousel .progress-bar .bar");
-    const a = 0.01 * p;
-    heading.style.opacity = `${a}`;
-    heading.style.transform = `translate3d(0, ${-100 + p}%, 0)`;
-    container.style.transform = `translate3d(${100 - p}vw, 0, 0)`;
-    progress.style.opacity = `${a}`;
-    bar.style.transform = `translate3d(${(100 / 9) * p * 0.01 - 100}%, 0, 0)`;
-    section.style.display = p > 5 ? "grid" : "none";
-  }
+  private capabilityIndex(p: number): void {
+    const panels = this.qa("#story-capabilities .cap-panel");
+    const rows = this.qa("#story-capabilities .cap-list:not(.cap-list-ink) li");
+    const ink = this.q("#story-capabilities .cap-list-ink");
+    const ticks = this.qa("#story-capabilities .cap-ticks i");
+    const now = this.q("#story-capabilities .cap-now");
+    const buttons = this.qa("#story-capabilities .cap-list button");
+    const n = panels.length;
+    const pos = 0.01 * p * (n - 1);
+    const i0 = Math.min(Math.floor(pos), n - 1);
+    const f = pos - i0;
 
-  private cardOffset(index: number): number {
-    const container = this.q("#trayang-features-carousel .carousel-container");
-    const cards = this.qa("#trayang-features-carousel .card");
-    const gapTotal = container.scrollWidth - cards[0].clientWidth * cards.length;
-    return -(cards[0].clientWidth + gapTotal / (cards.length - 1)) * index;
-  }
+    // Hand-off: the outgoing panel lifts away before the incoming one prints, never both at once.
+    panels.forEach((panel, i) => {
+      let o = 0;
+      let y = 0;
+      if (i === i0) {
+        const k = clamp(f / 0.48);
+        o = 1 - k;
+        y = -24 * k;
+      } else if (i === i0 + 1) {
+        const k = clamp((f - 0.52) / 0.48);
+        o = k;
+        y = 24 * (1 - k);
+      }
+      panel.style.opacity = `${o}`;
+      panel.style.transform = `translate3d(0, ${y}px, 0)`;
+      panel.style.visibility = o > 0 ? "visible" : "hidden";
+    });
 
-  private carouselFocusCard(p: number, n: number): void {
-    const container = this.q("#trayang-features-carousel .carousel-container");
-    const cards = this.qa("#trayang-features-carousel .card");
-    const bar = this.q("#trayang-features-carousel .bar");
-    const from = this.cardOffset(n - 1);
-    const to = this.cardOffset(n);
-    const step = 100 / cards.length;
-    container.style.transform = `translate3d(${from + (to - from) * p * 0.01}px, 0, 0)`;
-    bar.style.transform = `translateX(${step * n + step * p * 0.01 - 100}%)`;
-  }
+    // The ink band is a second copy of the index, clipped to the active row as it travels.
+    if (ink.offsetParent) {
+      const [h, ...edges] = this.measure("capRows", () => [ink.offsetHeight, ...rows.flatMap((r) => [r.offsetTop, r.offsetHeight])]);
+      const i1 = Math.min(i0 + 1, n - 1);
+      const g = easeInOut(f);
+      const top = lerp(edges[2 * i0], edges[2 * i1], g);
+      const rowH = lerp(edges[2 * i0 + 1], edges[2 * i1 + 1], g);
+      ink.style.clipPath = `inset(${top}px 0 ${h - top - rowH}px 0 round 3px)`;
+    }
 
-  private carouselSlideOut(p: number): void {
-    const heading = this.q("#trayang-features-carousel .heading");
-    const container = this.q("#trayang-features-carousel .carousel-container");
-    const cards = this.qa("#trayang-features-carousel .card");
-    const progress = this.q("#trayang-features-carousel .progress-bar");
-    const fade = 1 - 0.01 * p;
-    const lastOffset = this.cardOffset(cards.length - 1);
-    const x = lastOffset - (container.offsetLeft + container.scrollWidth - lastOffset + 20) * p * 0.01;
-    heading.style.opacity = `${fade}`;
-    progress.style.opacity = `${fade}`;
-    container.style.transform = `translate3d(${x}px, 0, 0)`;
+    ticks.forEach((tick, i) => tick.style.setProperty("--fill", `${clamp(pos + 1 - i)}`));
+    const active = Math.round(pos);
+    const label = String(active + 1).padStart(2, "0");
+    if (now.textContent !== label) now.textContent = label;
+    buttons.forEach((b, i) => (i === active ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current")));
   }
 
   /* ------------------------------------------------------------------ */
-  /* 5. Every touchpoint connected                                        */
+  /* 5. Touchpoints                                                      */
   /* ------------------------------------------------------------------ */
 
-  private showcaseFadeIn(p: number): void {
-    const section = this.q("#trayang-showcase");
-    section.style.opacity = `${0.01 * p}`;
-    section.style.display = p > 5 ? "grid" : "none";
-  }
-
-  private showcaseTilesShift(p: number): void {
-    const tiles = this.qa("#trayang-showcase .number-tile-img");
-    tiles[0].style.transform = `translate3d(-50%, ${-50 - 7.5 * p * 0.01}%, 0) scale(0.85)`;
-    tiles[1].style.transform = `translate3d(-50%, ${-50 - 5 * p * 0.01}%, 0) scale(0.9)`;
-    tiles[2].style.transform = `translate3d(-50%, ${-50 - 2.5 * p * 0.01}%, 0) scale(0.95)`;
-  }
-
-  /**
-   * How far (in % of a tile) the tiles fan out, and at what point of the
-   * spread (0–1) every rotated tile has cleared the heading block on at least
-   * one axis. The spread is 125 as designed, or further when the heading is
-   * large relative to the tiles (phones), plus a margin so it clears early.
-   */
-  private tileSpread(): { spread: number; clearAt: number } {
-    const tile = this.qa("#trayang-showcase .number-tile-img")[0];
-    const intro = this.q("#trayang-showcase .intro-container");
-    const w = tile.offsetWidth, h = tile.offsetHeight;
-    const cos = Math.cos(Math.PI / 6), sin = Math.sin(Math.PI / 6);
-    const gap = 16;
-    const needX = (intro.offsetWidth / 2 + gap + (w * cos + h * sin) / 2 - w / 2) / w;
-    const needY = (intro.offsetHeight / 2 + gap + (w * sin + h * cos) / 2 - h / 2) / h;
-    const need = 50 + 100 * Math.min(needX, needY);
-    const spread = Math.max(125, need) + 15;
-    return { spread, clearAt: need / spread };
-  }
-
-  private showcaseTilesSpread(p: number): void {
-    const tiles = this.qa("#trayang-showcase .number-tile-img");
-    const intro = this.q("#trayang-showcase .intro-container");
+  private touchpointLine(p: number): void {
+    const fill = this.q("#story-touchpoints .circuit-fill");
+    const nodes = this.qa("#story-touchpoints .node");
     const e = 0.01 * p;
-    const rot = 30 * e;
-    const { spread: full, clearAt } = this.tileSpread();
-    const spread = full * e;
-    const pos = spread - 50;
-    const neg = -50 - spread;
-    tiles[0].style.transform = `translate3d(${pos}%, ${pos}%, 0) rotate(-${rot}deg) scale(${0.85 + 0.15 * e})`;
-    tiles[1].style.transform = `translate3d(${neg}%, ${neg}%, 0) rotate(-${rot}deg) scale(${0.9 + 0.1 * e})`;
-    tiles[2].style.transform = `translate3d(${pos}%, ${neg}%, 0) rotate(${rot}deg) scale(${0.95 + 0.05 * e})`;
-    tiles[3].style.transform = `translate3d(${neg}%, ${pos}%, 0) rotate(${rot}deg)`;
-    // The heading sits behind the tiles and only prints once they have cleared its box.
-    const fadeFrom = Math.max(0, clearAt - 0.2);
-    const fadeSpan = Math.max(clearAt - fadeFrom, 0.01);
-    intro.style.opacity = `${Math.min(1, Math.max(0, (e - fadeFrom) / fadeSpan))}`;
-    intro.style.transform = `translate3d(0, ${50 * e - 50}%, 0)`;
+    // CSS draws it across on phones and downwards on wide screens.
+    fill.style.setProperty("--draw", `${e}`);
+    nodes.forEach((node, i) => node.classList.toggle("is-lit", e > 0 && e >= i / (nodes.length - 1) - 0.02));
   }
 
-  private showcaseTilesFlyOut(p: number): void {
-    const tiles = this.qa("#trayang-showcase .number-tile-img");
-    const main = this.q("#trayang-showcase .main-container");
-    const intro = this.q("#trayang-showcase .intro-container");
-    const detail = this.q("#trayang-showcase .detail-container");
+  private touchpointStatement(p: number): void {
+    const intro = this.q("#story-touchpoints .touch-intro");
+    const statement = this.q("#story-touchpoints .touch-statement");
+    const words = this.qa("#story-touchpoints .touch-statement .w");
     const e = 0.01 * p;
-    const rot = 30 * e;
-    const t0 = tiles[0];
-    const xPct = 100 * (main.offsetLeft / t0.offsetWidth + t0.offsetLeft / t0.offsetWidth);
-    const yPct = 100 * (main.offsetTop / t0.offsetHeight + t0.offsetTop / t0.offsetHeight);
-    // Start from the fanned-out positions and fly each tile past its nearest screen edge.
-    const { spread } = this.tileSpread();
-    const pos = spread - 50, neg = -50 - spread;
-    const s = spread * e;
-    const outX = (xPct + 2 - pos) * e, outY = (yPct + 2 - pos) * e;
-    tiles[0].style.transform = `translate3d(${pos + outX}%, ${pos - s}%, 0) rotate(${rot - 30}deg)`;
-    tiles[1].style.transform = `translate3d(${neg - outX}%, ${neg + s}%, 0) rotate(${rot - 30}deg)`;
-    tiles[2].style.transform = `translate3d(${pos - s}%, ${neg - outY}%, 0) rotate(${30 - rot}deg)`;
-    tiles[3].style.transform = `translate3d(${neg + s}%, ${pos + outY}%, 0) rotate(${30 - rot}deg)`;
-    intro.style.opacity = `${1 - e}`;
-    detail.style.opacity = `${e}`;
-  }
-
-  private showcaseHighlight(p: number): void {
-    const spans = this.qa("#trayang-showcase .detail-container span");
-    const first = p < 50;
-    spans[0].classList.toggle("highlight", first);
-    spans[1].classList.toggle("highlight", !first);
-  }
-
-  private showcaseFadeOut(p: number): void {
-    this.q("#trayang-showcase").style.opacity = `${1 - 0.01 * p}`;
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* 6. Questions + footer                                               */
-  /* ------------------------------------------------------------------ */
-
-  private questionsFadeIn(p: number): void {
-    const section = this.q("#trayang-questions");
-    section.style.opacity = `${0.01 * p}`;
-    section.style.display = p > 5 ? "grid" : "none";
-  }
-
-  private questionsLift(p: number): void {
-    const footer = this.q(".trayang-footer");
-    this.q("#trayang-questions").style.transform = `translate3d(0, ${(1 - footer.scrollHeight) * p * 0.01}px, 0)`;
-  }
-
-  private footerSlideUp(p: number): void {
-    this.q(".trayang-footer").style.transform = `translate3d(0, ${-p}%, 0)`;
+    const k = clamp(e / 0.3);
+    intro.style.opacity = `${1 - k}`;
+    intro.style.transform = `translate3d(0, ${-24 * k}px, 0)`;
+    intro.style.visibility = k < 1 ? "visible" : "hidden";
+    statement.style.opacity = `${k}`;
+    // Words take the ink one after another across the rest of the screen.
+    const lit = clamp((e - 0.2) / 0.75) * words.length;
+    words.forEach((w, j) => (w.style.opacity = `${0.16 + 0.84 * clamp(lit - j)}`));
   }
 }

@@ -2,14 +2,15 @@ import { hero, images, pillars, primaryCta } from "@/data/site";
 import Glyph from "../Glyph";
 import { InkLink, Pass, PrintPlate, RegCorners, Rule } from "../Print";
 
-/** Stage 1: hero. Blurs away and its passes drift out of register as the user starts scrolling. */
-export default function Landing() {
+/** Chapter 1, the first sheet on the press. The purpose sheet slides over it and its passes drift out of register. */
+export default function Hero() {
   return (
-    <section id="trayang-landing" className="landing-section stock-cream">
+    <section id="story-hero" className="story-sheet landing-section stock-cream" aria-labelledby="hero-title">
+      <span className="sheet-shade" aria-hidden="true" />
       <RegCorners />
       <div className="main-container">
         <div className="landing-copy">
-          <Pass as="h1" className="heading display pass-full">
+          <Pass as="h1" id="hero-title" className="heading display pass-full">
             {hero.lines.map((line) => (
               <span key={line.text} className={`line${line.ink === "gold" ? " ink-gold" : ""}`}>
                 {line.text}{" "}
@@ -19,10 +20,7 @@ export default function Landing() {
           <Rule />
           <p className="landing-body">{hero.body}</p>
           <div className="landing-actions">
-            {/* .download-tile is addressed by the scroll engine to disable it once the hero blurs. */}
-            <InkLink href={primaryCta.href} className="download-tile">
-              {primaryCta.label}
-            </InkLink>
+            <InkLink href={primaryCta.href}>{primaryCta.label}</InkLink>
             <InkLink href={hero.secondary.href} variant="outline">
               {hero.secondary.label}
             </InkLink>

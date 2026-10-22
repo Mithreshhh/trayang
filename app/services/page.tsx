@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { carousel, images, primaryCta, services } from "@/data/site";
+import { capabilities, images, primaryCta, services } from "@/data/site";
 import SitePage, { CtaBand, PageHero, ProofSlots } from "@/components/SitePage";
 import Glyph from "@/components/Glyph";
 import { Pass } from "@/components/Print";
@@ -52,7 +52,7 @@ export default function ServicesPage() {
               </h3>
               <ul>
                 {group.titles.map((title) => {
-                  const c = carousel.cards.find((card) => card.title === title);
+                  const c = capabilities.cards.find((card) => card.title === title);
                   if (!c) return null;
                   return (
                     <li key={c.title}>

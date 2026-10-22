@@ -8,7 +8,7 @@ type Item = { id: string; topic: string; q: string; a: string };
  * Ruled question index. Answers open with a grid-row transition (interruptible);
  * a link to /faq/#id opens and scrolls to that answer.
  */
-export default function FaqList({ items }: { items: Item[] }) {
+export default function FaqList({ items, level: Q = "h2" }: { items: Item[]; level?: "h2" | "h3" }) {
   const [open, setOpen] = useState<string | null>(items[0]?.id ?? null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function FaqList({ items }: { items: Item[] }) {
         return (
           <li key={item.id} id={item.id} className={`faq-item${isOpen ? " is-open" : ""}`}>
             <p className="label faq-topic">{item.topic}</p>
-            <h2 className="faq-q">
+            <Q className="faq-q">
               <button
                 type="button"
                 aria-expanded={isOpen}
@@ -41,7 +41,7 @@ export default function FaqList({ items }: { items: Item[] }) {
                   <path className="faq-plus" d="M12 5v14" />
                 </svg>
               </button>
-            </h2>
+            </Q>
             <div className="faq-a" id={`${item.id}-answer`} role="region" aria-label={item.q} inert={!isOpen}>
               <div>
                 <p>{item.a}</p>
