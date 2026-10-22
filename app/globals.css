@@ -88,12 +88,11 @@ ul, ol { list-style: none; }
   user-select: none; pointer-events: none;
   color: var(--ink-b); mix-blend-mode: var(--pass-blend); opacity: 0.6;
   transform: translate(var(--rx), var(--ry));
-  translate: calc(var(--drift, 0) * var(--dx)) calc(var(--drift, 0) * var(--dy));
   animation: register 1s var(--ease-out) 0.15s both;
 }
 .pass-ghost * { color: inherit !important; }
-.pass-ghost-1 { --rx: 0.018em; --ry: -0.014em; --fx: 0.24em; --fy: -0.16em; --dx: 0.9em; --dy: -0.3em; }
-.pass-ghost-2 { display: none; --rx: -0.035em; --ry: 0.04em; --fx: -0.28em; --fy: 0.32em; --dx: -0.7em; --dy: 0.45em; color: var(--ink-c); opacity: 0.75; animation-delay: 0.26s; }
+.pass-ghost-1 { --rx: 0.018em; --ry: -0.014em; --fx: 0.24em; --fy: -0.16em; }
+.pass-ghost-2 { display: none; --rx: -0.035em; --ry: 0.04em; --fx: -0.28em; --fy: 0.32em; color: var(--ink-c); opacity: 0.75; animation-delay: 0.26s; }
 /* The hero and the closing footer carry the full print: two passes sliding into register. */
 .pass-full .pass-ghost-1 { --rx: 0.045em; --ry: -0.03em; --fx: 0.36em; --fy: -0.24em; }
 .pass-full .pass-ghost-2 { display: block; }
@@ -275,7 +274,7 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
 }
 /* Every sheet after the first waits below the stage, casting its edge onto the one it covers. */
 .story-sheet + .story-sheet { visibility: hidden; transform: translate3d(0, 100%, 0); box-shadow: 0 -28px 60px -20px rgba(11, 16, 18, 0.6); }
-.sheet-shade { position: absolute; inset: 0; z-index: 5; background: var(--dark); opacity: 0; pointer-events: none; }
+.sheet-shade { position: absolute; inset: 0; z-index: 5; background: var(--dark); opacity: 0; pointer-events: none; will-change: opacity; }
 .sheet-inner {
   position: relative; z-index: 1; width: 100%; height: 100%; max-width: var(--max); margin-inline: auto;
   padding: clamp(1.5rem, 5dvh, 3.5rem) var(--gutter);
@@ -396,7 +395,7 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
 .reel-line .reg-mark { position: static; }
 .reel-track { position: absolute; top: 50%; left: 0; right: 0; display: grid; gap: clamp(1.75rem, 5dvh, 3rem); padding-left: 2.75rem; will-change: transform; }
 .reel-item {
-  display: flex; align-items: center; gap: 0.9rem; opacity: 0.14;
+  display: flex; align-items: center; gap: 0.9rem; opacity: 0.14; will-change: opacity;
   font-weight: 600; font-size: clamp(1.4rem, 2.6vw, 2.45rem); line-height: 1.15; font-variation-settings: "wdth" 92; text-wrap: balance;
   transition: color 200ms ease;
 }
@@ -414,12 +413,11 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
 }
 
 /* ---------- 3. approach: passes into register ---------- */
-.approach-sheet { --merge: 0; --labels: 1; }
 .approach-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
 .approach-copy { display: grid; gap: clamp(1rem, 2.4dvh, 1.5rem); }
 .approach-swap { display: grid; gap: clamp(1.5rem, 4dvh, 2.5rem); }
 .approach-title { font-size: clamp(2.25rem, 4.3vw, 4.25rem); max-width: 14ch; }
-.approach-result { display: grid; gap: 1rem; justify-items: start; opacity: var(--merge); transform: translate3d(0, calc((1 - var(--merge)) * 16px), 0); }
+.approach-result { display: grid; gap: 1rem; justify-items: start; opacity: 0; transform: translate3d(0, 16px, 0); will-change: opacity, transform; }
 .approach-growth { font-size: clamp(1.9rem, 3.2vw, 3rem); }
 .approach-caption { max-width: 40ch; color: var(--muted); font-size: clamp(1rem, 1.3vw, 1.15rem); line-height: 1.55; }
 .discs { --D: min(15rem, 22vw, 30dvh); position: relative; justify-self: center; width: calc(var(--D) * 2.3); height: calc(var(--D) * 2.15); }
@@ -433,18 +431,18 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
 .disc-2 { background: var(--gold); transform: translate3d(62.35%, -36%, 0); }
 .disc-3 { background: var(--gold-light); transform: translate3d(0, 72%, 0); }
 .disc-label {
-  opacity: var(--labels); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; font-variation-settings: "wdth" 80;
+  will-change: opacity; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; font-variation-settings: "wdth" 80;
   color: var(--brown);
 }
 .disc-1 .disc-label { color: var(--cream); }
 .disc-centre {
   position: absolute; left: 50%; top: calc(50% - var(--D) * 0.18); width: 2rem; height: 2rem; color: var(--cream);
-  opacity: var(--merge); transform: translate(-50%, -50%) scale(calc(0.6 + 0.4 * var(--merge))) rotate(calc(var(--merge) * 90deg));
+  opacity: 0; transform: translate(-50%, -50%) scale(0.6); will-change: opacity, transform;
 }
 @media (max-width: 899px) {
   .approach-layout { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 1rem; align-items: stretch; }
   .approach-swap > * { grid-area: 1 / 1; }
-  .approach-title { font-size: clamp(2rem, 8vw, 3.25rem); opacity: calc(1 - var(--merge)); }
+  .approach-title { font-size: clamp(2rem, 8vw, 3.25rem); opacity: calc(1 - var(--merge, 0)); }
   .approach-growth { font-size: clamp(2rem, 8vw, 3rem); }
   .discs { --D: min(36vw, 22dvh, 12rem); align-self: center; }
 }
@@ -468,11 +466,11 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
 }
 .cap-num { flex: none; font-weight: 700; font-size: 0.75em; letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
 /* The travelling highlight: the same index in cream on a brown band, clipped to one row by the engine. */
-.cap-list-ink {
-  position: absolute; inset: 0; pointer-events: none; border-top-color: transparent;
-  background-color: var(--brown); background-image: var(--fibre-light);
-  clip-path: inset(0 0 100% 0 round 3px); will-change: clip-path;
+.cap-band {
+  position: absolute; top: 0; left: 0; right: 0; height: 0; overflow: hidden; pointer-events: none; border-radius: 3px;
+  background-color: var(--brown); background-image: var(--fibre-light); will-change: transform;
 }
+.cap-list-ink { position: absolute; top: 0; left: 0; right: 0; border-top-color: transparent; will-change: transform; }
 .cap-list-ink li { border-bottom-color: transparent; }
 .cap-list-ink .cap-row { color: var(--cream); }
 .cap-list-ink .cap-num { color: var(--gold); }
@@ -522,7 +520,7 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
 .touch-title { font-size: clamp(2.5rem, 5.6vw, 5.25rem); max-width: 13ch; }
 .touch-desc { max-width: 40ch; color: var(--muted); font-size: clamp(1.05rem, 1.5vw, 1.3rem); }
 .touch-statement {
-  align-self: center; max-width: 32ch; opacity: 0;
+  align-self: center; max-width: 32ch; opacity: 0; will-change: opacity;
   font-weight: 600; font-size: clamp(1.4rem, 3vw, 2.75rem); line-height: 1.22; font-variation-settings: "wdth" 90; color: var(--cream);
 }
 .touch-statement .w { opacity: 0.16; }
@@ -535,9 +533,9 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
   background-color: var(--brown); box-shadow: inset 0 0 0 1.5px var(--line);
   transition: box-shadow 320ms var(--ease-out);
 }
-.node-ring .glyph { width: 62%; opacity: 0.25; filter: grayscale(1); transform: scale(0.9); transition: opacity 320ms ease, filter 320ms ease, transform 320ms var(--ease-out); }
+.node-ring .glyph { width: 62%; opacity: 0.22; transform: scale(0.9); transition: opacity 320ms ease, transform 320ms var(--ease-out); }
 .node.is-lit .node-ring { box-shadow: inset 0 0 0 2px var(--gold), 0 0 0 6px rgba(216, 155, 82, 0.14); }
-.node.is-lit .glyph { opacity: 1; filter: none; transform: none; }
+.node.is-lit .glyph { opacity: 1; transform: none; }
 .node-label { max-width: 12ch; font-weight: 700; font-size: 0.72rem; line-height: 1.3; letter-spacing: 0.16em; text-transform: uppercase; font-variation-settings: "wdth" 80; color: var(--muted); transition: color 320ms ease; }
 .node.is-lit .node-label { color: var(--gold-light); }
 .circuit-rail { --ring: clamp(3.5rem, 7vw, 6rem); position: absolute; left: 12.5%; right: 12.5%; top: calc(var(--ring) / 2 - 1px); height: 2px; background: var(--line); }

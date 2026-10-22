@@ -7,8 +7,8 @@ const pad = (n: number) => String(n).padStart(2, "0");
 /**
  * Chapter 4 on gold. An index of the ten capabilities beside a detail panel,
  * one screen of scroll per entry. The index is drawn twice: the second copy
- * (brown band, cream type) is clipped to the active row so the highlight
- * travels with the scroll. Index rows jump straight to their entry.
+ * (cream type) sits inside a brown band that travels to the active row, so
+ * the highlight moves with the scroll. Index rows jump straight to their entry.
  */
 export default function Capabilities() {
   const total = capabilities.cards.length;
@@ -37,13 +37,15 @@ export default function Capabilities() {
               </li>
             ))}
           </ol>
-          <ol className="cap-list cap-list-ink" aria-hidden="true">
-            {capabilities.cards.map((card, i) => (
-              <li key={card.title}>
-                <CapRow n={i + 1} title={card.title} />
-              </li>
-            ))}
-          </ol>
+          <div className="cap-band" aria-hidden="true">
+            <ol className="cap-list cap-list-ink">
+              {capabilities.cards.map((card, i) => (
+                <li key={card.title}>
+                  <CapRow n={i + 1} title={card.title} />
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
 
         <div className="cap-meter" aria-hidden="true">

@@ -208,7 +208,7 @@ Composition is asymmetric two-column: hero copy and plate at about 1.5 : 1, CTA 
 
 The navbar is 4rem tall (4.5rem from 1024px), with desktop links from 1024px and a full-height brown sheet menu with stencil links below it.
 
-The home page is a scroll-jacked story: chapters are full-viewport sheets of stock stacked in a pinned stage, and each new sheet slides up over the last (which sinks back under a dark shade while its passes drift out of register), one screen of scroll per step, timed by lib/scrollStory.ts. The chapter components are a purpose reel (lines rolling past a registration mark beside an odometer counter), three ink discs moving into register, a services index whose highlight is a second copy of the list clipped to the active row beside one cream sheet whose entry reprints, and a touchpoint line that draws through four nodes before the statement takes the ink word by word. Sheet layouts fit within 100dvh and drop secondary copy on short mobile viewports rather than overflow. The questions and footer follow as ordinary scrolling sheets; a chapter rail sits at the right edge from 1400px.
+The home page is a scroll-jacked story: chapters are full-viewport sheets of stock stacked in a pinned stage, and each new sheet slides up over the last (which sinks back under a dark shade), one screen of scroll per step, timed by lib/scrollStory.ts. The chapter components are a purpose reel (lines rolling past a registration mark beside an odometer counter), three ink discs moving into register, a services index whose highlight is a second copy of the list clipped to the active row beside one cream sheet whose entry reprints, and a touchpoint line that draws through four nodes before the statement takes the ink word by word. Sheet layouts fit within 100dvh and drop secondary copy on short mobile viewports rather than overflow. The questions and footer follow as ordinary scrolling sheets; a chapter rail sits at the right edge from 1400px.
 
 ### Named Rules
 **The Sheet Edge Rule.** Every band, however wide its colour, aligns its content to the 80rem sheet and gutter.
@@ -266,7 +266,7 @@ Printed ink blocks, flanked by diamond marks, with a pale-gold pass waiting just
 - **Mobile:** Below 1024px a two-bar toggle opens a full brown sheet with stencil links at clamp(2.75rem, 13vw, 4rem), staggered in at 45ms each, plus the CTA and sign-off.
 
 ### Pass Heading (signature)
-A heading printed three times: the key pass on top, ghost pass one in gold (or the stock's ink-b) at 60% in the stock's blend, and on the full print ghost pass two in pale gold at 75%. Ghosts start well off register and slide in over 1s on ease-out cubic-bezier(0.23, 1, 0.32, 1), the second 0.11s after the first; below the fold they wait until revealed. In the story the passes drift back out as a stage leaves.
+A heading printed three times: the key pass on top, ghost pass one in gold (or the stock's ink-b) at 60% in the stock's blend, and on the full print ghost pass two in pale gold at 75%. Ghosts start well off register and slide in over 1s on ease-out cubic-bezier(0.23, 1, 0.32, 1), the second 0.11s after the first; below the fold they wait until revealed.
 
 ### Print Plate
 A photograph printed as a duotone: greyscale key multiplied over gold, screened with brown, with a pale-gold pass masked by the photo's own highlights laid 14px right and 10px up, past the plate edge. It registers in from further out on load.

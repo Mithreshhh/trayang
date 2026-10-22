@@ -4,7 +4,7 @@ import { Diamond, Pass, RegCorners, Rule } from "../Print";
 /**
  * Chapter 3 on cream. Three translucent ink discs, one per pass, start apart
  * and move into register as you scroll; where all three overlap the result
- * prints. The engine moves .disc and sets --merge / --labels on the section.
+ * prints. The engine moves .disc and fades the labels, centre mark and result.
  */
 export default function Approach() {
   return (

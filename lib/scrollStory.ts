@@ -9,9 +9,9 @@
  * t are the snap points, so each one is designed to be a finished state.
  *
  * The chapters are sheets of stock stacked in the stage. Each new sheet slides
- * up over the last one, which sinks back and its ink passes drift out of
- * register. Once the last sheet has played out the track ends, the stage
- * scrolls away and the questions and footer follow as ordinary content.
+ * up over the last one, which sinks back under a shade. Once the last sheet
+ * has played out the track ends, the stage scrolls away and the questions and
+ * footer follow as ordinary content.
  *
  * Each stage is called with a phase:
  *   "active" – t is inside [start, end): called every frame with the live percentage
@@ -247,20 +247,22 @@ export class ScrollStory {
   /* Sheets                                                              */
   /* ------------------------------------------------------------------ */
 
-  /** Sheet i slides up over sheet i − 1, which sinks back under a shade while its passes drift. */
+  /**
+   * Sheet i slides up over sheet i − 1, which sinks back under a shade. Every
+   * write here is a transform or an opacity on its own layer, so a sheet change
+   * never repaints a sheet: the compositor only moves and fades them.
+   */
   private sheetIn(i: number, p: number, phase: Phase): void {
     const sheets = this.qa(".story-sheet");
     const cur = sheets[i];
     const prev = sheets[i - 1];
     const shade = this.qa(".story-sheet > .sheet-shade")[i - 1];
-    const passes = this.qa(`.story-sheet:nth-child(${i}) .pass`);
     const e = 0.01 * p;
 
     cur.style.visibility = p > 0 ? "visible" : "hidden";
     // A covered sheet stops painting; it comes back the moment the one above starts to lift.
     prev.style.visibility = phase === "after" ? "hidden" : "visible";
     shade.style.opacity = `${0.55 * e}`;
-    for (const pass of passes) pass.style.setProperty("--drift", `${e}`);
 
     if (this.reduced) {
       cur.style.opacity = `${e}`;
@@ -298,17 +300,28 @@ export class ScrollStory {
   /* ------------------------------------------------------------------ */
 
   private approachRegister(p: number): void {
-    const sheet = this.q("#story-approach");
     const discs = this.qa("#story-approach .disc");
+    const labels = this.qa("#story-approach .disc-label");
+    const centre = this.q("#story-approach .disc-centre");
+    const result = this.q("#story-approach .approach-result");
+    const title = this.q("#story-approach .approach-title");
     const e = easeInOut(0.01 * p);
     const d = 100 * lerp(DISC_APART, DISC_REGISTERED, e);
     discs.forEach((disc, i) => {
       const a = DISC_ANGLES[i];
       disc.style.transform = `translate3d(${Math.cos(a) * d}%, ${Math.sin(a) * d}%, 0)`;
     });
-    // --merge drives the labels, the centre mark and the result copy in CSS.
-    sheet.style.setProperty("--merge", `${clamp((e - 0.55) / 0.45)}`);
-    sheet.style.setProperty("--labels", `${1 - clamp(e / 0.6)}`);
+    // Styles go straight onto the few elements that change; a custom property
+    // on the section would restyle every element inside it on every frame.
+    const merge = clamp((e - 0.55) / 0.45);
+    const fade = `${1 - clamp(e / 0.6)}`;
+    for (const label of labels) label.style.opacity = fade;
+    centre.style.opacity = `${merge}`;
+    centre.style.transform = `translate(-50%, -50%) scale(${0.6 + 0.4 * merge}) rotate(${90 * merge}deg)`;
+    result.style.opacity = `${merge}`;
+    result.style.transform = `translate3d(0, ${16 * (1 - merge)}px, 0)`;
+    // Phones swap the heading for the result in one place (see the CSS); wide screens ignore this.
+    title.style.setProperty("--merge", `${merge}`);
   }
 
   /* ------------------------------------------------------------------ */
@@ -318,6 +331,7 @@ export class ScrollStory {
   private capabilityIndex(p: number): void {
     const panels = this.qa("#story-capabilities .cap-panel");
     const rows = this.qa("#story-capabilities .cap-list:not(.cap-list-ink) li");
+    const band = this.q("#story-capabilities .cap-band");
     const ink = this.q("#story-capabilities .cap-list-ink");
     const ticks = this.qa("#story-capabilities .cap-ticks i");
     const now = this.q("#story-capabilities .cap-now");
@@ -345,14 +359,18 @@ export class ScrollStory {
       panel.style.visibility = o > 0 ? "visible" : "hidden";
     });
 
-    // The ink band is a second copy of the index, clipped to the active row as it travels.
-    if (ink.offsetParent) {
-      const [h, ...edges] = this.measure("capRows", () => [ink.offsetHeight, ...rows.flatMap((r) => [r.offsetTop, r.offsetHeight])]);
+    // The ink band is a window onto a second copy of the index: the band slides
+    // down while the copy inside slides up by the same amount, so the cream rows
+    // stay lined up with the brown ones underneath. Both moves are transforms.
+    if (band.offsetParent) {
+      const edges = this.measure("capRows", () => rows.flatMap((r) => [r.offsetTop, r.offsetHeight]));
       const i1 = Math.min(i0 + 1, n - 1);
       const g = easeInOut(f);
       const top = lerp(edges[2 * i0], edges[2 * i1], g);
-      const rowH = lerp(edges[2 * i0 + 1], edges[2 * i1 + 1], g);
-      ink.style.clipPath = `inset(${top}px 0 ${h - top - rowH}px 0 round 3px)`;
+      const height = `${Math.round(lerp(edges[2 * i0 + 1], edges[2 * i1 + 1], g))}px`;
+      if (band.style.height !== height) band.style.height = height;
+      band.style.transform = `translate3d(0, ${top}px, 0)`;
+      ink.style.transform = `translate3d(0, ${-top}px, 0)`;
     }
 
     ticks.forEach((tick, i) => tick.style.setProperty("--fill", `${clamp(pos + 1 - i)}`));
@@ -385,8 +403,10 @@ export class ScrollStory {
     intro.style.transform = `translate3d(0, ${-24 * k}px, 0)`;
     intro.style.visibility = k < 1 ? "visible" : "hidden";
     statement.style.opacity = `${k}`;
-    // Words take the ink one after another across the rest of the screen.
+    // Words take the ink one after another across the rest of the screen. They
+    // stop at 0.99: an inline element crossing opacity 1 gains or loses its paint
+    // layer, which forces a layout on every frame.
     const lit = clamp((e - 0.2) / 0.75) * words.length;
-    words.forEach((w, j) => (w.style.opacity = `${0.16 + 0.84 * clamp(lit - j)}`));
+    words.forEach((w, j) => (w.style.opacity = `${0.16 + 0.83 * clamp(lit - j)}`));
   }
 }
