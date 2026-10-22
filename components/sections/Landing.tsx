@@ -1,45 +1,55 @@
-import { brand, hero, images } from "@/data/site";
+import { hero, images, pillars, primaryCta } from "@/data/site";
+import Glyph from "../Glyph";
+import { InkLink, Pass, PrintPlate, RegCorners, Rule } from "../Print";
 
-interface Props {
-  onCtaClick: () => void;
-}
-
-/** Stage 1: hero. Blurs and shrinks away as the user starts scrolling. */
-export default function Landing({ onCtaClick }: Props) {
+/** Stage 1: hero. Blurs away and its passes drift out of register as the user starts scrolling. */
+export default function Landing() {
   return (
-    <section id="trayang-landing" className="landing-section">
+    <section id="trayang-landing" className="landing-section stock-cream">
+      <RegCorners />
       <div className="main-container">
-        <h1 className="heading text-zooming">
-          {hero.heading.before}
-          <span>{hero.heading.highlight}</span>
-          {hero.heading.after}
-        </h1>
-
-        <div className="points-container" aria-label="Why Trayang">
-          <ul className="points-list scroll-up">
-            {hero.points.map((point, i) => (
-              <li className="point" key={`${point}-${i}`}>
-                {point}
-              </li>
+        <div className="landing-copy">
+          <Pass as="h1" className="heading display pass-full">
+            {hero.lines.map((line) => (
+              <span key={line.text} className={`line${line.ink === "gold" ? " ink-gold" : ""}`}>
+                {line.text}{" "}
+              </span>
             ))}
-          </ul>
+          </Pass>
+          <Rule />
+          <p className="landing-body">{hero.body}</p>
+          <div className="landing-actions">
+            {/* .download-tile is addressed by the scroll engine to disable it once the hero blurs. */}
+            <InkLink href={primaryCta.href} className="download-tile">
+              {primaryCta.label}
+            </InkLink>
+            <InkLink href={hero.secondary.href} variant="outline">
+              {hero.secondary.label}
+            </InkLink>
+          </div>
         </div>
 
-        {/* Class kept from the layout reference; this is the gold call-to-action pill. */}
-        <button
-          type="button"
-          className="download-tile text-zooming"
-          onClick={onCtaClick}
-        >
-          <p>{hero.cta}</p>
-          <div className="link-container">
-            <img alt="" src={images.ctaIcon} />
-          </div>
-        </button>
+        <figure className="landing-print">
+          <PrintPlate src={images.studio} alt="The Trayang team laying out a brand moodboard" />
+          <figcaption className="pass-legend">
+            {hero.passes.map((pass, i) => (
+              <span key={pass} className={`pass-chip pass-chip-${i + 1}`}>
+                <i aria-hidden="true" />
+                {pass}
+              </span>
+            ))}
+          </figcaption>
+        </figure>
       </div>
 
-      <div className="hero-image" style={{ backgroundImage: `url('${images.heroShowcase}')` }} role="img" aria-label={`${brand.name} showcase`} />
-      <img alt="" src={images.bgGradient} className="bg-gradient" />
+      <ul className="pillar-band" aria-label="What we do">
+        {pillars.map((pillar) => (
+          <li key={pillar.label}>
+            <Glyph name={pillar.glyph} />
+            <span>{pillar.label}</span>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

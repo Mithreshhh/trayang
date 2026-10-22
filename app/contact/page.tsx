@@ -1,12 +1,39 @@
 import type { Metadata } from "next";
-import SitePage from "@/components/SitePage";
-import { contact } from "@/data/site";
+import { contact, contactPage } from "@/data/site";
+import SitePage, { CtaBand, PageHero } from "@/components/SitePage";
+import EnquiryForm from "@/components/EnquiryForm";
+import { RegCorners } from "@/components/Print";
 
-export const metadata: Metadata = { title: "Contact | Trayang" };
+export const metadata: Metadata = { title: "Contact", description: contactPage.intro };
 
 export default function ContactPage() {
-  return <SitePage eyebrow="Contact" title="Let’s find the next growth move." intro={`Write to ${contact.email} with a little context and we will reply within one working day.`} blocks={[
-    { eyebrow: "Helpful details", title: "What to include", body: "Tell us your business goal, audience, current challenge, desired timing and approximate budget. A link to your existing brand or website is useful too." },
-    { eyebrow: "What happens next", title: "A focused first conversation", body: "We will respond with any useful questions and, if there is a strong fit, arrange a short call to clarify scope, priorities and the most useful starting point." },
-  ]} />;
+  return (
+    <SitePage className="page-contact">
+      <PageHero title={contactPage.title} intro={contactPage.intro} />
+
+      <section className="contact-grid sheet">
+        <div className="enquiry-sheet">
+          <RegCorners />
+          <EnquiryForm />
+        </div>
+
+        <aside className="contact-aside">
+          {contactPage.details.map((d) => (
+            <div key={d.title} className="contact-note">
+              <h2 className="display">{d.title}</h2>
+              <p>{d.body}</p>
+            </div>
+          ))}
+          <p className="contact-note contact-prefer">
+            Prefer email? Write to{" "}
+            <a className="contact-mail" href={`mailto:${contact.email}`}>
+              {contact.email}
+            </a>
+          </p>
+        </aside>
+      </section>
+
+      <CtaBand title={contactPage.cta.title} body={contactPage.cta.body} href={`mailto:${contact.email}`} button={contactPage.cta.button} />
+    </SitePage>
+  );
 }

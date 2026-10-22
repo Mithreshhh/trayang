@@ -1,24 +1,26 @@
 import { connect, images } from "@/data/site";
+import { PointIcon } from "../Glyph";
+import { Pass } from "../Print";
 
 /**
- * Stage 2: "Crafted beyond Expectations". Two visuals slide in from the sides,
- * then four promise points pop in one at a time along a dotted line.
- * The engine addresses the 7 .dot-container children (4 points + 3 spacers)
- * by index, so keep the order.
+ * Stage 2: "Creative with a commercial purpose". Two printed plates slide in
+ * from the sides, then the purpose points register one at a time along the
+ * dotted line. The engine addresses the .dot-container children (points with
+ * spacers between them) by index, so keep the order.
  */
 export default function Connect() {
   return (
-    <section id="connect-section" className="connect-section">
-      <img alt="" src={images.showcaseLeft} loading="lazy" className="left-img" />
-      <img alt="" src={images.showcaseRight} loading="lazy" className="right-img" />
+    <section id="connect-section" className="connect-section stock-brown">
+      <img alt="" src={images.studio} className="left-img" />
+      <img alt="" src={images.growth} className="right-img" />
       <div className="main-container">
-        <h1 className="heading">
+        <Pass as="h2" className="heading display">
           {connect.heading.before}
-          <span>{connect.heading.highlight}</span>
+          <span className="ink-gold">{connect.heading.highlight}</span>
           {connect.heading.after}
-        </h1>
+        </Pass>
 
-        <div className="point-dots-container">
+        <div className="point-dots-container" aria-hidden="true">
           {connect.points.map((point, i) => (
             <PointDot key={point.id} id={point.id} icon={point.icon} withSpacer={i < connect.points.length - 1} />
           ))}
@@ -42,7 +44,7 @@ function PointDot({ id, icon, withSpacer }: { id: string; icon: string; withSpac
       <div className="dot-container" id={`${id}-dot-container`}>
         <div className="dot" />
         <div className="point">
-          <img alt="" src={icon} loading="lazy" />
+          <PointIcon name={icon} />
         </div>
       </div>
       {withSpacer && (

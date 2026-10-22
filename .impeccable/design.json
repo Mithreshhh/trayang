@@ -1,0 +1,468 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-22T18:04:44.684Z",
+  "title": "Design System: Trayang",
+  "extensions": {
+    "colorMeta": {
+      "brown": {
+        "role": "primary",
+        "displayName": "Kraft Brown",
+        "canonical": "oklch(27.8% 0.047 49)",
+        "tonalRamp": [
+          "#1a0400",
+          "#361d0e",
+          "#543829",
+          "#745646",
+          "#957564",
+          "#b89685",
+          "#dfbca9",
+          "#ffe6d3"
+        ]
+      },
+      "gold": {
+        "role": "secondary",
+        "displayName": "Press Gold",
+        "canonical": "oklch(73.4% 0.116 69)",
+        "tonalRamp": [
+          "#200000",
+          "#411600",
+          "#643100",
+          "#864f00",
+          "#a96f20",
+          "#cd9047",
+          "#f4b76f",
+          "#ffe3a6"
+        ]
+      },
+      "gold-light": {
+        "role": "secondary",
+        "displayName": "Pale Gold Pass",
+        "canonical": "oklch(83.9% 0.104 77)",
+        "tonalRamp": [
+          "#1d0200",
+          "#3d1a00",
+          "#5d3600",
+          "#7d5500",
+          "#9f752a",
+          "#c2964e",
+          "#eabc74",
+          "#ffe7a3"
+        ]
+      },
+      "gold-ink": {
+        "role": "tertiary",
+        "displayName": "Gold Ink",
+        "canonical": "oklch(55.2% 0.103 66)",
+        "tonalRamp": [
+          "#200000",
+          "#411500",
+          "#623200",
+          "#845007",
+          "#a67032",
+          "#c99155",
+          "#f1b77a",
+          "#ffe2a7"
+        ]
+      },
+      "label-umber": {
+        "role": "tertiary",
+        "displayName": "Label Umber",
+        "canonical": "oklch(46.2% 0.089 65)",
+        "tonalRamp": [
+          "#210000",
+          "#3f1700",
+          "#5f3400",
+          "#7f5220",
+          "#a27241",
+          "#c59362",
+          "#ecb987",
+          "#ffe3b0"
+        ]
+      },
+      "cream": {
+        "role": "neutral",
+        "displayName": "Mulberry Cream",
+        "canonical": "oklch(90.0% 0.034 86)",
+        "tonalRamp": [
+          "#110a00",
+          "#2b2310",
+          "#483f2b",
+          "#665d48",
+          "#867c66",
+          "#a89d87",
+          "#cec3ac",
+          "#f9edd5"
+        ]
+      },
+      "near-black": {
+        "role": "neutral",
+        "displayName": "Near-Black",
+        "canonical": "oklch(16.9% 0.009 224)",
+        "tonalRamp": [
+          "#070c0e",
+          "#202527",
+          "#3b4143",
+          "#585f61",
+          "#787e81",
+          "#99a0a3",
+          "#bec5c8",
+          "#e8f0f3"
+        ]
+      },
+      "error": {
+        "role": "semantic",
+        "displayName": "Oxide Red",
+        "canonical": "oklch(46.2% 0.151 34)",
+        "tonalRamp": [
+          "#250000",
+          "#490600",
+          "#6f2211",
+          "#973d29",
+          "#c15942",
+          "#e27f68",
+          "#ffa993",
+          "#ffd7c3"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page titles and the home hero; stencil caps with ink-grit mask, printed as passes."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles, CTA band, statement and story-stage headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Row titles, capability card titles, contact and clause headings."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Question lines, card leads, purpose lines, FAQ questions, story statements."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Long-form copy in rows, FAQ answers and clauses at 54-66ch, in the muted colour."
+      },
+      "body-sm": {
+        "displayName": "Body Small",
+        "purpose": "Default body, footer and notes."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Field labels, footer column heads, left-column row headers (above 640px only), sign-off. Never stacked above a heading."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Ink button text: narrow tracked uppercase Archivo."
+      }
+    },
+    "stocks": [
+      {
+        "name": "stock-cream",
+        "background": "#E8DDC5 + fibre-ink",
+        "inks": [
+          "#3B2112",
+          "#D89B52",
+          "#F0C27A"
+        ],
+        "blend": "multiply",
+        "accentText": "#9A6526",
+        "smallText": "#7A4D1A",
+        "muted": "rgba(59, 33, 18, 0.8)",
+        "line": "rgba(59, 33, 18, 0.24)"
+      },
+      {
+        "name": "stock-brown",
+        "background": "#3B2112 + fibre-light",
+        "inks": [
+          "#E8DDC5",
+          "#D89B52",
+          "#F0C27A"
+        ],
+        "blend": "screen",
+        "accentText": "#D89B52",
+        "smallText": "#D89B52",
+        "muted": "rgba(232, 221, 197, 0.76)",
+        "line": "rgba(240, 194, 122, 0.24)"
+      },
+      {
+        "name": "stock-gold",
+        "background": "#D89B52 + fibre-ink",
+        "inks": [
+          "#3B2112",
+          "#E8DDC5",
+          "#F0C27A"
+        ],
+        "blend": "normal",
+        "accentText": "#3B2112",
+        "smallText": "#3B2112",
+        "muted": "rgba(59, 33, 18, 0.86)",
+        "line": "rgba(59, 33, 18, 0.3)"
+      }
+    ],
+    "shadows": [
+      {
+        "name": "sheet-lift",
+        "value": "0 36px 70px -48px rgba(59, 33, 18, 0.8)",
+        "purpose": "Enquiry sheet lying on the page."
+      },
+      {
+        "name": "card-lift",
+        "value": "0 2px 0 rgba(59, 33, 18, 0.18), 0 28px 50px -30px rgba(59, 33, 18, 0.7)",
+        "purpose": "Capability cards on the gold flood."
+      },
+      {
+        "name": "tile-lift",
+        "value": "0 24px 48px -22px rgba(11, 16, 18, 0.75)",
+        "purpose": "Stacked showcase tiles in the story."
+      },
+      {
+        "name": "float",
+        "value": "0 10px 24px -10px rgba(11, 16, 18, 0.6)",
+        "purpose": "Fixed scroll-to-top button."
+      },
+      {
+        "name": "offset-pass",
+        "value": "pale gold copy at translate(4px, 4px), opacity 0.7, stock blend mode",
+        "purpose": "Ink pass behind ink buttons; slides to 0,0 on hover. An overprint, not a shadow."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "The signature easing: passes sliding into register, button press, reveals."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.77, 0, 0.175, 1)",
+        "purpose": "Preloader clip-path wipe only."
+      },
+      {
+        "name": "register",
+        "value": "1s ease-out, 0.15s delay; second ghost +0.11s",
+        "purpose": "Ghost passes travel from far off register to near register."
+      },
+      {
+        "name": "plate-register",
+        "value": "1.2s ease-out, 0.3s delay",
+        "purpose": "Plate ghost slides in from (40px, -30px) to (14px, -10px)."
+      },
+      {
+        "name": "press",
+        "value": "scale(0.97), 160ms ease-out",
+        "purpose": "Active state for every button and chip."
+      },
+      {
+        "name": "button-pass",
+        "value": "transform 240ms ease-out",
+        "purpose": "Offset pass registering on hover (fine pointers only)."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animations none, transitions 0ms",
+        "purpose": "Pass, plate and preloader animation removed under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "xs",
+        "value": "360px"
+      },
+      {
+        "name": "sm",
+        "value": "576px"
+      },
+      {
+        "name": "row-header",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "stack",
+        "value": "900px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ],
+    "textures": [
+      {
+        "name": "fibre-ink",
+        "purpose": "Procedural paper (soft mottle under fine speckle) in brown, for the cream and gold stocks.",
+        "status": "Procedural stand-in; a real mulberry/kraft paper scan is an open gap, not a decision."
+      },
+      {
+        "name": "fibre-light",
+        "purpose": "Procedural paper for the brown stock.",
+        "status": "Procedural stand-in; a real kraft scan is an open gap, not a decision."
+      },
+      {
+        "name": "grit",
+        "purpose": "Ink-grit mask on all display type (220px tile)."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ink Button (solid)",
+      "kind": "button",
+      "refersTo": "button-solid",
+      "description": "Primary action: key ink block flanked by diamonds, with a pale-gold pass out of register that snaps in on hover.",
+      "html": "<a class=\"ds-ink-btn\" href=\"#\"><svg class=\"ds-diamond\" viewBox=\"0 0 12 12\" width=\"10\" height=\"10\"><path d=\"M6 .8 11.2 6 6 11.2.8 6Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\"/><circle cx=\"6\" cy=\"6\" r=\"1.6\" fill=\"currentColor\"/></svg><span>Plan your growth</span><svg class=\"ds-diamond\" viewBox=\"0 0 12 12\" width=\"10\" height=\"10\"><path d=\"M6 .8 11.2 6 6 11.2.8 6Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\"/><circle cx=\"6\" cy=\"6\" r=\"1.6\" fill=\"currentColor\"/></svg></a>",
+      "css": ".ds-ink-btn{display:inline-flex;align-items:center;justify-content:center;gap:.7rem;min-height:3.25rem;padding:.85rem 1.4rem;border:0;border-radius:3px;cursor:pointer;font-family:Archivo,system-ui,sans-serif;font-weight:700;font-size:.875rem;line-height:1;letter-spacing:.14em;text-transform:uppercase;font-variation-settings:\"wdth\" 88;white-space:nowrap;text-decoration:none;transition:transform 160ms cubic-bezier(.23,1,.32,1),background-color 200ms ease;background:#3b2112;color:#e8ddc5}.ds-diamond{width:.625rem;height:.625rem}.ds-ink-btn{position:relative;z-index:0;isolation:isolate}.ds-ink-btn::before{content:\"\";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:#f0c27a;mix-blend-mode:multiply;opacity:.7;transform:translate(4px,4px);transition:transform 240ms cubic-bezier(.23,1,.32,1)}.ds-ink-btn:hover::before{transform:translate(0,0)}.ds-ink-btn:active{transform:scale(.97)}.ds-ink-btn:focus-visible{outline:2px solid #9a6526;outline-offset:3px}"
+    },
+    {
+      "name": "Ink Button (gold)",
+      "kind": "button",
+      "refersTo": "button-gold",
+      "description": "Primary action on the brown stock.",
+      "html": "<div class=\"ds-on-brown\"><a class=\"ds-ink-btn-gold\" href=\"#\"><svg class=\"ds-diamond\" viewBox=\"0 0 12 12\" width=\"10\" height=\"10\"><path d=\"M6 .8 11.2 6 6 11.2.8 6Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\"/><circle cx=\"6\" cy=\"6\" r=\"1.6\" fill=\"currentColor\"/></svg><span>Start a project</span><svg class=\"ds-diamond\" viewBox=\"0 0 12 12\" width=\"10\" height=\"10\"><path d=\"M6 .8 11.2 6 6 11.2.8 6Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\"/><circle cx=\"6\" cy=\"6\" r=\"1.6\" fill=\"currentColor\"/></svg></a></div>",
+      "css": ".ds-on-brown{background:#3b2112;padding:1.5rem}.ds-ink-btn-gold{display:inline-flex;align-items:center;justify-content:center;gap:.7rem;min-height:3.25rem;padding:.85rem 1.4rem;border:0;border-radius:3px;cursor:pointer;font-family:Archivo,system-ui,sans-serif;font-weight:700;font-size:.875rem;line-height:1;letter-spacing:.14em;text-transform:uppercase;font-variation-settings:\"wdth\" 88;white-space:nowrap;text-decoration:none;transition:transform 160ms cubic-bezier(.23,1,.32,1),background-color 200ms ease;background:#d89b52;color:#3b2112}.ds-diamond{width:.625rem;height:.625rem}.ds-ink-btn-gold{position:relative;z-index:0;isolation:isolate}.ds-ink-btn-gold::before{content:\"\";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:#f0c27a;mix-blend-mode:screen;opacity:.7;transform:translate(4px,4px);transition:transform 240ms cubic-bezier(.23,1,.32,1)}.ds-ink-btn-gold:hover::before{transform:translate(0,0)}.ds-ink-btn-gold:active{transform:scale(.97)}.ds-ink-btn-gold:focus-visible{outline:2px solid #d89b52;outline-offset:3px}"
+    },
+    {
+      "name": "Ink Button (outline)",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action: double-ruled frame, no offset pass.",
+      "html": "<a class=\"ds-ink-btn-outline\" href=\"#\"><svg class=\"ds-diamond\" viewBox=\"0 0 12 12\" width=\"10\" height=\"10\"><path d=\"M6 .8 11.2 6 6 11.2.8 6Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\"/><circle cx=\"6\" cy=\"6\" r=\"1.6\" fill=\"currentColor\"/></svg><span>Explore services</span><svg class=\"ds-diamond\" viewBox=\"0 0 12 12\" width=\"10\" height=\"10\"><path d=\"M6 .8 11.2 6 6 11.2.8 6Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\"/><circle cx=\"6\" cy=\"6\" r=\"1.6\" fill=\"currentColor\"/></svg></a>",
+      "css": ".ds-ink-btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:.7rem;min-height:3.25rem;padding:.85rem 1.4rem;border:0;border-radius:3px;cursor:pointer;font-family:Archivo,system-ui,sans-serif;font-weight:700;font-size:.875rem;line-height:1;letter-spacing:.14em;text-transform:uppercase;font-variation-settings:\"wdth\" 88;white-space:nowrap;text-decoration:none;transition:transform 160ms cubic-bezier(.23,1,.32,1),background-color 200ms ease;background:transparent;color:#3b2112;box-shadow:inset 0 0 0 1.5px currentColor;outline:1px solid currentColor;outline-offset:-5px}.ds-diamond{width:.625rem;height:.625rem}.ds-ink-btn-outline:hover{background:rgba(59,33,18,.1)}.ds-ink-btn-outline:active{transform:scale(.97)}.ds-ink-btn-outline:focus-visible{outline:2px solid #9a6526;outline-offset:3px}"
+    },
+    {
+      "name": "Underline Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Enquiry field: label above, underline only, gold-ink focus, oxide-red error.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-label\">Your name</span><input placeholder=\"Full name\"></label>",
+      "css": ".ds-field{display:grid;gap:.5rem;max-width:22rem}.ds-label{font-family:Archivo,system-ui,sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;font-variation-settings:\"wdth\" 80;color:#7a4d1a}.ds-field input{width:100%;padding:.7rem 0;border:0;border-bottom:1.5px solid rgba(59,33,18,.45);border-radius:0;background:transparent;color:#3b2112;font:400 1.05rem Archivo,system-ui,sans-serif;transition:border-color 160ms ease,box-shadow 160ms ease}.ds-field input::placeholder{color:rgba(59,33,18,.72)}.ds-field input:focus{outline:none;border-bottom-color:#9a6526;box-shadow:0 1.5px 0 #9a6526}.ds-field input[aria-invalid=true]{border-bottom-color:#9b2c12}"
+    },
+    {
+      "name": "Choice Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Selectable support type; selected fills brown.",
+      "html": "<label class=\"ds-chip\"><input type=\"checkbox\" checked><span>Branding</span></label> <label class=\"ds-chip\"><input type=\"checkbox\"><span>Marketing</span></label>",
+      "css": ".ds-chip{position:relative;cursor:pointer;display:inline-block}.ds-chip input{position:absolute;opacity:0;width:1px;height:1px}.ds-chip span{display:inline-block;padding:.55rem .9rem;border:1px solid rgba(59,33,18,.38);border-radius:3px;font:600 .9rem Archivo,system-ui,sans-serif;color:#3b2112;transition:background-color 150ms ease,color 150ms ease,border-color 150ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}.ds-chip:hover span{border-color:#3b2112}.ds-chip:active span{transform:scale(.97)}.ds-chip input:checked+span{background:#3b2112;border-color:#3b2112;color:#e8ddc5}.ds-chip input:focus-visible+span{outline:2px solid #9a6526;outline-offset:2px}"
+    },
+    {
+      "name": "Printed Navbar",
+      "kind": "nav",
+      "refersTo": "nav-bar",
+      "description": "Brown kraft band with wordmark, links and current page in gold.",
+      "html": "<nav class=\"ds-nav\"><strong class=\"ds-wm\">TRAYANG</strong><span class=\"ds-links\"><a href=\"#\" aria-current=\"page\">Home</a><a href=\"#\">About</a><a href=\"#\">Services</a><a href=\"#\">FAQ</a></span></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;gap:2rem;height:4.5rem;padding-inline:2rem;background:#3b2112;color:#e8ddc5;border-bottom:1px solid rgba(216,155,82,.32)}.ds-wm{font-family:\"Big Shoulders Stencil\",\"Arial Narrow\",sans-serif;font-weight:800;font-size:1.55rem;letter-spacing:.08em}.ds-links{display:flex;gap:2rem}.ds-links a{color:inherit;font:600 .95rem Archivo,system-ui,sans-serif;text-decoration:underline 1.5px transparent;text-underline-offset:.45em;transition:color 160ms ease,text-decoration-color 160ms ease}.ds-links a[aria-current=page]{color:#d89b52;text-decoration-color:#d89b52}.ds-links a:hover{color:#f0c27a;text-decoration-color:currentColor}.ds-links a:focus-visible{outline:2px solid #d89b52;outline-offset:3px}"
+    },
+    {
+      "name": "Pass Heading",
+      "kind": "custom",
+      "refersTo": "display",
+      "description": "Signature: a stencil heading printed as a key pass over one translucent ghost pass sliding into near register.",
+      "html": "<h2 class=\"ds-pass\"><span class=\"ds-ghost\" aria-hidden=\"true\">Rise beyond</span><span class=\"ds-key\">Rise beyond</span></h2>",
+      "css": ".ds-pass{display:grid;margin:0;padding:1rem;background:#e8ddc5;font-family:\"Big Shoulders Stencil\",\"Arial Narrow\",sans-serif;font-weight:800;text-transform:uppercase;font-size:4rem;line-height:.92;letter-spacing:.005em;color:#3b2112;isolation:isolate}.ds-pass>span{grid-area:1/1}.ds-key{position:relative}.ds-ghost{color:#d89b52;mix-blend-mode:multiply;opacity:.6;transform:translate(.018em,-.014em);animation:ds-register 1s cubic-bezier(.23,1,.32,1) .15s both}@keyframes ds-register{from{transform:translate(.24em,-.16em);opacity:0}}"
+    },
+    {
+      "name": "Diamond Rule",
+      "kind": "custom",
+      "refersTo": "gold-ink",
+      "description": "Hairline rule with end ticks broken by the diamond ornament.",
+      "html": "<span class=\"ds-rule\"><span class=\"ds-line\"></span><svg class=\"ds-diamond\" viewBox=\"0 0 12 12\" width=\"10\" height=\"10\"><path d=\"M6 .8 11.2 6 6 11.2.8 6Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.2\"/><circle cx=\"6\" cy=\"6\" r=\"1.6\" fill=\"currentColor\"/></svg><span class=\"ds-line\"></span></span>",
+      "css": ".ds-rule{display:flex;align-items:center;gap:.6rem;width:100%;max-width:30rem;color:#9a6526}.ds-diamond{width:.75rem;height:.75rem;flex:none}.ds-line{flex:1;position:relative;border-top:1px solid currentColor}.ds-line::before{content:\"\";position:absolute;top:-4px;width:1px;height:7px;background:currentColor}.ds-line:first-child::before{left:0}.ds-line:last-child::before{right:0}"
+    },
+    {
+      "name": "Capability Card",
+      "kind": "card",
+      "refersTo": "capability-card",
+      "description": "Cream print on the gold flood: stencil title, umber lead, muted body.",
+      "html": "<div class=\"ds-on-gold\"><article class=\"ds-card\"><h3>Brand Strategy</h3><p class=\"ds-lead\">Positioning that holds.</p><p class=\"ds-body\">Who you serve, what you stand for and how you say it.</p></article></div>",
+      "css": ".ds-on-gold{background:#d89b52;padding:2rem}.ds-card{max-width:20rem;padding:2.25rem 2rem;display:grid;gap:.8rem;border-radius:3px;background:#e8ddc5;color:#3b2112;box-shadow:0 2px 0 rgba(59,33,18,.18),0 28px 50px -30px rgba(59,33,18,.7)}.ds-card h3{margin:0;font-family:\"Big Shoulders Stencil\",\"Arial Narrow\",sans-serif;font-weight:800;text-transform:uppercase;font-size:2rem;line-height:.95}.ds-lead{margin:0;font:700 1.1rem/1.3 Archivo,system-ui,sans-serif;font-variation-settings:\"wdth\" 92;color:#7a4d1a}.ds-body{margin:0;font:400 .98rem/1.5 Archivo,system-ui,sans-serif;color:rgba(59,33,18,.8)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Registered Overprint",
+    "overview": "Trayang is printed, not rendered. Every surface is a sheet of stock, either cream mulberry paper or brown kraft board (with gold as a third, flood stock), and everything on it is ink: brown, gold and light gold laid down in translucent passes. Where passes overlap they mix (multiply on cream, screen on brown), and where they line up the brand appears. That is the whole idea: strategy, creativity and execution as three passes that register into one purpose.\n\nThe density is poster-like. Stencil caps carry the voice at large sizes; Archivo carries the reading at calm, generous measure. Structure comes from printer's furniture rather than UI chrome: registration crosses at sheet corners, a double hairline rule with a diamond ornament, ruled rows instead of card grids, and photographs printed as brown and gold duotone plates with a light-gold pass laid slightly off register. Motion has one signature only: ghost passes sliding into register.\n\nThe system rejects the dark-luxury agency template: no centred hero over a dark void, no gold gradient text, no equal grid of identical cards.",
+    "keyCharacteristics": [
+      "Three stocks (cream, brown, gold), three inks (brown, gold, light gold), blended by the stock's own mix mode.",
+      "Big Shoulders Stencil uppercase for display; Archivo with its width axis for text, leads and labels.",
+      "Headings printed as a key pass over misregistered translucent ghost passes.",
+      "Ruled rows and hairline dividers in place of cards; registration marks and diamond rules as ornament.",
+      "Procedural paper fibre on every stock and ink grit masked into display type.",
+      "One motion signature: passes sliding into register, on a strong ease-out."
+    ],
+    "rules": [
+      {
+        "name": "The Stock Decides Rule",
+        "body": "Colours are assigned by the stock, never per element. Each stock (cream, brown, gold) sets ink-a, ink-b, ink-c, the blend mode, accent text, small text, muted and line values; components read those roles, so the same component prints correctly on any stock.",
+        "section": "colors"
+      },
+      {
+        "name": "The Gold-on-Cream Rule",
+        "body": "On cream, gold text is gold-ink at display sizes and label-umber below them. Raw gold and pale gold are never text on cream.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fixed Palette Rule",
+        "body": "The five client colours are the palette. New hues are not added; new needs are met by opacity of an existing ink or by changing stock.",
+        "section": "colors"
+      },
+      {
+        "name": "The Print the Voice Rule",
+        "body": "Display type is always the stencil, always uppercase, always 800, always carrying the grit mask. Archivo never plays display; the stencil never sets running text.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Kicker Rule",
+        "body": "No label, eyebrow or kicker is stacked above a heading. Labels live as field labels, footer column heads, or as row headers in a left column beside the content, and those row headers show only above 640px; below it they are removed, not restacked on top.",
+        "section": "typography"
+      },
+      {
+        "name": "The Numbers Must Mean Something Rule",
+        "body": "No decorative section numbers. A number appears only when it carries information, such as the citable clause numbers on legal pages.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sheet Edge Rule",
+        "body": "Every band, however wide its colour, aligns its content to the 80rem sheet and gutter.",
+        "section": "layout"
+      },
+      {
+        "name": "The Overprint Not Shadow Rule",
+        "body": "An offset copy of a shape in pale gold (behind ink buttons, beside story points, past the edge of photo plates) is an ink pass, not a shadow. It uses the stock's blend mode, sits a few pixels off register, and is the only offset device allowed. Hard dark offset shadows are not part of this world.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Paper Is Always There Rule",
+        "body": "Every stock carries its procedural fibre texture (fine speckle over a soft mottle, tuned to stay within about ±3 of the stock colour). Display type carries an ink-grit mask. Flat untextured fills are reserved for small swatches and pass dots.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do pick a stock (cream, brown or gold) for every section and let it set the inks, blend mode, accent, muted and line colours.",
+      "Do set display type in Big Shoulders Stencil 800 uppercase at 0.92 line height with the grit mask.",
+      "Do use gold-ink for gold display text on cream and label-umber for gold small text on cream.",
+      "Do print headings as passes: the full two-ghost print only on the home hero h1 and the closing footer heading; one near-registered ghost on every other pass heading.",
+      "Do press every button and chip at scale(0.97).",
+      "Do gate every hover effect behind (hover: hover) and (pointer: fine).",
+      "Do keep motion to one signature (passes sliding into register) on a strong ease-out, animating only transform, opacity and clip, with a reduced-motion fallback that removes it.",
+      "Do separate content with ruled rows and hairlines; ornament with the diamond rule and registration corners.",
+      "Do close every page on one clear CTA band."
+    ],
+    "donts": [
+      "Don't stack labels, eyebrows or kickers above headings. Row headers live in a left column and only above 640px.",
+      "Don't number sections unless the number carries information (legal clauses do).",
+      "Don't use the full two-ghost pass anywhere but the hero h1 and the closing footer heading.",
+      "Don't set raw gold or pale gold as text on cream.",
+      "Don't add hues outside the five client colours and their two contrast shades.",
+      "Don't use gradient text, a centred hero over a dark void, or an equal grid of identical cards.",
+      "Don't use hard dark offset shadows; offsets are pale-gold ink passes in the stock's blend mode.",
+      "Don't round corners beyond 3px except for dots and the circular scroll-to-top button.",
+      "Don't introduce a second motion signature (bounces, parallax tilts, scroll-linked effects beyond the story engine)."
+    ]
+  }
+}

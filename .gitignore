@@ -42,3 +42,7 @@ next-env.d.ts
 
 # demo build artifact
 trayang-demo.zip
+
+# impeccable review screenshots and decision-round scratch
+.impeccable/review/
+.impeccable/direction-payload.json

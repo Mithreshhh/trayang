@@ -1,8 +1,8 @@
 # Trayang marketing site (Next.js)
 
-Scroll-driven marketing agency site for Trayang. One container moves through a tightened 17-screen story while a pinned stage presents the positioning, approach, integrated capabilities, services, proof narrative, questions and footer.
+Marketing site for Trayang, a strategy, branding, marketing and business-consulting studio. The home page is a scroll-driven story: one container moves through 17 screens while a pinned stage presents the hero, the purpose points, the capabilities, the joined-up approach, common questions and the closing footer. About, Services, Contact, FAQs, Terms and Privacy are ordinary pages in the same visual world.
 
-The primary storytelling slots use project-ready marketing imagery in the Trayang palette. Supporting icons remain lightweight SVG assets.
+The visual world is screenprint ("registered overprint"): cream paper and brown kraft stocks, brown and gold inks printed as translucent passes that mix where they overlap, stencil poster type, registration marks and ink buttons.
 
 ## Run
 
@@ -16,61 +16,40 @@ npm run build && npm start
 
 | Token | Hex | Used for |
 | --- | --- | --- |
-| `--brown` | `#3B2112` | navbar, hero, footer, dark backgrounds |
-| `--gold` | `#D89B52` | logo, buttons, headings, icons, borders |
-| `--gold-light` | `#F0C27A` | hovers, gradients, highlights |
-| `--cream` | `#E8DDC5` | light sections, cards |
-| `--dark` | `#0B1012` | text on light backgrounds |
+| `--brown` | `#3B2112` | kraft stock, header band, footer, key ink on cream |
+| `--gold` | `#D89B52` | gold ink, gold stock behind the capability cards, buttons |
+| `--gold-light` | `#F0C27A` | the light ghost pass, overlaps |
+| `--cream` | `#E8DDC5` | paper stock, key ink on brown |
+| `--dark` | `#0B1012` | deepest shadows, the fourth swatch |
+| `--gold-ink` | `#9A6526` | gold deepened for text on cream so it stays readable |
 
-All tokens are defined at the top of `app/globals.css`.
+All tokens are at the top of `app/globals.css`. `.stock-cream`, `.stock-brown` and `.stock-gold` set the paper and which inks print on it.
 
 ## Where things live
 
 | Path | What it is |
 | --- | --- |
-| `data/site.ts` | All copy, links, contact details, cards, captions and image paths |
-| `lib/scrollStory.ts` | The scroll engine: converts scroll position into the 38 animation stages |
-| `app/globals.css` | All styling (palette tokens at the top) |
-| `components/TrayangScroller.tsx` | The scroll container: sticky stage + 17 spacer screens, mounts the engine, owns the enquiry card |
-| `components/sections/*.tsx` | Landing, Connect, FeaturesIntro, FeaturesCarousel, Showcase, Questions |
-| `components/Navbar.tsx` | Blurred top bar; last link is the gold pill; hamburger menu locks the scroller on mobile |
-| `components/MessageBanner.tsx` | Promo strip that fades out after 9 seconds |
-| `components/ContactOverlay.tsx` | Enquiry card (email, WhatsApp, call) opened from the hero button or any `#contact` link |
-| `components/Footer.tsx`, `components/Preloader.tsx` | Footer and the four-bar loading screen |
+| `data/site.ts` | All copy, links, form options, image paths and the proof slots |
+| `lib/scrollStory.ts` | The scroll engine: converts scroll position into the stage animations |
+| `app/globals.css` | All styling |
+| `components/TrayangScroller.tsx` | The scroll container: sticky stage + 17 spacer screens, mounts the engine |
+| `components/sections/*.tsx` | The six home stages: Landing, Connect, FeaturesIntro, FeaturesCarousel, Showcase, Questions |
+| `components/Print.tsx` | World primitives: `Pass` (heading printed in three passes), `InkLink`, `PrintPlate`, `Rule`, `RegCorners`, `Wordmark` |
+| `components/Glyph.tsx` | Overlap artwork for every service and the purpose-point icons |
+| `components/Navbar.tsx`, `Footer.tsx`, `Preloader.tsx` | Header band (shared by story and pages), footer, loading screen |
+| `components/SitePage.tsx` | Page shell, `PageHero`, `CtaBand`, `ProofSlots` |
+| `components/EnquiryForm.tsx` | Contact form that opens a ready-to-send email to hello@trayang.com |
+| `components/FaqList.tsx`, `LegalPage.tsx`, `Reveal.tsx` | FAQ accordion, terms/privacy template, scroll-in printing of headings |
 | `docs/jaxl-scroll-spec.md`, `docs/reference/` | Spec and captures of the layout reference the scroll story was built from |
 
-## Editing the copy
+## Adding proof
 
-Everything is in `data/site.ts`: `brand`, `contact`, `navLinks`, `bannerMessage`, `hero`, `connect`, `featuresIntro`, `carousel`, `showcase`, `questions`, `contactCard`, `footerColumns`, `socialLinks`. The current text positions Trayang as an integrated marketing studio and can evolve with the offer.
+`proof` (clients, case studies, testimonials) and `socialLinks` in `data/site.ts` are empty on purpose. Each block appears on the About and Services pages, and the social links in the footer, as soon as it has real entries. Never add placeholder clients, results or quotes.
 
-## Replacing the placeholder images
+## Images
 
-Put your files in `public/images/` and update the paths in `data/site.ts`. Any format works.
-
-| Slot | Placeholder file | Used for | Suggested size |
-| --- | --- | --- | --- |
-| `images.logo` | `logo.svg` | Navbar logo, gold on brown | 147x35 |
-| `images.footerLogo` | `footer-logo.svg` | Footer logo | 170x32 |
-| `images.ctaIcon` | `cta-icon.svg` | Small dark arrow in the gold hero button | 20x20 |
-| `images.heroShowcase` | `hero-showcase.svg` | Product / brand visual at the bottom of the hero | 840x588, transparent |
-| `images.bgGradient` | `bg-gradient.svg` | Blurred gold glow behind the hero | 1600x900 |
-| `images.showcaseLeft` / `showcaseRight` | `showcase-left.svg`, `showcase-right.svg` | Visuals that slide in from each side in "Crafted beyond Expectations" | 656x548 / 741x618, transparent |
-| `connect.points[].icon` | `point-quality.svg`, `point-service.svg`, `point-trust.svg`, `point-delivery.svg` | Gold glyphs in the cream circles | 36x36 |
-| `images.introBg` / `introBg2` | `intro-bg.svg`, `intro-bg-2.svg` | Photos behind the "Elevate your everyday" / "Curating signature services" headings | 1600x900 |
-| `images.ellipse` | `ellipse.svg` | Glossy cream sphere | 162x162 |
-| `images.emblem` | `emblem.svg` | Gold emblem. It is scaled ~137x to fill the screen, so keep it solid gold around its centre | 74x74 |
-| `carousel.cards[].image` | `card-consultation.svg` (wide) and nine more `card-*.svg` | Service card illustrations | 216x216 (first one 600x216) |
-| `showcase.tiles[].image` | `tile-1.svg` … `tile-4.svg` | Collection tiles | 432x297 |
-| `images.question` | `question.svg` | Speech-bubble illustration | 425x455 |
-| `images.scrollTop` | `scroll-top.svg` | Back-to-top button | 60x60 |
-| `images.mail`, `phone`, `whatsapp`, `instagram`, `facebook`, `linkedin`, `youtube` | matching `*.svg` | Footer and enquiry-card icons, cream | 20x20 |
-| `images.contactIllustration`, `close` | `contact-illustration.svg`, `close.svg` | Enquiry card | 242x242, 22x22 |
+`public/images/artisan-studio.webp` and `gift-service.webp` are printed as brown and gold duotones by CSS, so any photo works; replace the files or change `images` in `data/site.ts`. `emblem.svg` is the gold diamond the engine scales about 137 times to flood the screen behind the capability cards, so keep it solid gold.
 
 ## How the scroll works (short version)
 
-`#trayang-scroller` is the only scrollable element. Inside it, `#trayang-sections` is `position: sticky` and 100dvh tall, followed by 26 empty 100dvh spacers. The engine reads `scrollTop / clientHeight` (0 to 25) and, for each stage in `lib/scrollStory.ts`, converts the position inside that stage's `[start, end]` range into a 0 to 100 percentage which sets inline transforms and opacities. Stage end and start states are applied once when crossed, element lookups are cached, and pixel-based stages are recomputed on resize.
-
-## Notes
-
-* `/about/`, `/services/`, `/contact/`, `/terms/`, `/privacy/` and `/faq/` are implemented as static routes.
-* Add only verified social profiles to `socialLinks` in `data/site.ts`; none are displayed by default.
+`#trayang-scroller` is the only scrollable element on the home page. Inside it, `#trayang-sections` is `position: sticky` and 100dvh tall, followed by 17 empty 100dvh spacers. The engine reads `scrollTop / clientHeight` and, for each stage in `lib/scrollStory.ts`, converts the position inside that stage's `[start, end]` range into a 0 to 100 percentage that sets inline transforms and opacities. The purpose points share one window, so adding or removing a point in `data/site.ts` re-times them automatically. Stage end and start states are applied once when crossed, element lookups are cached, and pixel-based stages are recomputed on resize.

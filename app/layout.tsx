@@ -1,21 +1,32 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans } from "next/font/google";
+import { Archivo, Big_Shoulders_Stencil } from "next/font/google";
 import { brand } from "@/data/site";
 import "./globals.css";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+// Poster stencil caps for display; Archivo (with its width axis) for text and narrow labels.
+const stencil = Big_Shoulders_Stencil({
+  variable: "--font-stencil",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  display: "swap",
+  adjustFontFallback: false,
+});
+
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  axes: ["wdth"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: `${brand.name} – ${brand.tagline}`,
+  title: {
+    default: `${brand.name} | ${brand.tagline}`,
+    template: `%s | ${brand.name}`,
+  },
   description: brand.description,
   icons: { icon: "/favicon.ico" },
   openGraph: {
-    title: `${brand.name} – ${brand.tagline}`,
+    title: `${brand.name} | ${brand.tagline}`,
     description: brand.description,
     type: "website",
     siteName: brand.name,
@@ -30,7 +41,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={dmSans.variable}>
+    <html lang="en" className={`${stencil.variable} ${archivo.variable}`}>
       <body>{children}</body>
     </html>
   );

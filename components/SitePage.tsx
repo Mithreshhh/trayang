@@ -1,69 +1,96 @@
-import Link from "next/link";
-import { brand, contact, footerColumns, images } from "@/data/site";
+import type { ReactNode } from "react";
+import { proof } from "@/data/site";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import Reveal from "./Reveal";
+import { InkLink, Pass, PrintPlate, RegCorners, Rule } from "./Print";
 
-type Block = {
-  eyebrow?: string;
-  title: string;
-  body: string;
-  id?: string;
-};
-
-export default function SitePage({
-  eyebrow,
-  title,
-  intro,
-  blocks,
-  children,
-}: {
-  eyebrow: string;
-  title: string;
-  intro: string;
-  blocks?: Block[];
-  children?: React.ReactNode;
-}) {
+/** Shell for every page outside the scroll story: printed header band, cream sheet, kraft footer. */
+export default function SitePage({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className="site-page">
-      <header className="site-header">
-        <Link href="/" aria-label={`${brand.name} home`}><img src={images.logo} alt={brand.name} /></Link>
-        <nav aria-label="Main">
-          <Link href="/about/">About</Link>
-          <Link href="/services/">Services</Link>
-          <Link href="/contact/">Contact</Link>
-        </nav>
-      </header>
-
-      <main>
-        <section className="site-hero">
-          <p className="eyebrow">{eyebrow}</p>
-          <h1>{title}</h1>
-          <p className="intro">{intro}</p>
-        </section>
-
-        {blocks && (
-          <section className="site-grid">
-            {blocks.map((block) => (
-              <article id={block.id} key={block.title}>
-                {block.eyebrow && <p className="eyebrow">{block.eyebrow}</p>}
-                <h2>{block.title}</h2>
-                <p>{block.body}</p>
-              </article>
-            ))}
-          </section>
-        )}
-        {children}
-
-        <section className="site-cta">
-          <p className="eyebrow">A good place to begin</p>
-          <h2>Tell us where you want to grow.</h2>
-          <p>Share the goal, challenge, timing and working budget. We will help define the most useful next move.</p>
-          <a href={`mailto:${contact.email}`}>Email {contact.email}</a>
-        </section>
-      </main>
-
-      <footer className="site-page-footer">
-        <span>© {new Date().getFullYear()} {brand.name}</span>
-        <div>{footerColumns[2].items.map((item) => <Link href={item.href} key={item.label}>{item.label}</Link>)}</div>
-      </footer>
+    <div className={`site-page stock-cream ${className}`}>
+      <Navbar mode="page" />
+      <main id="main">{children}</main>
+      <Footer />
+      <Reveal />
     </div>
+  );
+}
+
+type Plate = { src: string; alt: string };
+
+export function PageHero({ title, intro, plate, children }: { title: string; intro: string; plate?: Plate; children?: ReactNode }) {
+  return (
+    <section className={`page-hero${plate ? " has-plate" : ""}`}>
+      <RegCorners />
+      <div className="page-hero-copy">
+        <Pass as="h1" className="display page-title">
+          {title}
+        </Pass>
+        <Rule />
+        <p className="page-intro">{intro}</p>
+        {children}
+      </div>
+      {plate && <PrintPlate src={plate.src} alt={plate.alt} className="page-hero-plate" />}
+    </section>
+  );
+}
+
+export function CtaBand({ title, body, href, button }: { title: string; body: string; href: string; button: string }) {
+  return (
+    <section className="cta-band stock-gold">
+      <RegCorners />
+      <Pass as="h2" className="display" reveal>
+        {title}
+      </Pass>
+      <div className="cta-band-side">
+        <p>{body}</p>
+        <InkLink href={href}>
+          {button}
+        </InkLink>
+      </div>
+    </section>
+  );
+}
+
+/** Real proof only: each block stays out of the page until data/site.ts has entries for it. */
+export function ProofSlots() {
+  const { clients, caseStudies, testimonials } = proof;
+  if (!clients.length && !caseStudies.length && !testimonials.length) return null;
+  return (
+    <section className="proof sheet">
+      {clients.length > 0 && (
+        <ul className="proof-clients" aria-label="Clients">
+          {clients.map((c) => (
+            <li key={c.name}>{c.logo ? <img src={c.logo} alt={c.name} /> : c.name}</li>
+          ))}
+        </ul>
+      )}
+      {caseStudies.length > 0 && (
+        <div className="proof-cases">
+          {caseStudies.map((c) => (
+            <article key={c.title}>
+              <h3>{c.title}</h3>
+              <p>
+                {c.client}. {c.summary}
+              </p>
+              {c.href && <a href={c.href}>Read the case study</a>}
+            </article>
+          ))}
+        </div>
+      )}
+      {testimonials.length > 0 && (
+        <div className="proof-quotes">
+          {testimonials.map((t) => (
+            <figure key={t.name}>
+              <blockquote>{t.quote}</blockquote>
+              <figcaption>
+                {t.name}, {t.role}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
+    </section>
   );
 }

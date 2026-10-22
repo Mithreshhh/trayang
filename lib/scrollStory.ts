@@ -44,18 +44,22 @@ export class ScrollStory {
     const storyScale = 16 / 25;
     const s = (start: number, end: number, fn: StageFn): Stage => ({ start: start * storyScale, end: end * storyScale, fn });
 
+    // The purpose points share the 2 → 6 window: each one registers, holds, then lifts away for the next.
+    const points = root.querySelectorAll("#connect-section .dot-container:not(.empty)").length;
+    const slot = 4 / Math.max(points, 1);
+    const pointStages: Stage[] = [];
+    for (let i = 0; i < points; i++) {
+      const from = 2 + slot * i;
+      pointStages.push(s(from, from + slot * 0.45, (p) => this.connectPointIn(i, p)));
+      if (i < points - 1) pointStages.push(s(from + slot * 0.75, from + slot, (p) => this.connectPointOut(i, p)));
+    }
+
     // Order matters: later stages overwrite earlier ones for the same element.
     this.stages = [
       s(0, 1, (p) => this.landingBlur(p)),
       s(0, 1, (p) => this.connectSlideIn(p)),
       s(1, 2, (p) => this.connectSpreadDots(p)),
-      s(2, 3, (p) => this.connectPointIn(0, p)),
-      s(3, 3.5, (p) => this.connectPointOut(0, p)),
-      s(3, 3.5, (p) => this.connectPointIn(1, p)),
-      s(4, 4.5, (p) => this.connectPointOut(1, p)),
-      s(4.5, 5, (p) => this.connectPointIn(2, p)),
-      s(5, 5.5, (p) => this.connectPointOut(2, p)),
-      s(5.5, 6, (p) => this.connectPointIn(3, p)),
+      ...pointStages,
       s(6, 7, (p) => this.connectSlideOut(p)),
       s(6, 7, (p) => this.introFadeIn(p)),
       s(7, 8, (p) => this.emblemZoomIn(p)),
@@ -181,6 +185,8 @@ export class ScrollStory {
     landing.style.filter = `blur(${1.5 * p}px)`;
     heading.style.opacity = `${1 - r}`;
     heading.style.transform = `translate3d(0, ${p}%, 0) scale(${1 + 0.2 * r})`;
+    // The ghost passes slip out of register as the sheet leaves.
+    heading.style.setProperty("--drift", `${r}`);
     tile.style.pointerEvents = p > 5 ? "none" : "initial";
   }
 
@@ -191,7 +197,7 @@ export class ScrollStory {
   }
 
   /* ------------------------------------------------------------------ */
-  /* 2. Crafted beyond Expectations                                      */
+  /* 2. Creative with a commercial purpose                                */
   /* ------------------------------------------------------------------ */
 
   private connectSlideIn(p: number): void {
@@ -217,17 +223,15 @@ export class ScrollStory {
     const dots = this.q("#connect-section .point-dots-container");
     const dc = this.qa("#connect-section .dot-container");
     const rot = 12.67 * p * 0.01;
-    const l = p, c = 2 * p, u = 3 * p;
     left.style.transform = `translate3d(-30%, 0, 0) rotate(${360 - rot}deg)`;
     right.style.transform = `translate3d(30%, 0, 0) rotate(${rot}deg)`;
     heading.style.transform = `translate3d(0, ${100 - p}%, 0) scale(${1 - 0.125 * p * 0.01})`;
     dots.style.opacity = `${0.01 * p}`;
-    dc[0].style.transform = `translate3d(${-50 - u}%, -50%, 0)`;
-    dc[1].style.transform = `translate3d(${-50 - c}%, -50%, 0)`;
-    dc[2].style.transform = `translate3d(${-50 - l}%, -50%, 0)`;
-    dc[4].style.transform = `translate3d(${-50 + l}%, -50%, 0)`;
-    dc[5].style.transform = `translate3d(${c - 50}%, -50%, 0)`;
-    dc[6].style.transform = `translate3d(${u - 50}%, -50%, 0)`;
+    // Every dot fans out from the centre by one of its own widths per step.
+    const centre = (dc.length - 1) / 2;
+    dc.forEach((d, i) => {
+      d.style.transform = `translate3d(${-50 + (i - centre) * p}%, -50%, 0)`;
+    });
   }
 
   /** Point i (0–3) pops in; the i spacer dots before it turn gold. */
@@ -255,7 +259,7 @@ export class ScrollStory {
   }
 
   /* ------------------------------------------------------------------ */
-  /* 3. Signature services intro (gold emblem)                           */
+  /* 3. Every move has a purpose (gold emblem)                            */
   /* ------------------------------------------------------------------ */
 
   private introFadeIn(p: number): void {
@@ -303,7 +307,7 @@ export class ScrollStory {
   }
 
   /* ------------------------------------------------------------------ */
-  /* 4. Signature services carousel                                      */
+  /* 4. Capabilities carousel                                             */
   /* ------------------------------------------------------------------ */
 
   private carouselSlideIn(p: number): void {
@@ -353,7 +357,7 @@ export class ScrollStory {
   }
 
   /* ------------------------------------------------------------------ */
-  /* 5. Signature collection showcase                                    */
+  /* 5. Every touchpoint connected                                        */
   /* ------------------------------------------------------------------ */
 
   private showcaseFadeIn(p: number): void {
@@ -369,19 +373,42 @@ export class ScrollStory {
     tiles[2].style.transform = `translate3d(-50%, ${-50 - 2.5 * p * 0.01}%, 0) scale(0.95)`;
   }
 
+  /**
+   * How far (in % of a tile) the tiles fan out, and at what point of the
+   * spread (0–1) every rotated tile has cleared the heading block on at least
+   * one axis. The spread is 125 as designed, or further when the heading is
+   * large relative to the tiles (phones), plus a margin so it clears early.
+   */
+  private tileSpread(): { spread: number; clearAt: number } {
+    const tile = this.qa("#trayang-showcase .number-tile-img")[0];
+    const intro = this.q("#trayang-showcase .intro-container");
+    const w = tile.offsetWidth, h = tile.offsetHeight;
+    const cos = Math.cos(Math.PI / 6), sin = Math.sin(Math.PI / 6);
+    const gap = 16;
+    const needX = (intro.offsetWidth / 2 + gap + (w * cos + h * sin) / 2 - w / 2) / w;
+    const needY = (intro.offsetHeight / 2 + gap + (w * sin + h * cos) / 2 - h / 2) / h;
+    const need = 50 + 100 * Math.min(needX, needY);
+    const spread = Math.max(125, need) + 15;
+    return { spread, clearAt: need / spread };
+  }
+
   private showcaseTilesSpread(p: number): void {
     const tiles = this.qa("#trayang-showcase .number-tile-img");
     const intro = this.q("#trayang-showcase .intro-container");
     const e = 0.01 * p;
     const rot = 30 * e;
-    const spread = 125 * e;
+    const { spread: full, clearAt } = this.tileSpread();
+    const spread = full * e;
     const pos = spread - 50;
     const neg = -50 - spread;
     tiles[0].style.transform = `translate3d(${pos}%, ${pos}%, 0) rotate(-${rot}deg) scale(${0.85 + 0.15 * e})`;
     tiles[1].style.transform = `translate3d(${neg}%, ${neg}%, 0) rotate(-${rot}deg) scale(${0.9 + 0.1 * e})`;
     tiles[2].style.transform = `translate3d(${pos}%, ${neg}%, 0) rotate(${rot}deg) scale(${0.95 + 0.05 * e})`;
     tiles[3].style.transform = `translate3d(${neg}%, ${pos}%, 0) rotate(${rot}deg)`;
-    intro.style.opacity = `${e}`;
+    // The heading sits behind the tiles and only prints once they have cleared its box.
+    const fadeFrom = Math.max(0, clearAt - 0.2);
+    const fadeSpan = Math.max(clearAt - fadeFrom, 0.01);
+    intro.style.opacity = `${Math.min(1, Math.max(0, (e - fadeFrom) / fadeSpan))}`;
     intro.style.transform = `translate3d(0, ${50 * e - 50}%, 0)`;
   }
 
@@ -395,11 +422,15 @@ export class ScrollStory {
     const t0 = tiles[0];
     const xPct = 100 * (main.offsetLeft / t0.offsetWidth + t0.offsetLeft / t0.offsetWidth);
     const yPct = 100 * (main.offsetTop / t0.offsetHeight + t0.offsetTop / t0.offsetHeight);
-    const s = 125 * e;
-    tiles[0].style.transform = `translate3d(${75 + (xPct - 73) * e}%, ${75 - s}%, 0) rotate(${rot - 30}deg)`;
-    tiles[1].style.transform = `translate3d(${-175 - (xPct - 73) * e}%, ${s - 175}%, 0) rotate(${rot - 30}deg)`;
-    tiles[2].style.transform = `translate3d(${75 - s}%, ${-175 - (yPct - 73) * e}%, 0) rotate(${30 - rot}deg)`;
-    tiles[3].style.transform = `translate3d(${s - 175}%, ${75 + (yPct - 73) * e}%, 0) rotate(${30 - rot}deg)`;
+    // Start from the fanned-out positions and fly each tile past its nearest screen edge.
+    const { spread } = this.tileSpread();
+    const pos = spread - 50, neg = -50 - spread;
+    const s = spread * e;
+    const outX = (xPct + 2 - pos) * e, outY = (yPct + 2 - pos) * e;
+    tiles[0].style.transform = `translate3d(${pos + outX}%, ${pos - s}%, 0) rotate(${rot - 30}deg)`;
+    tiles[1].style.transform = `translate3d(${neg - outX}%, ${neg + s}%, 0) rotate(${rot - 30}deg)`;
+    tiles[2].style.transform = `translate3d(${pos - s}%, ${neg - outY}%, 0) rotate(${30 - rot}deg)`;
+    tiles[3].style.transform = `translate3d(${neg + s}%, ${pos + outY}%, 0) rotate(${30 - rot}deg)`;
     intro.style.opacity = `${1 - e}`;
     detail.style.opacity = `${e}`;
   }

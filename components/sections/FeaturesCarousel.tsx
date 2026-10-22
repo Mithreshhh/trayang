@@ -1,27 +1,28 @@
 import { carousel } from "@/data/site";
+import Glyph from "../Glyph";
+import { Pass } from "../Print";
 
-/** Stage 4: ten service cards, one screen of scroll per card, with a progress bar. */
+/** Stage 4: ten capability prints on the gold stock, one screen of scroll per card, with a progress bar. */
 export default function FeaturesCarousel() {
   return (
-    <section id="trayang-features-carousel" className="features-carousel-section">
+    <section id="trayang-features-carousel" className="features-carousel-section stock-gold">
       <div className="main-container">
-        <h1 className="heading">{carousel.heading}</h1>
+        <Pass as="h2" className="heading display">
+          {carousel.heading}
+        </Pass>
 
         <div className="carousel-container">
-          {carousel.cards.map((card, index) => (
-            <div className="card" key={card.title}>
-              <p className="title">{card.title}</p>
-              <p className="subtitle">
-                {card.lead} <span>{card.rest}</span>
-              </p>
-              <div className="img service-mark" aria-hidden="true">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-              </div>
-            </div>
+          {carousel.cards.map((card) => (
+            <article className="card stock-cream" key={card.title}>
+              <h3 className="title display">{card.title}</h3>
+              <p className="lead">{card.lead}</p>
+              <p className="body">{card.body}</p>
+              <Glyph name={card.glyph} className="card-glyph" />
+            </article>
           ))}
         </div>
 
-        <div className="progress-bar">
+        <div className="progress-bar" aria-hidden="true">
           <div className="bar" />
         </div>
       </div>
