@@ -208,7 +208,7 @@ Composition is asymmetric two-column: hero copy and plate at about 1.5 : 1, CTA 
 
 The navbar is 4rem tall (4.5rem from 1024px), with desktop links from 1024px and a full-height brown sheet menu with stencil links below it.
 
-The home page is a scroll-jacked story: chapters are full-viewport sheets of stock stacked in a pinned stage, and each new sheet slides up over the last (which sinks back under a dark shade), one screen of scroll per step, timed by lib/scrollStory.ts. The chapter components are a purpose reel (lines rolling past a registration mark beside an odometer counter), three ink discs moving into register, a services index whose highlight is a second copy of the list clipped to the active row beside one cream sheet whose entry reprints, and a touchpoint line that draws through four nodes before the statement takes the ink word by word. Sheet layouts fit within 100dvh and drop secondary copy on short mobile viewports rather than overflow. The questions and footer follow as ordinary scrolling sheets; a chapter rail sits at the right edge from 1400px.
+The home page is an ordinary scrolling page: one sheet of stock per chapter, each lying on the one above and casting its edge onto it. Wheel scrolling is eased (Lenis); touch is native. Scroll-linked motion runs on CSS view timelines and only where supported and wanted: purpose lines ink in beside a sticky heading, three ink discs move into register as their plate crosses the screen, services entries rise past a sticky index whose brown highlight band glides to the entry in view, a gold line draws down through the four touchpoints, and the statement takes the ink word by word. A chapter rail sits at the right edge from 1400px.
 
 ### Named Rules
 **The Sheet Edge Rule.** Every band, however wide its colour, aligns its content to the 80rem sheet and gutter.
@@ -219,7 +219,7 @@ Depth is printed, not lifted. Layers are expressed by overlapping translucent in
 
 ### Shadow Vocabulary
 - **Sheet lift** (`box-shadow: 0 36px 70px -48px rgba(59, 33, 18, 0.8)`): The enquiry sheet lying on the page.
-- **Sheet edge** (`box-shadow: 0 -28px 60px -20px rgba(11, 16, 18, 0.6)`): The top edge of a story sheet sliding over the one below.
+- **Sheet edge** (`box-shadow: 0 -24px 50px -24px rgba(11, 16, 18, 0.55)`): The top edge of each home chapter lying on the one above.
 - **Float** (`box-shadow: 0 0 0 1px rgba(216, 155, 82, 0.32), 0 14px 32px -16px rgba(11, 16, 18, 0.7)`): The fixed chapter rail.
 
 ### Named Rules

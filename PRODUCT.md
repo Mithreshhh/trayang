@@ -20,7 +20,7 @@ One team connecting business consulting, startup support, branding, marketing, c
 - Ten detailed capabilities (Business & Brand Strategy through Influencer & Creator Management), listed in data/site.ts.
 - Engagements are projects or ongoing partnerships; timelines, pricing and results are never promised on the site.
 - Enquiries: an enquiry form that composes an email to hello@trayang.com (no backend).
-- The home page is a scroll-jacked story (lib/scrollStory.ts) that must keep its stage choreography and pacing.
+- The home page scrolls normally with eased wheel scrolling; the client rejected scroll-jacking (pinned stage, snap-per-screen). Motion follows the scroll, it never takes it over.
 
 ## Brand Commitments
 - Name: TRAYANG. Sign-off line: "TRAYANG · RISE BEYOND". Motto: "Think clearly. Build purposefully. Move forward."

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Big_Shoulders_Stencil } from "next/font/google";
 import { brand } from "@/data/site";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 // Poster stencil caps for display; Archivo (with its width axis) for text and narrow labels.
@@ -42,7 +43,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${stencil.variable} ${archivo.variable}`}>
-      <body>{children}</body>
+      <body>
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

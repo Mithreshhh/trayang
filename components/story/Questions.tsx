@@ -2,12 +2,12 @@ import { chapterLabel, faq, questions } from "@/data/site";
 import FaqList from "../FaqList";
 import { InkLink, Pass, RegCorners } from "../Print";
 
-/** Chapter 6. The story has released the stage by now, so this sheet scrolls like a page and its answers open in place. */
+/** Chapter 6: the questions people ask first, answered in place. */
 export default function Questions() {
   const preview = questions.preview.map((id) => faq.items.find((item) => item.id === id)).filter((item) => item !== undefined);
 
   return (
-    <section id="story-questions" className="story-after questions-sheet stock-cream" aria-labelledby="questions-title">
+    <section id="questions" className="home-sheet questions-sheet stock-cream" aria-labelledby="questions-title">
       <RegCorners />
       <div className="sheet-inner questions-layout">
         <div className="questions-copy">

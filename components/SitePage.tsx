@@ -9,7 +9,7 @@ import { InkLink, Pass, PrintPlate, RegCorners, Rule } from "./Print";
 export default function SitePage({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <div className={`site-page stock-cream ${className}`}>
-      <Navbar mode="page" />
+      <Navbar />
       <main id="main">{children}</main>
       <Footer />
       <Reveal />

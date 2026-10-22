@@ -14,7 +14,10 @@ export default function FaqList({ items, level: Q = "h2" }: { items: Item[]; lev
   useEffect(() => {
     const sync = () => {
       const hash = window.location.hash.slice(1);
-      if (items.some((item) => item.id === hash)) setOpen(hash);
+      if (!items.some((item) => item.id === hash)) return;
+      setOpen(hash);
+      // Opening this answer closes the first one above it, which moves the page; land on it again once that settles.
+      setTimeout(() => document.getElementById(hash)?.scrollIntoView({ block: "start" }), 350);
     };
     sync();
     window.addEventListener("hashchange", sync);

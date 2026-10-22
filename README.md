@@ -1,6 +1,6 @@
 # Trayang marketing site (Next.js)
 
-Marketing site for Trayang, a strategy, branding, marketing and business-consulting studio. The home page is a scroll-driven story: a pinned stage holds five chapters as sheets of stock (hero, purpose, approach, services, touchpoints) and each new sheet slides up over the last as you scroll, one screen per step; the questions and the footer then follow as ordinary content. About, Services, Contact, FAQs, Terms and Privacy are ordinary pages in the same visual world.
+Marketing site for Trayang, a strategy, branding, marketing and business-consulting studio. The home page is an ordinary scrolling page of chapters, each a sheet of stock lying on the one above (hero, purpose, approach, services, touchpoints, questions), with eased wheel scrolling (Lenis) on every page and scroll-linked motion done in CSS. About, Services, Contact, FAQs, Terms and Privacy are ordinary pages in the same visual world.
 
 The visual world is screenprint ("registered overprint"): cream paper and brown kraft stocks, brown and gold inks printed as translucent passes that mix where they overlap, stencil poster type, registration marks and ink buttons.
 
@@ -30,17 +30,17 @@ All tokens are at the top of `app/globals.css`. `.stock-cream`, `.stock-brown` a
 | Path | What it is |
 | --- | --- |
 | `data/site.ts` | All copy, links, form options, image paths and the proof slots |
-| `lib/scrollStory.ts` | The scroll engine: converts scroll position into the stage animations |
 | `app/globals.css` | All styling |
-| `components/TrayangScroller.tsx` | The scroll container: sticky stage, spacer track, chapter rail; mounts the engine |
-| `components/story/*.tsx` | The home chapters: Hero, Purpose (reel), Approach (passes into register), Capabilities (index + panel), Touchpoints (connected line + statement), Questions |
+| `app/page.tsx` | The home page: stacks the chapters |
+| `components/story/*.tsx` | The home chapters: Hero, Purpose, Approach (discs into register), Capabilities (sticky index + entries), Touchpoints (line + statement), Questions, and the ChapterRail |
+| `components/SmoothScroll.tsx` | Lenis eased wheel scrolling, mounted once in `app/layout.tsx` |
 | `components/Print.tsx` | World primitives: `Pass` (heading printed in three passes), `InkLink`, `PrintPlate`, `Rule`, `RegCorners`, `Wordmark` |
 | `components/Glyph.tsx` | Overlap artwork for every service and the purpose-point icons |
 | `components/Navbar.tsx`, `Footer.tsx`, `Preloader.tsx` | Header band (shared by story and pages), footer, loading screen |
 | `components/SitePage.tsx` | Page shell, `PageHero`, `CtaBand`, `ProofSlots` |
 | `components/EnquiryForm.tsx` | Contact form that opens a ready-to-send email to hello@trayang.com |
 | `components/FaqList.tsx`, `LegalPage.tsx`, `Reveal.tsx` | FAQ accordion, terms/privacy template, scroll-in printing of headings |
-| `docs/jaxl-scroll-spec.md`, `docs/reference/` | Spec and captures of the layout reference the scroll story was built from |
+| `docs/jaxl-scroll-spec.md`, `docs/reference/` | Historical: captures of the scroll-jacked reference the first version cloned (no longer used) |
 
 ## Adding proof
 
@@ -50,6 +50,8 @@ All tokens are at the top of `app/globals.css`. `.stock-cream`, `.stock-brown` a
 
 `public/images/artisan-studio.webp` and `gift-service.webp` are printed as brown and gold duotones by CSS, so any photo works; replace the files or change `images` in `data/site.ts`.
 
-## How the scroll works (short version)
+## How the scrolling works (short version)
 
-`#trayang-scroller` is the only scrollable element on the home page. Inside it, `.story-track` holds the `position: sticky` 100dvh stage followed by one empty 100dvh spacer per step; every spacer is a snap point. The engine reads `scrollTop / clientHeight` and, for each stage in `lib/scrollStory.ts`, converts the position inside that stage's `[start, end]` range into a 0 to 100 percentage that sets inline transforms and opacities. The timeline is built from the content: each purpose line and each capability gets one screen, so adding or removing one in `data/site.ts` re-times the story and the spacer count (`storyEnd`) follows. Anything with `data-jump` (the chapter rail on wide screens, the capability index) scrolls to its place in the story. Stage end and start states are applied once when crossed, element lookups are cached, and pixel-based stages are recomputed on resize.
+The document scrolls normally. `components/SmoothScroll.tsx` runs Lenis, which only eases wheel input: touch keeps the platform's own momentum, and nothing is smoothed for people who ask for reduced motion. In-page links (the chapter rail, the services index) glide to their target and stop below the sticky header thanks to `scroll-padding-top` on `html`; the mobile menu pauses Lenis while it is open.
+
+Scroll-linked motion is plain CSS (`animation-timeline: view()` and named view timelines), so it runs off the main thread: purpose lines ink in, the approach discs move into register, services entries rise, the touchpoint line draws and lights each node, and the statement inks word by word. All of it sits inside `@supports (animation-timeline: view())` and `prefers-reduced-motion: no-preference`; anywhere else the finished state shows. The purpose heading and the services index are `position: sticky` within their sections, and the services highlight follows the entry crossing the middle of the screen (IntersectionObserver).

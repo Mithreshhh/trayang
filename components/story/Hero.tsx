@@ -2,11 +2,10 @@ import { hero, images, pillars, primaryCta } from "@/data/site";
 import Glyph from "../Glyph";
 import { InkLink, Pass, PrintPlate, RegCorners, Rule } from "../Print";
 
-/** Chapter 1, the first sheet on the press. The purpose sheet slides over it and its passes drift out of register. */
+/** Chapter 1: the first sheet, filling the first screen below the header band. */
 export default function Hero() {
   return (
-    <section id="story-hero" className="story-sheet landing-section stock-cream" aria-labelledby="hero-title">
-      <span className="sheet-shade" aria-hidden="true" />
+    <section id="hero" className="home-sheet landing-section stock-cream" aria-labelledby="hero-title">
       <RegCorners />
       <div className="main-container">
         <div className="landing-copy">

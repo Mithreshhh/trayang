@@ -3,7 +3,7 @@
    Screenprint on two stocks: cream paper and brown kraft. Inks are brown,
    gold and light gold; translucent passes mix where they overlap and
    register into the brand. On the home page each chapter is a sheet of
-   stock that lib/scrollStory.ts slides over the last.
+   stock lying on the one above it.
    ===================================================================== */
 
 :root {
@@ -38,7 +38,6 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { font-family: var(--text); -webkit-text-size-adjust: 100%; scrollbar-color: var(--gold) var(--brown); }
 body { background: var(--brown); color: var(--cream); font-size: 1rem; line-height: 1.5; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
-html:has(.trayang-app), html:has(.trayang-app) body { height: 100%; overflow: hidden; }
 html.menu-open { overflow: hidden; }
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
@@ -175,9 +174,7 @@ ul, ol { list-style: none; }
   background-color: var(--brown); background-image: var(--fibre-light);
   border-bottom: 1px solid rgba(216, 155, 82, 0.32);
 }
-/* In the story the band is the first thing in the scroller and stays stuck over every sheet. */
-.navbar-story { position: sticky; top: 0; margin-bottom: calc(-1 * var(--nav-h) - 1px); }
-.navbar-page { position: sticky; top: 0; }
+.trayang-navbar { position: sticky; top: 0; }
 .nav-bar { height: var(--nav-h); max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
 .nav-logo { display: inline-flex; }
 .nav-links { display: none; align-items: center; gap: clamp(1.25rem, 2.4vw, 2.25rem); }
@@ -258,28 +255,18 @@ ul, ol { list-style: none; }
 
 /* =====================================================================
    The scroll story
-   Chapters are sheets of stock stacked in a pinned stage; each new sheet
-   slides up over the last. lib/scrollStory.ts drives the inline styles.
+   The home page is an ordinary scrolling page: one sheet of stock per
+   chapter, each lying on the one above. Scroll-linked motion uses CSS view
+   timelines, so it runs off the main thread; browsers without them, and
+   anyone who prefers reduced motion, get the finished state.
    ===================================================================== */
-body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
-#trayang-scroller { width: 100%; overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; background-color: var(--dark); scroll-snap-type: y mandatory; overscroll-behavior-y: contain; }
-.stop-scroll { overflow-y: hidden !important; }
-.story-track { position: relative; }
-.story-track .bg-cover { height: 100dvh; scroll-snap-align: start; scroll-snap-stop: always; }
-.story-stage { position: sticky; top: 0; z-index: 1; height: 100dvh; margin-bottom: -100dvh; overflow: hidden; }
-.sheets { display: grid; height: 100%; }
-.story-sheet {
-  grid-area: 1 / 1; position: relative; height: 100dvh; overflow: hidden; padding-top: var(--nav-h);
-  transform-origin: 50% 0; will-change: transform;
-}
-/* Every sheet after the first waits below the stage, casting its edge onto the one it covers. */
-.story-sheet + .story-sheet { visibility: hidden; transform: translate3d(0, 100%, 0); box-shadow: 0 -28px 60px -20px rgba(11, 16, 18, 0.6); }
-.sheet-shade { position: absolute; inset: 0; z-index: 5; background: var(--dark); opacity: 0; pointer-events: none; will-change: opacity; }
-.sheet-inner {
-  position: relative; z-index: 1; width: 100%; height: 100%; max-width: var(--max); margin-inline: auto;
-  padding: clamp(1.5rem, 5dvh, 3.5rem) var(--gutter);
-}
+html { scroll-padding-top: var(--nav-h); }
+.home-sheet { position: relative; }
+/* Each sheet lies on the one above, casting its edge onto it. */
+.home-sheet + .home-sheet { box-shadow: 0 -24px 50px -24px rgba(11, 16, 18, 0.55); }
+.sheet-inner { position: relative; z-index: 1; width: 100%; max-width: var(--max); margin-inline: auto; padding: clamp(5rem, 12vh, 9rem) var(--gutter); }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+@keyframes rise { from { opacity: 0; transform: translate3d(0, 32px, 0); } }
 
 /* ---------- chapter rail ---------- */
 .chapter-rail { position: fixed; z-index: 90; top: 50%; right: clamp(0.75rem, 1.4vw, 1.5rem); transform: translateY(-50%); display: none; }
@@ -288,30 +275,30 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
   background-color: var(--brown); background-image: var(--fibre-light);
   box-shadow: 0 0 0 1px rgba(216, 155, 82, 0.32), 0 14px 32px -16px rgba(11, 16, 18, 0.7);
 }
-.chapter-rail button {
-  position: relative; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border: 0; border-radius: 2px; cursor: pointer;
-  background: none; color: rgba(232, 221, 197, 0.62);
+.chapter-rail a {
+  position: relative; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 2px;
+  color: rgba(232, 221, 197, 0.62);
   font-weight: 700; font-size: 0.7rem; letter-spacing: 0.08em; font-variant-numeric: tabular-nums; font-variation-settings: "wdth" 80;
   transition: color 160ms ease, background-color 200ms ease, transform 160ms var(--ease-out);
 }
-.chapter-rail button:active { transform: scale(0.94); }
-.chapter-rail button[aria-current] { background: var(--gold); color: var(--brown); }
+.chapter-rail a:active { transform: scale(0.94); }
+.chapter-rail a[aria-current] { background: var(--gold); color: var(--brown); }
 .rail-label {
   position: absolute; right: calc(100% + 0.65rem); top: 50%; padding: 0.4rem 0.65rem; border-radius: 2px; white-space: nowrap; pointer-events: none;
   background: var(--brown); color: var(--cream); box-shadow: 0 0 0 1px rgba(216, 155, 82, 0.32);
   font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
   opacity: 0; transform: translate3d(4px, -50%, 0); transition: opacity 150ms ease, transform 150ms var(--ease-out);
 }
-.chapter-rail button:focus-visible .rail-label { opacity: 1; transform: translate3d(0, -50%, 0); }
+.chapter-rail a:focus-visible .rail-label { opacity: 1; transform: translate3d(0, -50%, 0); }
 @media (hover: hover) and (pointer: fine) {
-  .chapter-rail button:hover { color: var(--cream); }
-  .chapter-rail button[aria-current]:hover { color: var(--brown); }
-  .chapter-rail button:hover .rail-label { opacity: 1; transform: translate3d(0, -50%, 0); }
+  .chapter-rail a:hover { color: var(--cream); }
+  .chapter-rail a[aria-current]:hover { color: var(--brown); }
+  .chapter-rail a:hover .rail-label { opacity: 1; transform: translate3d(0, -50%, 0); }
 }
 @media (min-width: 1400px) and (min-height: 640px) { .chapter-rail { display: block; } }
 
 /* ---------- 1. hero ---------- */
-.landing-section { display: grid; grid-template-rows: 1fr auto; }
+.landing-section { display: grid; grid-template-rows: 1fr auto; min-height: calc(100svh - var(--nav-h)); }
 .landing-section .main-container {
   position: relative; z-index: 1; width: 100%; max-width: var(--max); margin-inline: auto;
   padding: clamp(1.25rem, 4dvh, 3rem) var(--gutter) clamp(1rem, 3dvh, 2rem);
@@ -370,199 +357,182 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
   .pillar-band .glyph { width: 1.85rem; }
   .landing-actions .ink-btn { flex: 1 1 14rem; }
 }
-@media (max-width: 767px) and (max-height: 740px) {
-  .landing-body { display: none; }
-}
 
-/* ---------- 2. purpose reel ---------- */
-.purpose-layout { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
-.purpose-head { display: grid; gap: clamp(1rem, 2.4dvh, 1.5rem); justify-items: start; }
+/* ---------- 2. purpose ---------- */
+.purpose-layout { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(2.5rem, 7vw, 7rem); align-items: start; }
+.purpose-head { position: sticky; top: calc(var(--nav-h) + clamp(2rem, 6vh, 4rem)); display: grid; gap: clamp(1rem, 2.4dvh, 1.5rem); justify-items: start; }
 .purpose-title { font-size: clamp(2.5rem, 5.2vw, 5rem); max-width: 11ch; }
 .purpose-plate { width: min(100%, 22rem); margin-top: 0.5rem; }
-.purpose-plate .print-plate { aspect-ratio: 16 / 10; max-height: 24dvh; margin-left: 0; }
-.reel { height: 100%; max-height: 42rem; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center; }
-.reel-count { display: flex; align-items: flex-start; gap: 0.15rem; color: var(--gold); font-size: clamp(4.5rem, 9vw, 8.5rem); line-height: 1; }
-.reel-count-window { display: block; height: 1em; overflow: hidden; }
-.reel-count-strip { display: grid; will-change: transform; }
-.reel-count-strip span { display: block; height: 1em; line-height: 1; }
-.reel-count-total { padding-top: 0.3em; font-size: 0.26em; color: var(--muted); }
-.reel-window {
-  position: relative; height: 100%; overflow: hidden;
-  -webkit-mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent);
-  mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent);
+.purpose-plate .print-plate { aspect-ratio: 16 / 10; max-height: none; margin-left: 0; }
+.purpose-list { display: grid; border-top: 1px solid var(--line); }
+.purpose-item {
+  display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; gap: clamp(1rem, 2vw, 1.75rem);
+  padding-block: clamp(2rem, 5.5vh, 3.5rem); border-bottom: 1px solid var(--line);
 }
-.reel-line { position: absolute; top: 50%; left: 0; z-index: 1; color: var(--gold); transform: translateY(-50%); }
-.reel-line .reg-mark { position: static; }
-.reel-track { position: absolute; top: 50%; left: 0; right: 0; display: grid; gap: clamp(1.75rem, 5dvh, 3rem); padding-left: 2.75rem; will-change: transform; }
-.reel-item {
-  display: flex; align-items: center; gap: 0.9rem; opacity: 0.14; will-change: opacity;
-  font-weight: 600; font-size: clamp(1.4rem, 2.6vw, 2.45rem); line-height: 1.15; font-variation-settings: "wdth" 92; text-wrap: balance;
-  transition: color 200ms ease;
-}
-.reel-item:first-child { opacity: 1; }
-.reel-item .point-icon { width: 1em; height: 1em; flex: none; color: var(--gold); }
-.reel-item.is-active span { color: var(--cream); }
+.purpose-num { min-width: 2ch; font-size: clamp(2.5rem, 4.5vw, 4rem); line-height: 1; color: var(--gold); }
+.purpose-item .point-icon { width: clamp(1.5rem, 2.2vw, 2rem); height: auto; color: var(--gold-light); }
+.purpose-item p { font-weight: 600; font-size: clamp(1.35rem, 2.4vw, 2.2rem); line-height: 1.18; font-variation-settings: "wdth" 92; text-wrap: balance; color: var(--cream); }
+@keyframes ink-in { from { opacity: 0.18; transform: translate3d(0, 18px, 0); } }
 @media (max-width: 899px) {
-  .purpose-layout { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 1rem; align-items: stretch; }
+  .purpose-layout { grid-template-columns: 1fr; }
+  .purpose-head { position: static; }
   .purpose-plate { display: none; }
   .purpose-title { font-size: clamp(2.25rem, 9vw, 3.75rem); }
-  .reel { max-height: none; grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 0.5rem; }
-  .reel-count { font-size: clamp(3rem, 14vw, 4.5rem); }
-  .reel-track { padding-left: 2.25rem; }
-  .reel-item { font-size: clamp(1.3rem, 5.6vw, 1.75rem); }
+  .purpose-item { grid-template-columns: auto minmax(0, 1fr); }
+  .purpose-item .point-icon { display: none; }
+  .purpose-num { font-size: clamp(2rem, 9vw, 2.75rem); }
+  .purpose-item p { font-size: clamp(1.25rem, 5.4vw, 1.6rem); }
 }
 
 /* ---------- 3. approach: passes into register ---------- */
-.approach-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
-.approach-copy { display: grid; gap: clamp(1rem, 2.4dvh, 1.5rem); }
-.approach-swap { display: grid; gap: clamp(1.5rem, 4dvh, 2.5rem); }
+.approach-sheet { timeline-scope: --discs; }
+.approach-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
+.approach-copy { display: grid; gap: clamp(1rem, 2.4dvh, 1.5rem); justify-items: start; }
 .approach-title { font-size: clamp(2.25rem, 4.3vw, 4.25rem); max-width: 14ch; }
-.approach-result { display: grid; gap: 1rem; justify-items: start; opacity: 0; transform: translate3d(0, 16px, 0); will-change: opacity, transform; }
+.approach-result { display: grid; gap: 1rem; justify-items: start; margin-top: clamp(0.5rem, 2vh, 1.25rem); }
 .approach-growth { font-size: clamp(1.9rem, 3.2vw, 3rem); }
 .approach-caption { max-width: 40ch; color: var(--muted); font-size: clamp(1rem, 1.3vw, 1.15rem); line-height: 1.55; }
-.discs { --D: min(15rem, 22vw, 30dvh); position: relative; justify-self: center; width: calc(var(--D) * 2.3); height: calc(var(--D) * 2.15); }
+.discs { --D: min(15rem, 22vw, 30vh); view-timeline: --discs block; position: relative; justify-self: center; width: calc(var(--D) * 2.3); height: calc(var(--D) * 2.15); }
 .disc {
   position: absolute; left: 50%; top: calc(50% - var(--D) * 0.18); width: var(--D); height: var(--D); margin: calc(var(--D) / -2) 0 0 calc(var(--D) / -2);
-  display: grid; place-items: center; border-radius: 50%; mix-blend-mode: multiply; will-change: transform;
+  display: grid; place-items: center; border-radius: 50%; mix-blend-mode: multiply;
   -webkit-mask-image: var(--grit); mask-image: var(--grit); -webkit-mask-size: 220px; mask-size: 220px;
 }
-/* Start state: apart (the engine's DISC_APART at 210°, 330° and 90°). */
-.disc-1 { background: var(--brown); transform: translate3d(-62.35%, -36%, 0); }
-.disc-2 { background: var(--gold); transform: translate3d(62.35%, -36%, 0); }
-.disc-3 { background: var(--gold-light); transform: translate3d(0, 72%, 0); }
-.disc-label {
-  will-change: opacity; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; font-variation-settings: "wdth" 80;
-  color: var(--brown);
-}
+/* The finished state: in register (each disc 0.2 of a diameter from the centre, at 210°, 330° and 90°). */
+.disc-1 { background: var(--brown); transform: translate3d(-17.32%, -10%, 0); }
+.disc-2 { background: var(--gold); transform: translate3d(17.32%, -10%, 0); }
+.disc-3 { background: var(--gold-light); transform: translate3d(0, 20%, 0); }
+.disc-label { opacity: 0; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; font-variation-settings: "wdth" 80; color: var(--brown); }
 .disc-1 .disc-label { color: var(--cream); }
-.disc-centre {
-  position: absolute; left: 50%; top: calc(50% - var(--D) * 0.18); width: 2rem; height: 2rem; color: var(--cream);
-  opacity: 0; transform: translate(-50%, -50%) scale(0.6); will-change: opacity, transform;
-}
+.disc-centre { position: absolute; left: 50%; top: calc(50% - var(--D) * 0.18); width: 2rem; height: 2rem; color: var(--cream); transform: translate(-50%, -50%) rotate(90deg); }
+/* Apart (0.72 of a diameter out) at the start of the range. */
+@keyframes disc-1 { from { transform: translate3d(-62.35%, -36%, 0); animation-timing-function: var(--ease-in-out); } }
+@keyframes disc-2 { from { transform: translate3d(62.35%, -36%, 0); animation-timing-function: var(--ease-in-out); } }
+@keyframes disc-3 { from { transform: translate3d(0, 72%, 0); animation-timing-function: var(--ease-in-out); } }
+@keyframes label-out { from { opacity: 1; } 55% { opacity: 0; } }
+@keyframes print-in { 0%, 60% { opacity: 0; transform: translate3d(0, 16px, 0); } }
+@keyframes centre-in { 0%, 60% { opacity: 0; transform: translate(-50%, -50%) scale(0.6) rotate(0deg); } }
 @media (max-width: 899px) {
-  .approach-layout { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 1rem; align-items: stretch; }
-  .approach-swap > * { grid-area: 1 / 1; }
-  .approach-title { font-size: clamp(2rem, 8vw, 3.25rem); opacity: calc(1 - var(--merge, 0)); }
-  .approach-growth { font-size: clamp(2rem, 8vw, 3rem); }
-  .discs { --D: min(36vw, 22dvh, 12rem); align-self: center; }
+  .approach-layout { grid-template-columns: 1fr; }
+  .approach-title { font-size: clamp(2rem, 8vw, 3.25rem); }
+  .discs { --D: min(36vw, 26vh, 12rem); }
 }
 
-/* ---------- 4. capabilities index ---------- */
-.cap-layout {
-  display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); grid-template-rows: auto minmax(0, 1fr);
-  column-gap: clamp(2rem, 6vw, 6rem); row-gap: clamp(1rem, 3dvh, 2rem);
-}
-.cap-head { display: grid; gap: 0.9rem; align-content: end; }
+/* ---------- 4. capabilities ---------- */
+.cap-layout { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(2.5rem, 7vw, 7rem); align-items: start; }
+.cap-aside { position: sticky; top: calc(var(--nav-h) + clamp(1.5rem, 4vh, 3rem)); display: grid; gap: 1rem; }
 .cap-title { font-size: clamp(1.9rem, 3vw, 2.9rem); }
 .cap-title-line { display: block; }
-.cap-index { grid-row: 2; position: relative; align-self: start; }
+.cap-index { position: relative; margin-top: clamp(0.75rem, 2.5vh, 1.75rem); }
 .cap-list { display: grid; border-top: 1px solid var(--line); }
 .cap-list li { border-bottom: 1px solid var(--line); }
-.cap-list button { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; }
+.cap-list a { display: block; color: inherit; }
 .cap-row {
-  display: flex; align-items: baseline; gap: 1rem; padding: clamp(0.4rem, 1.15dvh, 0.7rem) 0.75rem;
+  display: flex; align-items: baseline; gap: 1rem; padding: clamp(0.4rem, 1.15vh, 0.7rem) 0.75rem;
   font-weight: 600; font-size: clamp(0.95rem, 1.15vw, 1.08rem); line-height: 1.25; color: rgba(59, 33, 18, 0.72);
   transition: color 160ms ease;
 }
 .cap-num { flex: none; font-weight: 700; font-size: 0.75em; letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
-/* The travelling highlight: the same index in cream on a brown band, clipped to one row by the engine. */
+/* The highlight: a brown band that glides to the active row, holding a cream copy of the index that glides the other way. */
 .cap-band {
   position: absolute; top: 0; left: 0; right: 0; height: 0; overflow: hidden; pointer-events: none; border-radius: 3px;
-  background-color: var(--brown); background-image: var(--fibre-light); will-change: transform;
+  background-color: var(--brown); background-image: var(--fibre-light);
+  transition: transform 340ms var(--ease-in-out), height 340ms var(--ease-in-out);
 }
-.cap-list-ink { position: absolute; top: 0; left: 0; right: 0; border-top-color: transparent; will-change: transform; }
+.cap-list-ink { position: absolute; top: 0; left: 0; right: 0; border-top-color: transparent; transition: transform 340ms var(--ease-in-out); }
 .cap-list-ink li { border-bottom-color: transparent; }
 .cap-list-ink .cap-row { color: var(--cream); }
 .cap-list-ink .cap-num { color: var(--gold); }
 @media (hover: hover) and (pointer: fine) {
-  .cap-list button:hover .cap-row { color: var(--brown); }
+  .cap-list a:hover .cap-row { color: var(--brown); }
 }
-.cap-meter { display: none; }
-/* One cream sheet stays put; only the entry printed on it changes. */
-.cap-panels {
-  grid-column: 2; grid-row: 1 / -1; align-self: center; display: grid; position: relative; overflow: hidden;
-  padding: clamp(1.75rem, 4.5dvh, 3rem) clamp(1.5rem, 3vw, 3rem); border-radius: 3px;
-  /* The light-gold pass printed under the sheet, off register. */
-  box-shadow: 10px 10px 0 var(--gold-light);
+.cap-entries { display: grid; border-top: 1px solid var(--line); }
+.cap-entry {
+  display: grid; grid-template-columns: clamp(5rem, 9vw, 8rem) minmax(0, 1fr); gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding-block: clamp(2.5rem, 7vh, 4.5rem); border-bottom: 1px solid var(--line);
 }
-.cap-panel {
-  grid-area: 1 / 1; display: grid; gap: clamp(0.6rem, 1.6dvh, 1rem); align-content: center; justify-items: start;
-  opacity: 0; visibility: hidden; will-change: opacity, transform;
-}
-.cap-panel:first-child { opacity: 1; visibility: visible; }
-.cap-big-num { position: absolute; top: 0.6rem; right: 1.25rem; font-size: clamp(4.5rem, 9vw, 8.5rem); line-height: 1; color: var(--gold-light); mix-blend-mode: multiply; pointer-events: none; }
-.cap-glyph { width: clamp(4.25rem, 7.5vw, 6.75rem); }
-.cap-panel-title { position: relative; font-size: clamp(1.9rem, 3.2vw, 3rem); max-width: 14ch; }
-.cap-lead { font-weight: 600; font-size: clamp(1.05rem, 1.5vw, 1.3rem); line-height: 1.3; font-variation-settings: "wdth" 92; color: var(--gold-ink); }
-.cap-body { max-width: 46ch; color: rgba(59, 33, 18, 0.8); font-size: clamp(0.95rem, 1.1vw, 1.05rem); line-height: 1.6; }
+.cap-entry-mark { display: grid; gap: 1rem; align-content: start; }
+.cap-big-num { font-size: clamp(3rem, 5vw, 4.5rem); line-height: 1; color: var(--cream); }
+.cap-glyph { width: clamp(3.5rem, 6vw, 5rem); }
+.cap-entry-copy { display: grid; gap: 0.75rem; justify-items: start; align-content: start; }
+.cap-entry-title { font-size: clamp(1.9rem, 3.2vw, 3rem); max-width: 16ch; }
+.cap-lead { font-weight: 600; font-size: clamp(1.05rem, 1.5vw, 1.3rem); line-height: 1.3; font-variation-settings: "wdth" 92; }
+.cap-body { max-width: 48ch; color: var(--muted); font-size: clamp(0.95rem, 1.1vw, 1.05rem); line-height: 1.6; }
 @media (max-width: 899px) {
-  .cap-layout { grid-template-columns: 1fr; grid-template-rows: auto auto minmax(0, 1fr); row-gap: 1rem; }
-  .cap-title { font-size: clamp(1.6rem, 6.4vw, 2.4rem); }
+  .cap-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .cap-aside { position: static; }
   .cap-index { display: none; }
-  .cap-meter { display: flex; align-items: center; gap: 1rem; }
-  .cap-count { flex: none; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.14em; font-variant-numeric: tabular-nums; }
-  .cap-now { font-weight: 800; }
-  .cap-ticks { flex: 1; display: flex; gap: 4px; }
-  .cap-ticks i { position: relative; flex: 1; height: 4px; overflow: hidden; border-radius: 1px; background: rgba(59, 33, 18, 0.22); }
-  .cap-ticks i::after { content: ""; position: absolute; inset: 0; background: var(--brown); transform-origin: left; transform: scaleX(var(--fill, 0)); }
-  .cap-ticks i:first-child { --fill: 1; }
-  .cap-panels { grid-column: 1; grid-row: 3; margin-right: 10px; box-shadow: 8px 8px 0 var(--gold-light); }
-}
-@media (max-width: 899px) and (max-height: 720px) {
-  .cap-glyph { display: none; }
+  .cap-title { font-size: clamp(1.75rem, 7vw, 2.6rem); }
+  .cap-entry { grid-template-columns: 1fr; gap: 1rem; padding-block: 2.25rem; }
+  .cap-entry-mark { grid-auto-flow: column; justify-content: space-between; align-items: center; }
+  .cap-big-num { order: 2; }
+  .cap-glyph { width: 3.5rem; }
 }
 
 /* ---------- 5. touchpoints ---------- */
-.touch-layout { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: clamp(1.5rem, 5dvh, 3.5rem); padding-bottom: clamp(2rem, 7dvh, 4.5rem); }
-.touch-copy { display: grid; align-content: center; }
-.touch-copy > * { grid-area: 1 / 1; }
-.touch-intro { display: grid; gap: clamp(0.9rem, 2.2dvh, 1.25rem); justify-items: start; align-content: center; will-change: opacity, transform; }
+.touch-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
+.touch-copy { display: grid; gap: clamp(1rem, 2.4dvh, 1.4rem); justify-items: start; }
 .touch-title { font-size: clamp(2.5rem, 5.6vw, 5.25rem); max-width: 13ch; }
 .touch-desc { max-width: 40ch; color: var(--muted); font-size: clamp(1.05rem, 1.5vw, 1.3rem); }
 .touch-statement {
-  align-self: center; max-width: 32ch; opacity: 0; will-change: opacity;
-  font-weight: 600; font-size: clamp(1.4rem, 3vw, 2.75rem); line-height: 1.22; font-variation-settings: "wdth" 90; color: var(--cream);
+  view-timeline: --statement block; margin-top: clamp(1.5rem, 5vh, 3rem); max-width: 32ch;
+  font-weight: 600; font-size: clamp(1.4rem, 2.5vw, 2.4rem); line-height: 1.22; font-variation-settings: "wdth" 90; color: var(--cream);
 }
-.touch-statement .w { opacity: 0.16; }
 .touch-sentence-2 { color: var(--gold-light); }
-.circuit { position: relative; }
-.circuit-nodes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.node { --ring: clamp(3.5rem, 7vw, 6rem); display: grid; justify-items: center; align-content: start; gap: 0.85rem; text-align: center; }
+.circuit { view-timeline: --circuit block; position: relative; justify-self: end; width: min(100%, 24rem); }
+.circuit-nodes { display: grid; gap: clamp(1.25rem, 4.5vh, 2.75rem); }
+.node, .circuit-rail { --ring: clamp(4rem, 6vw, 5.25rem); }
+.node { display: grid; grid-template-columns: var(--ring) minmax(0, 1fr); align-items: center; gap: 1.5rem; }
 .node-ring {
   position: relative; z-index: 1; display: grid; place-items: center; width: var(--ring); aspect-ratio: 1; border-radius: 50%;
-  background-color: var(--brown); box-shadow: inset 0 0 0 1.5px var(--line);
-  transition: box-shadow 320ms var(--ease-out);
+  background-color: var(--brown); box-shadow: inset 0 0 0 2px var(--gold), 0 0 0 6px rgba(216, 155, 82, 0.14);
 }
-.node-ring .glyph { width: 62%; opacity: 0.22; transform: scale(0.9); transition: opacity 320ms ease, transform 320ms var(--ease-out); }
-.node.is-lit .node-ring { box-shadow: inset 0 0 0 2px var(--gold), 0 0 0 6px rgba(216, 155, 82, 0.14); }
-.node.is-lit .glyph { opacity: 1; transform: none; }
-.node-label { max-width: 12ch; font-weight: 700; font-size: 0.72rem; line-height: 1.3; letter-spacing: 0.16em; text-transform: uppercase; font-variation-settings: "wdth" 80; color: var(--muted); transition: color 320ms ease; }
-.node.is-lit .node-label { color: var(--gold-light); }
-.circuit-rail { --ring: clamp(3.5rem, 7vw, 6rem); position: absolute; left: 12.5%; right: 12.5%; top: calc(var(--ring) / 2 - 1px); height: 2px; background: var(--line); }
-.circuit-fill { position: absolute; inset: 0; background: var(--gold); transform-origin: left; transform: scaleX(var(--draw, 0)); will-change: transform; }
-/* Wide screens: the touchpoints stand in a column beside the copy and the line draws downwards. */
-@media (min-width: 1024px) {
-  .touch-layout { grid-template-rows: none; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); align-items: center; gap: clamp(2rem, 6vw, 6rem); padding-bottom: clamp(1.5rem, 5dvh, 3.5rem); }
-  .touch-statement { font-size: clamp(1.5rem, 2.5vw, 2.4rem); }
-  .circuit { justify-self: end; width: min(100%, 24rem); }
-  .circuit-nodes { grid-template-columns: none; gap: clamp(1.25rem, 4.5dvh, 2.75rem); }
-  .node, .circuit-rail { --ring: clamp(4rem, 6vw, 5.25rem); }
-  .node { grid-template-columns: var(--ring) minmax(0, 1fr); align-items: center; justify-items: start; gap: 1.5rem; text-align: left; }
-  .node-label { max-width: none; font-weight: 600; font-size: clamp(1.05rem, 1.4vw, 1.3rem); letter-spacing: 0; text-transform: none; font-variation-settings: "wdth" 92; }
-  .circuit-rail { left: calc(var(--ring) / 2 - 1px); right: auto; top: calc(var(--ring) / 2); bottom: calc(var(--ring) / 2); width: 2px; height: auto; }
-  .circuit-fill { transform-origin: top; transform: scaleY(var(--draw, 0)); }
-}
-@media (max-width: 767px) {
+.node-ring .glyph { width: 62%; }
+.node-label { font-weight: 600; font-size: clamp(1.05rem, 1.4vw, 1.3rem); font-variation-settings: "wdth" 92; color: var(--gold-light); }
+.circuit-rail { position: absolute; left: calc(var(--ring) / 2 - 1px); top: calc(var(--ring) / 2); bottom: calc(var(--ring) / 2); width: 2px; background: var(--line); }
+.circuit-fill { position: absolute; inset: 0; background: var(--gold); transform-origin: top; }
+@keyframes draw-down { from { transform: scaleY(0); } }
+@keyframes node-lit { from { box-shadow: inset 0 0 0 1.5px var(--line), 0 0 0 0 rgba(216, 155, 82, 0); } }
+@keyframes glyph-lit { from { opacity: 0.22; transform: scale(0.9); } }
+@keyframes label-lit { from { color: var(--muted); } }
+@keyframes word-ink { from { opacity: 0.16; } }
+@media (max-width: 899px) {
+  .touch-layout { grid-template-columns: 1fr; }
   .touch-title { font-size: clamp(2.25rem, 10vw, 3.5rem); }
-  .node-label { font-size: 0.62rem; letter-spacing: 0.1em; }
+  .circuit { justify-self: start; }
+  .node, .circuit-rail { --ring: 3.5rem; }
+  .node { gap: 1.1rem; }
 }
 
-/* ---------- 6. questions (after the story) ---------- */
-.story-after { position: relative; z-index: 2; min-height: 100dvh; padding-top: var(--nav-h); scroll-snap-align: start; box-shadow: 0 -28px 60px -20px rgba(11, 16, 18, 0.6); }
-.questions-layout {
-  height: auto; min-height: calc(100dvh - var(--nav-h)); padding-block: clamp(3rem, 9dvh, 6rem);
-  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center;
+/* ---------- scroll-linked motion (where supported, and wanted) ---------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .purpose-item { animation: ink-in linear both; animation-timeline: view(); animation-range: entry 10% cover 42%; }
+    /* The contents rise, not the entry itself: it is a link target and must not be offset when measured. */
+    .cap-entry > * { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; }
+
+    .disc, .disc-label, .disc-centre, .approach-result { animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --discs; animation-range: entry 40% cover 50%; }
+    .disc-1 { animation-name: disc-1; }
+    .disc-2 { animation-name: disc-2; }
+    .disc-3 { animation-name: disc-3; }
+    .disc-label { animation-name: label-out; }
+    .disc-centre { animation-name: centre-in; }
+    .approach-result { animation-name: print-in; }
+
+    .circuit-fill { animation: draw-down linear both; animation-timeline: --circuit; animation-range: cover 20% cover 55%; }
+    .node-ring, .node-ring .glyph, .node-label {
+      animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --circuit;
+      animation-range: cover calc(18% + var(--i) * 11.67%) cover calc(23% + var(--i) * 11.67%);
+    }
+    .node-ring { animation-name: node-lit; }
+    .node-ring .glyph { animation-name: glyph-lit; }
+    .node-label { animation-name: label-lit; }
+    .touch-statement .w { animation: word-ink linear both; animation-timeline: --statement; animation-range: cover calc(22% + var(--i) * 0.8%) cover calc(26% + var(--i) * 0.8%); }
+  }
 }
+
+/* ---------- 6. questions ---------- */
+.questions-layout { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
 .questions-copy { display: grid; gap: 1.25rem; justify-items: start; }
 .questions-title { font-size: clamp(2.5rem, 5.2vw, 5rem); max-width: 12ch; }
 .questions-copy > p:not(.label) { max-width: 44ch; margin-bottom: 0.5rem; color: var(--muted); font-size: clamp(1rem, 1.3vw, 1.15rem); }
@@ -570,14 +540,12 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
 .questions-layout .faq-topic { display: none; }
 .questions-layout .faq-a { grid-column: 1; }
 @media (max-width: 899px) {
-  .questions-layout { grid-template-columns: 1fr; align-content: center; }
+  .questions-layout { grid-template-columns: 1fr; }
 }
 
-/* ---------- the footer closes the story as a full sheet ---------- */
-#trayang-scroller > .trayang-footer { display: flex; min-height: 100dvh; padding-top: var(--nav-h); scroll-snap-align: end; }
-#trayang-scroller .footer-inner { flex: 1; width: 100%; grid-template-rows: 1fr auto auto auto; }
-#trayang-scroller .footer-cta { align-self: center; }
-#trayang-scroller .footer-heading { font-size: clamp(3rem, 8vw, 7.5rem); }
+/* ---------- the footer closes the home page as a full sheet ---------- */
+.home > .trayang-footer { box-shadow: 0 -24px 50px -24px rgba(11, 16, 18, 0.55); }
+.home .footer-heading { font-size: clamp(3rem, 8vw, 7.5rem); }
 
 /* =====================================================================
    Supporting pages
@@ -644,7 +612,7 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
 .pillar-rows { border-top: 1px solid var(--line); }
 .pillar-rows li {
   display: grid; grid-template-columns: minmax(10rem, 0.75fr) minmax(0, 2fr); gap: 1.25rem clamp(1.5rem, 4vw, 4rem); align-items: start;
-  padding-block: clamp(2rem, 5vw, 3.5rem); border-bottom: 1px solid var(--line); scroll-margin-top: calc(var(--nav-h) + 1rem);
+  padding-block: clamp(2rem, 5vw, 3.5rem); border-bottom: 1px solid var(--line); scroll-margin-top: 1rem;
 }
 .pillar-name { display: grid; gap: 1rem; justify-items: start; align-content: start; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; font-variation-settings: "wdth" 85; color: var(--small-text); }
 .pillar-copy p { margin-top: 1rem; max-width: 58ch; color: var(--muted); font-size: 1.1rem; line-height: 1.6; }
@@ -715,7 +683,7 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
 /* faq */
 .faq-sheet { padding-bottom: clamp(4rem, 8vw, 6rem); }
 .faq-list { border-top: 1px solid var(--line); }
-.faq-item { display: grid; grid-template-columns: 12rem minmax(0, 1fr); column-gap: 2rem; border-bottom: 1px solid var(--line); scroll-margin-top: calc(var(--nav-h) + 1rem); }
+.faq-item { display: grid; grid-template-columns: 12rem minmax(0, 1fr); column-gap: 2rem; border-bottom: 1px solid var(--line); scroll-margin-top: 1rem; }
 .faq-topic { padding-top: 2rem; }
 .faq-q button { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.6rem 0; border: 0; background: none; text-align: left; cursor: pointer; font-weight: 650; font-size: clamp(1.15rem, 2vw, 1.55rem); line-height: 1.3; transition: color 160ms ease; }
 .faq-q svg { width: 1.5rem; height: 1.5rem; flex: none; color: var(--gold-ink); }
@@ -766,12 +734,9 @@ body main.trayang-app { display: grid; height: 100dvh; width: 100%; }
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   .pass-ghost, .plate-ghost, .preloader-mark path { animation: none; }
-  /* Sheets cross-fade in place instead of sliding (the engine sets their opacity). */
-  .story-sheet + .story-sheet { transform: none; opacity: 0; }
-  .node-ring, .node-ring .glyph, .node-label, .rail-label { transition-duration: 0ms; }
+  .rail-label, .cap-band, .cap-list-ink { transition-duration: 0ms; }
   .nav-sheet nav a { transition: color 160ms ease; }
   #preloader { transition: opacity 200ms ease, visibility 0s linear 200ms; clip-path: none; }
   #preloader.remove { opacity: 0; }
   .faq-a, .faq-plus, .ink-btn::before { transition-duration: 0ms; }
-  #trayang-scroller { scroll-behavior: auto; }
 }

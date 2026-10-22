@@ -5,32 +5,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { brand, contact, navLinks, primaryCta } from "@/data/site";
 import { InkLink, Wordmark } from "./Print";
+import { setSmoothScrollPaused } from "./SmoothScroll";
 
-/**
- * The printed header band. In the scroll story it sits inside the sticky stage
- * and the mobile menu locks the scroller; on the other pages it is sticky and
- * locks the document instead.
- */
-export default function Navbar({ mode = "page" }: { mode?: "story" | "page" }) {
+/** The printed header band, sticky on every page; the mobile menu locks the page behind it. */
+export default function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    if (mode === "story") {
-      document.getElementById("trayang-scroller")?.classList.toggle("stop-scroll", open);
-    } else {
-      document.documentElement.classList.toggle("menu-open", open);
-    }
+    document.documentElement.classList.toggle("menu-open", open);
+    setSmoothScrollPaused(open);
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, mode]);
+  }, [open]);
 
   useEffect(() => setOpen(false), [pathname]);
 
   return (
-    <header id="trayang-navbar" className={`trayang-navbar navbar-${mode}${open ? " open" : ""}`}>
+    <header id="trayang-navbar" className={`trayang-navbar${open ? " open" : ""}`}>
       <div className="nav-bar">
         <Link className="nav-logo" href="/" aria-label={`${brand.name} home`}>
           <Wordmark />
@@ -59,7 +53,7 @@ export default function Navbar({ mode = "page" }: { mode?: "story" | "page" }) {
         </button>
       </div>
 
-      <div id="nav-sheet" className="nav-sheet" hidden={!open}>
+      <div id="nav-sheet" className="nav-sheet" hidden={!open} data-lenis-prevent="">
         <nav aria-label="Mobile">
           {navLinks.map((link, i) => (
             <Link key={link.href} href={link.href} style={{ "--i": i } as React.CSSProperties} onClick={() => setOpen(false)}>

@@ -7,7 +7,7 @@ related_targets: ["app/about/page.tsx","app/services/page.tsx","app/contact/page
 
 ## Scope
 
-Whole Trayang marketing site: the scroll-jacked home story (app/page.tsx, lib/scrollStory.ts choreography kept) plus about, services, contact, faq, terms, privacy. Visitor mode: Persuade (terms/privacy are Read). Code-led build (no image generation on this machine).
+Whole Trayang marketing site: the home page (app/page.tsx: an ordinary scrolling page of chapter sheets with eased wheel scrolling and CSS scroll-linked motion) plus about, services, contact, faq, terms, privacy. Visitor mode: Persuade (terms/privacy are Read). Code-led build (no image generation on this machine).
 
 ## Audience, action, proof
 
