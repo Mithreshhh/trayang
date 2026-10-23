@@ -115,16 +115,10 @@ type PassProps = {
   children: ReactNode;
 };
 
-/** A heading printed as a key pass over two translucent, slightly misregistered passes. */
+/** A display heading. */
 export function Pass({ as: Tag = "h2", className = "", reveal, id, children }: PassProps) {
   return (
     <Tag id={id} className={`pass ${className}`} data-reveal={reveal ? "" : undefined}>
-      <span className="pass-ghost pass-ghost-1" aria-hidden="true">
-        {children}
-      </span>
-      <span className="pass-ghost pass-ghost-2" aria-hidden="true">
-        {children}
-      </span>
       <span className="pass-key">{children}</span>
     </Tag>
   );
